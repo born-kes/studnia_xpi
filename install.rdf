@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<RDF:RDF xmlns:em="http://www.mozilla.org/2004/em-rdf#"
+         xmlns:NC="http://home.netscape.com/NC-rdf#"
+         xmlns:RDF="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+  <RDF:Description RDF:about="urn:mozilla:install-manifest"
+                   em:id="{3e001459-84f8-4ef2-a02c-d8011d946184}"
+                   em:name="Konwerter Raportów"
+                   em:version="1.1.5"
+                   em:description="Skrypt umieszcza link &quot;Wyślij do Konwertera Raportów&quot; (kierujący na adres http://plemiona.one.pl) w menu w zakładce Raporty."
+                   em:creator="Dan Latocha"
+                   em:homepageURL="http://sprarsyn.boo.pl/"
+                   em:updateURL="http://sprarsyn.boo.pl/"
+                   em:updateKey="MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDZOawq2BTsWf2wjgbApQ5Hjnynl1Tz2KQkYF6v/YWjfTH/X8kSCm1+MxtvtEefoJENWVu8vKOWbOoyqzFhM1aQlFF3c+i7ZGBhelE+ybqbwC1FhQlmZCizlO1fp/bTFY0W2DnBa5b4GtcGUOVnDdS1wXDh9Hrebc+QwgMlreHnOwIDAQAB">
+    <em:contributor>Greasemonkey Compiler by Anthony Lieuallen;</em:contributor>
+    <em:contributor>http://www.arantius.com/</em:contributor>
+    <em:targetApplication RDF:resource="rdf:#$PNzlw3"/>
+  </RDF:Description>
+  <RDF:Description RDF:about="rdf:#$PNzlw3"
+                   em:id="{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+                   em:minVersion="2.0"
+                   em:maxVersion="3.*" />
+</RDF:RDF>
