@@ -5,7 +5,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="{3e001459-84f8-4ef2-a02c-d8011d946184}"
                    em:name="Konwerter Raportów"
-                   em:version="1.1.5"
+                   em:version="1.2.2"
                    em:description="Skrypt umieszcza link &quot;Wyślij do Konwertera Raportów&quot; (kierujący na adres http://plemiona.one.pl) w menu w zakładce Raporty."
                    em:creator="Dan Latocha"
                    em:homepageURL="http://sprarsyn.boo.pl/"

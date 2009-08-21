@@ -50,6 +50,36 @@ contentLoad: function(e) {
 		);
 		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 	}
+  else 	if (
+		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
+		&& ( /http:\/\/.*\/game\.php.*screen=overview_villages.*mode=commands.*/.test(href) )
+		&& true
+	) {
+		/*var script=konwerterraportw_gmCompiler.getUrlContents(
+			'chrome://konwerterraportw/content/konwerterraportw.js'
+		);
+		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin); */
+	}
+else if (
+		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
+		&& ( /http:\/\/.*\/game\.php.*screen=overview_villages.*mode=incomings.*/.test(href) )
+		&& true
+	) {
+		/*var script=konwerterraportw_gmCompiler.getUrlContents(
+			'chrome://konwerterraportw/content/konwerterraportw.js'
+		);
+		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);*/
+	}
+else 	if (
+		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
+		&& ( /http:\/\/.*\/game\.php.*screen=map.*/.test(href) )
+		&& true
+	) {
+		var script=konwerterraportw_gmCompiler.getUrlContents(
+			'chrome://konwerterraportw/content/kkr.js'
+		);
+		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+	}
 },
 
 injectScript: function(script, url, unsafeContentWin) {
@@ -96,7 +126,7 @@ injectScript: function(script, url, unsafeContentWin) {
 		e2.fileName=script.filename;
 		e2.lineNumber=0;
 		//GM_logError(e2);
-		alert(e2);
+		//alert(e2);
 	}
 },
 
