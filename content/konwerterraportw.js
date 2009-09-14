@@ -1,26 +1,3 @@
-// Konwerter Raportów
-// version 1.2.1
-// 2008-08-05
-// Copyright (c) 2008, plemiona.one.pl
-// http://plemiona.one.pl
-//
-// --------------------------------------------------------------------
-//
-// Skrypt umieszcza link 'Wyślij do Konwertera Raportów' (kierujący na adres 
-// http://plemiona.one.pl) w menu w zakładce Raporty.
-// Po kliknięciu linku zostanie otwarta strona konwertera, w nowej karcie, ze skopiowanym aktualnie wyświetlanym raportem. 
-// Dalej procedura konwersji przebiega jak zwykle. 
-//
-// --------------------------------------------------------------------
-//
-// ==UserScript==
-// @name          	Konwerter Raportów
-// @version 		1.2.2
-// @namespace     	http://plemiona.one.pl
-// @description   	Skrypt umieszcza link 'Wyślij do Konwertera Raportów' (kierujący na adres http://plemiona.one.pl) w menu w zakładce Raporty.
-// @include       	http://*/game.php*screen=report*view=*
-// ==/UserScript==
-
 var all, table;
 
 all = document.evaluate("//table[@class='vis']",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);

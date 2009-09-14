@@ -76,7 +76,27 @@ else 	if (
 		&& true
 	) {
 		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/kkr.js'
+			'chrome://konwerterraportw/content/map.js'
+		);
+		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+	}
+else 	if (                    /*http://pl5.plemiona.pl/game.php?village=63344&screen=info_village&id=66460*/
+		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
+		&& ( /http:\/\/.*\/game\.php.*screen=info_village.*/.test(href) )
+		&& true
+	) {
+		var script=konwerterraportw_gmCompiler.getUrlContents(
+			'chrome://konwerterraportw/content/wsi.js'
+		);
+		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+	}
+else 	if (                    /*http://pl5.plemiona.pl/game.php?village=63344&screen=train&mode=mass&group=8152*/
+		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
+		&& ( /http:\/\/.*\/game\.php.*screen=train&mode=mass.*/.test(href) )
+		&& true
+	) {
+		var script=konwerterraportw_gmCompiler.getUrlContents(
+			'chrome://konwerterraportw/content/rekrutant.js'
 		);
 		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 	}
