@@ -61,13 +61,13 @@ if (
 	}
   else 	if (
 		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*\/game\.php.*screen=overview_villages.*mode=commands.*/.test(href) )
+		&& ( /http:\/\/.*\/game\.php.*screen=overview_villages.*mode=combined.*/.test(href) )
 		&& true
 	) {
-		/*var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/konwerterraportw.js'
+		var script=konwerterraportw_gmCompiler.getUrlContents(
+			'chrome://konwerterraportw/content/combined.js'
 		);
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin); */
+		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 	}
 else if (
 		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
@@ -99,6 +99,16 @@ else 	if (                    /*http://pl5.plemiona.pl/game.php?village=63344&sc
 		);
 		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 	}
+else 	if (
+		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
+		&& ( /http:\/\/.*\/game\.php.*screen=info_player.*/.test(href) )
+		&& true
+	) {
+		var script=konwerterraportw_gmCompiler.getUrlContents(
+			'chrome://konwerterraportw/content/info_player.js'
+		);
+		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+	}
 else 	if (                    /*http://pl5.plemiona.pl/game.php?village=63344&screen=train&mode=mass&group=8152*/
 		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
 		&& ( /http:\/\/.*\/game\.php.*screen=train&mode=mass.*/.test(href) )
@@ -109,7 +119,17 @@ else 	if (                    /*http://pl5.plemiona.pl/game.php?village=63344&sc
 		);
 		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 	}
-},
+else 	if (                    /*http://pl5.plemiona.pl/game.php?village=63344&screen=info_command&id=25505825&type=other */
+		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
+		&& ( /http:\/\/.*\/game\.php.*screen=info_command.*&type=other.*/.test(href) )
+		&& true
+	) {
+		var script=konwerterraportw_gmCompiler.getUrlContents(
+			'chrome://konwerterraportw/content/ataki.js'
+		);
+		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+	}
+        },
 
 injectScript: function(script, url, unsafeContentWin) {
 	var sandbox, script, logger, storage, xmlhttpRequester;
