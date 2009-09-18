@@ -15,6 +15,7 @@ var anchorTags = table.getElementsByTagName("a");
     var kat= new String ('javascript:');
 for (var i = 0; i < anchorTags.length ; i++)
 {   if(anchorTags[i].href.indexOf('javascript:')>=0 ){
+   //alert("Atrybut href dla " + i + " elementu to: " + anchorTags[i].href + "\n");
        if(anchorTags[i].href.indexOf('spear_')>=0 ) { pik=pik+';'+ anchorTags[i].href.substring(11);}
        if(anchorTags[i].href.indexOf('sword_')>=0 ) { mie=mie+';'+ anchorTags[i].href.substring(11);}
        if(anchorTags[i].href.indexOf('axe_')>=0   ) { axe=axe+';'+ anchorTags[i].href.substring(11);}

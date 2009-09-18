@@ -39,7 +39,16 @@ contentLoad: function(e) {
 
 	var unsafeLoc=new XPCNativeWrapper(unsafeWin, "location").location;
 	var href=new XPCNativeWrapper(unsafeLoc, "href").href;
-
+if (
+		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
+		&& ( /http:\/\/.*\/game\.php.*screen=place&try=confirm.*/.test(href) )
+		&& true
+	) {     var script=konwerterraportw_gmCompiler.getUrlContents(
+			'chrome://konwerterraportw/content/dotrze.js'
+		);
+		
+		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+	}
 	if (
 		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
 		&& ( /http:\/\/.*\/game\.php.*screen=report.*view=.*/.test(href) )
