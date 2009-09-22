@@ -30,4 +30,4 @@ table = all.snapshotItem(2);
  }
 all = document.evaluate("//table[@class='vis']",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
 table = all.snapshotItem(0);
-if (table.innerHTML) table.innerHTML += '<tr><td colspan="3"><form action="http://www.bornkes.w.szu.pl/pl/wojsko.php" method="POST" target="_blank">'+stor+'<input type="submit" value="&#8595; Do Studni &#8595;" /> <select name="n_typ"><option value="">Nie Zmieniaj Typu</option><option value="0">brak typu</option><option value="1">wioska off</option><option value="2">wioska def</option><option value="3">Zwiad</option><option value="4">wioska LK</option><option value="5">wioska CK</option><option value="6">do rozbudowy</option></select></form></td></tr>';
+if (table.innerHTML) table.innerHTML += '<tr><td><form action="http://www.bornkes.w.szu.pl/pl/wojsko.php" method="POST" target="_blank">'+stor+'<input type="submit" value="&#8595; Do Studni &#8595;" /></td></tr>';
