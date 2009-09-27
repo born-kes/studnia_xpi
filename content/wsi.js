@@ -1,4 +1,8 @@
-var all, table;
-all = document.evaluate('//table[@class="main"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
+var all, table, e,nev;
+all = document.evaluate('//table[@class="vis left"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
 table = all.snapshotItem(0);
-if (table.innerHTML) table.innerHTML += '<tr><td><iframe src="http://www.bornkes.w.szu.pl/pl/raport.php'+window.location.search+'" width="100%" height="90"  frameborder="0" name="ramka" id="ramka" style="z-index:1;">Twoja przegl1darka nie akceptuje p3ywaj1cych ramek!</iframe></td></tr><tr><td><iframe src="http://www.bornkes.w.szu.pl/kalkul/radar.php'+window.location.search+'" width="100%" height="200" frameborder="0" style="z-index:1;"></iframe></td></tr>';
+   var as =table.getElementsByTagName('tr');
+if (as[0].innerHTML) as[0].innerHTML += '<th>Raport w Bazie</th><th>Radar - Szuka i znajduje wojsko w najblirzszej wiosce</th>';
+if (as[1].innerHTML) as[1].innerHTML += '<td rowspan="10" valign="top"><iframe src="http://www.bornkes.w.szu.pl/pl/raport2.php'+window.location.search+'" width="180" height="254"></iframe></td><td rowspan="10"><iframe src="http://www.bornkes.w.szu.pl/kalkul/radar.php'+window.location.search+'" width="450" height="254" frameborder="0" style="z-index:1;"></iframe></td>';
+
+
