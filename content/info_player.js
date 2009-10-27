@@ -20,5 +20,5 @@ table = all.snapshotItem(1);     var url_fin='ida=';
  var str_buffer =  new String ("<iframe src=\'http://www.bornkes.w.szu.pl/pl/raport.php?"+url_fin+"\' width=\'502\' height=\'"+(i*52)+"\'></iframe>");
 
     d=table.getElementsByTagName('tr')[0];   if ( d.innerHTML) d.innerHTML +='<th><a onclick="toggle_map_popup_options()" href="#">Raporty z Bazy</a></th>';
-    d=table.getElementsByTagName('tr')[1];   if ( d.innerHTML) d.innerHTML +='<td rowspan="'+i+'" id="map_popup_options" style="display:none"><iframe src="http://www.bornkes.w.szu.pl/pl/raport.php?'+url_fin+'" width="502" height="'+(i*52)+'" name="raport" id="raport"></iframe> </td>';
+    d=table.getElementsByTagName('tr')[1];   if ( d.innerHTML) d.innerHTML +='<td rowspan="'+i+'" id="map_popup_options" style="display:none"><iframe width="502" height="'+(i*52)+'" name="raport" id="raport"></iframe> </td>';
 
