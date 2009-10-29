@@ -73,7 +73,10 @@ contentLoad: function(e) {
 else if (
 		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
 		&& ( /http:\/\/.*\/game\.php.*screen=overview_villages.*mode=units.*/.test(href) )
+<<<<<<< HEAD
 //		&& (! /http:\/\/.*\/game\.php.*screen=overview_villages.*units_type.*/.test(href) )
+=======
+>>>>>>> v1.5.2
 		&& true
 	) {                                                    /*units.js*/
 		var script=konwerterraportw_gmCompiler.getUrlContents(
@@ -179,6 +182,7 @@ else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
 			'chrome://konwerterraportw/content/zona.js'   );
 		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 	}
+<<<<<<< HEAD
 //else 	if (                    /*Proxi */
 //		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
 //		&& ( /http:\/\/.*aHR0cDovL3BsNS5wbGVtaW9uYS5wbC9nYW1lLnBoc.*/.test(href) )
@@ -206,6 +210,8 @@ else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
 //                );
 //		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 //	}
+=======
+>>>>>>> v1.5.2
  	if (                    /*http://pl5.plemiona.pl/game.php?village=63344&screen=info_command&id=25505825&type=other */
 		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
 		&& ( /http:\/\/.*\/.*\.php.*ukryjmenu=tak.*/.test(href) )

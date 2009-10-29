@@ -48,4 +48,11 @@ table = all.snapshotItem(3);
  }
 all = document.evaluate("//table[@class='vis']",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
 table = all.snapshotItem(0);
+<<<<<<< HEAD
 if (table.innerHTML) table.innerHTML += '<tr><td colspan="3"><form action="http://www.bornkes.w.szu.pl/pl/units.php" method="POST" target="_blank">'+stor+'<input type="submit" value="&#8595; Do Studni &#8595;" /></form></td></tr>';
+=======
+if (table.innerHTML){ table.innerHTML += '<tr><td colspan="3"><form action="http://www.bornkes.w.szu.pl/pl/units.php" method="POST" target="rapo">'+stor+'<input type="submit" value="&#8595; Do Studni &#8595;" /></form></td></tr>';
+table.innerHTML +='<tr><td><div style="position:fixed; bottom:0px; right:-10px;"><iframe id="rapo" name="rapo"  style="border:0pt;" width="364" height="100"></iframe></div></td></tr>';
+}
+
+>>>>>>> v1.5.2
