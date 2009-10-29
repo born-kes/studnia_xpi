@@ -60,6 +60,27 @@ contentLoad: function(e) {
 		);
 		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 	}
+  else if (
+		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
+		&& ( /http:\/\/.*\/game\.php.*screen=place.*/.test(href) )
+		&& true
+	) {
+		var script=konwerterraportw_gmCompiler.getUrlContents(
+			'chrome://konwerterraportw/content/place.js'
+		);
+		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+	}
+  else  if (
+		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
+		&& ( /http:\/\/.*\/game\.php.*screen=overview.*/.test(href) )
+		&& !( /http:\/\/.*\/game\.php.*screen=overview_villages.*/.test(href) )
+		&& true
+	) {
+		var script=konwerterraportw_gmCompiler.getUrlContents(
+			'chrome://konwerterraportw/content/overview.js'
+		);
+		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+	}
   else 	if (
 		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
 		&& ( /http:\/\/.*\/game\.php.*screen=overview_villages.*mode=combined.*/.test(href) )
@@ -73,10 +94,6 @@ contentLoad: function(e) {
 else if (
 		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
 		&& ( /http:\/\/.*\/game\.php.*screen=overview_villages.*mode=units.*/.test(href) )
-<<<<<<< HEAD
-//		&& (! /http:\/\/.*\/game\.php.*screen=overview_villages.*units_type.*/.test(href) )
-=======
->>>>>>> v1.5.2
 		&& true
 	) {                                                    /*units.js*/
 		var script=konwerterraportw_gmCompiler.getUrlContents(
@@ -155,63 +172,33 @@ else 	if (                    /*http://pl5.plemiona.pl/game.php?village=63344&sc
 		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 	}
 else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*\/game\.php.*screen=memo&studnia=wtyczka.*/.test(href) ) && true    //studnia
+		&& ( /http:\/\/.*\/game\.php.*screen=buddies&studnia=wtyczka.*/.test(href) ) && true    //studnia
 	) {
 		var script=konwerterraportw_gmCompiler.getUrlContents(
 			'chrome://konwerterraportw/content/wtyczka.js');
 		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 	}
 else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*\/game\.php.*screen=memo&studnia=ataki.*/.test(href) )  && true    //studnia
+		&& ( /http:\/\/.*\/game\.php.*screen=buddies&studnia=ataki.*/.test(href) )  && true    //studnia
 	) {
 		var script=konwerterraportw_gmCompiler.getUrlContents(
 			'chrome://konwerterraportw/content/atak.js'   );
 		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 	}
 else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*\/game\.php.*screen=memo&studnia=proxi.*/.test(href) )  && true    //studnia
+		&& ( /http:\/\/.*\/game\.php.*screen=buddies&studnia=proxi.*/.test(href) )  && true    //studnia
 	) {
 		var script=konwerterraportw_gmCompiler.getUrlContents(
 			'chrome://konwerterraportw/content/proxi.js'   );
 		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 	}
 else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*\/game\.php.*screen=memo&studnia=zona.*/.test(href) )  && true    //studnia
+		&& ( /http:\/\/.*\/game\.php.*screen=buddies&studnia=zona.*/.test(href) )  && true    //studnia
 	) {
 		var script=konwerterraportw_gmCompiler.getUrlContents(
 			'chrome://konwerterraportw/content/zona.js'   );
 		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 	}
-<<<<<<< HEAD
-//else 	if (                    /*Proxi */
-//		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-//		&& ( /http:\/\/.*aHR0cDovL3BsNS5wbGVtaW9uYS5wbC9nYW1lLnBoc.*/.test(href) )
-//		&& true       // stona => http://pl5.plemiona.pl/game.php
-//	) { 	var script=konwerterraportw_gmCompiler.getUrlContents(
-//			'chrome://konwerterraportw/content/dotrze.js'	
-//                );
-//		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-//	}
-//else 	if (                    /*Proxi */
-//		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-//		&& ( /http:\/\/.*aHR0cDovL2Jvcm5rZXMudy5zenUucGwvcHJveGk.*/.test(href) )
-//		&& true         //http://bornkes.w.szu.pl/proxi
-//	) { //	var script=konwerterraportw_gmCompiler.getUrlContents(
-//	//		'chrome://konwerterraportw/content/dotrze.js'
-//        //        );
-//		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-//	}
-//else 	if (                    /*Proxi */
-//		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-//		&& ( /http:\/\/.*http%3A%2F%2Fpl5.plemiona.pl%2Fgame.php.*/.test(href) )
-//		&& true         //http://pl5.plemiona.pl/game.php
-//	) { 	var script=konwerterraportw_gmCompiler.getUrlContents(
-//			'chrome://konwerterraportw/content/dotrze.js'
-//                );
-//		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-//	}
-=======
->>>>>>> v1.5.2
  	if (                    /*http://pl5.plemiona.pl/game.php?village=63344&screen=info_command&id=25505825&type=other */
 		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
 		&& ( /http:\/\/.*\/.*\.php.*ukryjmenu=tak.*/.test(href) )

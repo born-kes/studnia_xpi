@@ -1,3 +1,13 @@
+function dane(a)
+{var s,s1,s2;
+if( gN(a,'a') ){ var a=gN(a,'a'); s = a[0].innerHTML;
+  s1= s.lastIndexOf('(');
+  s2= s.lastIndexOf(')');
+  if(s2>-1){s= s.substring(s1,s2);}else{s= s.substring(s1);}
+      s= dels(s);
+      return s;  }
+}
+function dels(s) { s = s.replace(new RegExp("[^\\d|]+","g"),""); return s; }
 function potega(podstawa)
 {   var wynik = podstawa; var i = 1;
     while (i++ < 2)
@@ -31,53 +41,38 @@ function formatTime(time) {
   co_to= co_idzie(Math.floor(time*60));
  return  co_to;
 }
-
-var all, table, url1;
-all = document.evaluate('//table[@class="main"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
-table = all.snapshotItem(0);
+  //id info o ataku
 function url_explode(str){ url=str.split("?"); url=url[1].split("&");   return url;}
 function url_get(str){ url=str.split("=");  return url;}
+function GET(get){var G;  for (var i=0; i< get.length ; i++ ){G= url_get(get[i]); if(G[0]=='id'){return G[1];} } }
 
- var anchorTags = table.getElementsByTagName("a");
-  //id info o ataku
+function gN(a,b) { return a.getElementsByTagName(b);}
+
+function test(a)
+{  if( gN(a,'a') ){ var b=gN(a,'a'); var c =url_explode(b[0].href); var d=GET(c); return d; }else{return 0;}  }
 var as=url_explode(window.location.search);
   var id_atak=url_get(as[2] );
-  // id agresora                                                          52154
-var url =  url_explode(anchorTags[1].href);
-  var agr_id=url_get(url[2]);
-             var s1= anchorTags[2].innerHTML.lastIndexOf('(');
-             var w1= anchorTags[2].innerHTML.substring(s1+1,s1+8);
-             var w1xy = w1.split("|"); //alert(w1xy);
-             var s2= anchorTags[4].innerHTML.lastIndexOf('(');
-             var w2= anchorTags[4].innerHTML.substring(s2+1,s2+8);
-             var w2xy = w2.split("|");   //alert(w2xy );
-var odleglosc=Math.sqrt(potega(w1xy[0]-w2xy[0])+potega(w1xy[1]-w2xy[1]));         //sqrt(}
-          var str= formatTime(odleglosc) + anchorTags[2].innerHTML;
-//    if(document.getElementById('editInput').value){
-//    document.getElementById('editInput').value = 'sss';alert(str);  }
 
-  // atak pochodzi z wioski
-var url =  url_explode(anchorTags[2].href);
-  var agr=url_get(url[2]);
-  // cel
-var url =  url_explode(anchorTags[4].href);
- var cel=url_get(url[2]);
- var anchorTags = table.getElementsByTagName("td");
-        var h=anchorTags[12].innerHTML;   h=h.split("<");
-      url1 = '&id_agr='+agr_id[1]+'&id_ataku='+id_atak[1]+'&agr='+agr[1]+'&cel='+cel[1]+'&czas1='+h[0];
-       var nazwa = document.getElementById('edit').innerHTML;
-       var sesja_nazwa = nazwa.substring( nazwa.indexOf('/game.php?'),nazwa.indexOf('&amp;h=')+11);
-//       var date_kes = encodeURIComponent(str);
-              //alert(date_kes);
-var s=document.createElement('script');
-s.innerHTML ="var url_kes = '"+sesja_nazwa+"';";
-s.innerHTML+="var date_kes = '"+str+"';";
-document.getElementsByTagName('head')[0].appendChild(s);
+var all, table, url1,Ag,Aw,Og,Ow,data,wa,wo;
+all = document.evaluate('//table[@class="vis"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
+table = all.snapshotItem(0);
+  var td = gN( table , 'td');
+    for (var i=0; i< td.length ; i++ )
+    {
+      if(i==2){Ag=test(td[i]);}
+      if(i==4){Aw=test(td[i]); wa =dane(td[i]);}
+      if(i==7){Og=test(td[i]);}
+      if(i==9){Ow=test(td[i]); wo =dane(td[i]);}
+      if(i==11&&td[i].innerHTML.indexOf("span")>-1){data=td[i].innerHTML.split("<");}
+      if(i==13&&td[i].innerHTML.indexOf("span")>-1){data=td[i].innerHTML.split("<");}
+      if(i==9){Ow=test(td[i]);}
+    }
+    wa = wa.split("|");
+    wo = wo.split("|");
+var odleglosc=Math.sqrt(potega(wa[0]-wo[0])+potega(wa[1]-wo[1]));
+var str= formatTime(odleglosc);
 
-var sc=document.createElement('script');
-sc.src='http://www.bornkes.w.szu.pl/js/ataki.js';
-document.getElementsByTagName('head')[0].appendChild(sc);
-
+      url1 = '&id_ataku='+id_atak[1]+'&cel='+Ow+'&agr='+Aw+'&id_agr='+Ag+'&czas1='+data[0]+'&co='+str;
    var as =table.getElementsByTagName('tr');
 if (table.innerHTML) table.innerHTML += '<tr><td style="display:none"><iframe src="http://www.bornkes.w.szu.pl/pl/ataki.php?'+url1+'" width="100"></iframe></td></tr>';
 

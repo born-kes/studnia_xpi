@@ -1,10 +1,17 @@
 function gN(a,b) { return a.getElementsByTagName(b);}
 function wojsko(a,b) {var c = a.innerHTML - b.innerHTML;  return c;}
 function dels(s) {
-s = s.replace(new RegExp("[^\\d]+","g"),"");
+s = s.replace(new RegExp("[^\\d|]+","g"),"");
 //s = s.replace(new RegExp(",","g"),"");
  return s;}
-/**/
+function dane(s)
+{var s1,s2;     s = s.innerHTML;
+  if(s1= s.lastIndexOf('(')){}else if(s1= s.lastIndexOf('>')){}
+     s2= s.lastIndexOf(')');
+  if(s2>-1){s= s.substring(s1,s2);}else{s= s.substring(s1);}
+      s= dels(s);
+      return s;
+}/**/
 function select_(a){
 var str = '<select name="n_typ"><option value="">Nie Zmieniaj Typu</option><option value="0">brak typu</option>';
   if(a==1){str +='<option value="1" selected="selected">wioska off</option>';}else{str +='<option value="1">wioska off</option>';}
@@ -44,7 +51,7 @@ if(d=gN(table,'tr')[1]){var data= gN(d,'td')[1]; } //alert(data.innerHTML);  //d
 
      var zostalo='<tr class="center green"><td>Zostalo:</td>'; if(pik==0){zostalo+='<td class="hidden">'+pik+'</td>';}else{zostalo+='<td>'+pik+'</td>';}if(mie==0){zostalo+='<td class="hidden">'+mie+'</td>';}else{zostalo+='<td>'+mie+'</td>';}if(axe==0){zostalo+='<td class="hidden">'+axe+'</td>';}else{zostalo+='<td>'+axe+'</td>';}if(luk==0){zostalo+='<td class="hidden">'+luk+'</td>';}else{zostalo+='<td>'+luk+'</td>';}if(zw==0){zostalo+='<td class="hidden">'+zw+'</td>';}else{zostalo+='<td>'+zw+'</td>';}if(lk==0){zostalo+='<td class="hidden">'+lk+'</td>';}else{zostalo+='<td>'+lk+'</td>';}if(kl==0){zostalo+='<td class="hidden">'+kl+'</td>';}else{zostalo+='<td>'+kl+'</td>';}if(ck==0){zostalo+='<td class="hidden">'+ck+'</td>';}else{zostalo+='<td>'+ck+'</td>';}if(tar==0){zostalo+='<td class="hidden">'+tar+'</td>';}else{zostalo+='<td>'+tar+'</td>';}if(kat==0){zostalo+='<td class="hidden">'+kat+'</td>';}else{zostalo+='<td>'+kat+'</td>';} if(ry==0){zostalo+='<td class="hidden">'+ry+'</td>';}else{zostalo+='<td>'+ry+'</td>';}if(sz==0){zostalo+='<td class="hidden">'+sz+'</td>';}else{zostalo+='<td>'+sz+'</td>';}zostalo+='</tr>';
            var a_w = pik+','+ mie+','+ axe+','+ luk+','+ zw+','+ lk+','+ kl+','+ ck+','+tar+','+kat+','+ry+','+sz;
-     e.innerHTML += zostalo; e.innerHTML +='<tr><td colspan="13"><iframe src="http://www.bornkes.w.szu.pl/pl/raport3.php?xy='+st.innerHTML+'&o0=0&data='+data.innerHTML+'&typ='+a_typ+'&w='+a_w+'" height="75" width="100%" style="border:0pt;"></iframe></td></tr>';
+     e.innerHTML += zostalo; e.innerHTML +='<tr><td colspan="13"><iframe src="http://www.bornkes.w.szu.pl/pl/raport3.php?xy='+dane(st)+'&o0=0&data='+data.innerHTML+'&typ='+a_typ+'&w='+a_w+'" height="75" width="100%" style="border:0pt;"></iframe></td></tr>';
                    }
          if(j==5 ){//alert(j+' '+e.innerHTML);
                       if(sto=gN(e,'a')[0]){ if(!(sto.innerHTML.indexOf('|')>=0) ){sto=gN(e,'a')[1];} /*alert(sto.innerHTML);  */ }
@@ -99,5 +106,5 @@ if(d=gN(table,'tr')[1]){var data= gN(d,'td')[1]; } //alert(data.innerHTML);  //d
                                             }
                                             
 e=gN(table,'table')[6];
-     e.innerHTML +='<tr><td colspan="13"><iframe src="http://www.bornkes.w.szu.pl/pl/raport3.php?xy='+sto.innerHTML+'&o0=1&data='+data.innerHTML+'&Mur='+mur+'&w='+o_w+'" height="75" width="100%" style="border:0pt;"></iframe></td></tr>';
+     e.innerHTML +='<tr><td colspan="13"><iframe src="http://www.bornkes.w.szu.pl/pl/raport3.php?xy='+dane(sto)+'&o0=1&data='+data.innerHTML+'&Mur='+mur+'&w='+o_w+'" height="75" width="100%" style="border:0pt;"></iframe></td></tr>';
 
