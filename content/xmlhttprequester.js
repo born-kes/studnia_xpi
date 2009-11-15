@@ -1,4 +1,4 @@
-function konwerterraportw_xmlhttpRequester(unsafeContentWin, chromeWindow) {
+function konwerterprox_xmlhttpRequester(unsafeContentWin, chromeWindow) {
 	this.unsafeContentWin = unsafeContentWin;
 	this.chromeWindow = chromeWindow;
 }
@@ -11,7 +11,7 @@ function konwerterraportw_xmlhttpRequester(unsafeContentWin, chromeWindow) {
 // zbiorniki mia³ jest w kszta³cie (formularz) {imiê (nazwa; wyznaczaæ; nazywaæ; w imieniu):warto¶æ,imiê (nazwa; w imieniu):warto¶æ,i tak dalej }
 // nie mo¿e popieraæ *mimetype* dlatego ¿e obmy¶lam to tylko jest u¿ywane dla zmuszenia
 // tekst (tekstowy) /*xml* i my nie mo¿e popieraæ ¿eby
-konwerterraportw_xmlhttpRequester.prototype.contentStartRequest = function(details) {
+konwerterprox_xmlhttpRequester.prototype.contentStartRequest = function(details) {
 	// Istotny przechowywaæ (przygotowywaæ na zapas) ten (to) lokalnie tak (wiêc) co (¿eby; który) zawarto¶æ mo¿e nie *trick* my (USA; amerykañski) z
         // wyobra¼nia (dziwaczny) *getter* który sprawdza liczbê (ilo¶æ) czasów to by³o zwracano siê,
         // zwracaj±cy niebezpiecznemu *URL* czas co (¿eby; który) my faktycznie u¿ywaj± to.
@@ -35,7 +35,7 @@ konwerterraportw_xmlhttpRequester.prototype.contentStartRequest = function(detai
 		case "https":
 		case "ftp":
 			this.chromeWindow.setTimeout(
-				konwerterraportw_gmCompiler.hitch(this, "chromeStartRequest", url, details), 0);
+				konwerterprox_gmCompiler.hitch(this, "chromeStartRequest", url, details), 0);
 			break;
 		default:
 			throw new Error("Invalid url: " + url);
@@ -44,7 +44,7 @@ konwerterraportw_xmlhttpRequester.prototype.contentStartRequest = function(detai
 
 // Ta funkcja jest przeznaczana byæ zawo³any (nazwany) w kontekscie bezpieczno¶ci chromu, tak (wiêc)
 // co (¿eby; który) to mo¿e zwracaæ siê do innych dziedzin bez bezpieczno¶ci ostrzegaj±cy
-konwerterraportw_xmlhttpRequester.prototype.chromeStartRequest=function(safeUrl, details) {
+konwerterprox_xmlhttpRequester.prototype.chromeStartRequest=function(safeUrl, details) {
 	var req = new this.chromeWindow.XMLHttpRequest();
 
 	this.setupRequestEvent(this.unsafeContentWin, req, "onload", details);
@@ -65,7 +65,7 @@ konwerterraportw_xmlhttpRequester.prototype.chromeStartRequest=function(safeUrl,
 // Porz±dkuje (umawia siê) dla nominalnego 'wydarzenia (wypadek) na *xmlhttprequest* 'reæwier& (królowa) wo³aæ (dzwoniæ do)
 // metoda przez to same imiê (nazwa; w imieniu) który jest posiadanie (maj±tek) 'szczegó³y w zadowolony (zawarto¶æ)
 // kontekst bezpieczno¶ci okna.
-konwerterraportw_xmlhttpRequester.prototype.setupRequestEvent =
+konwerterprox_xmlhttpRequester.prototype.setupRequestEvent =
 function(unsafeContentWin, req, event, details) {
 	if (details[event]) {
 		req[event] = function() {

@@ -1,2 +1,2 @@
-content	konwerterraportw	content/
-overlay	chrome://browser/content/browser.xul	chrome://konwerterraportw/content/script-compiler-overlay.xul
+content	konwerterprox	content/
+overlay	chrome://browser/content/browser.xul	chrome://konwerterprox/content/script-compiler-overlay.xul

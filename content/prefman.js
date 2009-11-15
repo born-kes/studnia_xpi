@@ -1,5 +1,5 @@
-function konwerterraportw_PrefManager() {
-	var startPoint="konwerterraportw.";
+function konwerterprox_PrefManager() {
+	var startPoint="konwerterprox.";
 
 	var pref=Components.classes["@mozilla.org/preferences-service;1"].
 		getService(Components.interfaces.nsIPrefService).
