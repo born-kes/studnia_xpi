@@ -63,8 +63,8 @@ table = all.snapshotItem(0);
       if(i==4){Aw=test(td[i]); wa =dane(td[i]);}
       if(i==7){Og=test(td[i]);}
       if(i==9){Ow=test(td[i]); wo =dane(td[i]);}
-      if(i==11&&td[i].innerHTML.indexOf("span")>-1){data=td[i].innerHTML.split("<");}
-      if(i==13&&td[i].innerHTML.indexOf("span")>-1){data=td[i].innerHTML.split("<");}
+      if(i==11&&td[i].innerHTML.indexOf('span class="small hidden"')>-1){data=td[i].innerHTML.split("<");}
+      if(i==13&&td[i].innerHTML.indexOf('span class="small hidden"')>-1){data=td[i].innerHTML.split("<");}
       if(i==9){Ow=test(td[i]);}
     }
     wa = wa.split("|");
