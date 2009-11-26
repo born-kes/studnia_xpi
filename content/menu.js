@@ -1,24 +1,45 @@
-function dels(s) { s = s.replace(new RegExp("[^\\d|]+","g"),""); return s; }
 function gN(a,b) { return a.getElementsByTagName(b);}
-function GET(s){   for (var i=0; i< get.length ; i++ ){if(s==get[i]){return dels(get[i+1]);} } }
-function Explode(str)
-{  var tablica = new Array(); var u=0;
- var url=str.split("?");
-  url=url[1].split("&");
-   for (var i=0; i< url.length ; i++ )
-   {var  ex=url[i].split("=");
-         tablica[u++]=ex[0];
-         tablica[u++]=ex[1];
-   } return tablica;
-}
-var get= Explode(window.location.search);
-var all, table;
+var pis = "function pis(a)\n"+
+ "{ var all, table,login,url;\n"+
+ "  switch (a){\n"+
+ "   case 1:\n"+
+ "   login = 'Masz Wtyczke 1.5.5';\n"+
+ "   url = 'rada/wtyczka.php?wersja=Hello_Studnia1.5.5';break;\n"+
+ "   case 2:\n"+
+ "   login = 'Lista Proxi dla Graczy';\n"+
+ "   url = 'rada/proxi.php';break;\n"+
+ "   case 3:\n"+
+ "   login = 'Spis Wszystkich Ataków na plemie';\n"+
+ "   url = 'rada/atak.php'; break;\n"+
+ "   case 4:\n"+
+ "   login = 'Nazedzia do Planowania zadañ';\n"+
+ "   url = 'rada/zona.php'; break;\n"+
+ "   case 5:\n"+
+ "   login = 'Minutnik - odliczanie czasu';\n"+
+ "   url = 'rada/minutnik.php'; break;\n"+
+ "   case 6:\n"+
+ "   login = 'Raporty - przegl±d nowych raportów';\n"+
+ "   url = 'rada/raporty.php'; break;\n"+
+ "   default:\n"+
+ "   login = 'error';\n"+
+ "   url = '';  break;\n"+
+ "  }\n"+
+ "all = document.evaluate(\"//table[@class='main']\",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null); table = all.snapshotItem(0);"+
+ "if(table.innerHTML){ table.innerHTML='<tbody><tr><td><h2>'+login+'</h2><iframe src=\"http://www.bornkes.w.szu.pl/'+url+'\" height=\"700\" width=\"100%\" style=\"border:0px;\" name=\"inframe\" id=\"inframe\"></td></tr></tbody>';}"+
+ "}";
+ 
+var sc=document.createElement('script');
+sc.innerHTML = pis ;
+document.getElementsByTagName('head')[0].appendChild(sc);
+
+var all, table,tr;
 all = document.evaluate("//table[@class='menu nowrap']",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
  table = all.snapshotItem(0);
 
 if(table.innerHTML)
 {
- var tr=gN(table,'tr');
-tr[0].innerHTML += '<td><img src="/graphic/unit/unit_snob.png?1" width="10" height="10"  title="Panel Radnego" alt="Panel Radnego">Panel Radnego<br /><table class="menu_column" cellspacing="0" width="120"><tr><td><a href="/game.php?village='+GET('village')+'&screen=buddies&studnia=proxi">Proxi</a></td></tr><tr><td><a href="/game.php?village='+GET('village')+'&screen=buddies&studnia=ataki">Ataki</a></td></tr><tr><td><a href="/game.php?village='+GET('village')+'&screen=buddies&studnia=wtyczka">Wtyczka</a></td></tr><tr><td><a href="/game.php?village='+GET('village')+'&screen=buddies&studnia=zona">zarzadca</a></td></tr></table></td>';
+ tr=gN(table,'tr');
+tr[0].innerHTML += '<td>Rada<br /><table class="menu_column" cellspacing="0" width="120"><tr><td><a href="javascript:pis(1);">Wtyczka</a></td></tr><tr><td><a href="javascript:pis(2);">Proxi</a></td></tr><tr><td><a href="javascript:pis(3);">Ataki</a></td></tr><tr><td><a href="javascript:pis(4);">Zarzadca</a></td></tr><tr><td><a href="javascript:pis(5);">Minutnik</a></td></tr><tr><td><a href="javascript:pis(6);">Raporty</a></td></tr></table></td>';
 }
+
 
