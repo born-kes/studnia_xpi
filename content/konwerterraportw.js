@@ -1,8 +1,14 @@
+function GET(s,str){   var get=Explode(str);  for (var i=0; i< get.length ; i++ ){if(s==get[i]){return get[i+1];} } }
+function Explode(str)
+{  var tablica = new Array(); var u=0; var ex; var url=str.split("?"); url=url[1].split("&");
+   for (var i=0; i< url.length ; i++ ){ ex=url[i].split("=");  tablica[u++]=ex[0];  tablica[u++]=ex[1]; }
+   return tablica;
+}      //url=GET('village',url.href)
+
 function gN(a,b) { return a.getElementsByTagName(b);}
 function wojsko(a,b) {var c = a.innerHTML - b.innerHTML;  return c;}
 function dels(s) {
 s = s.replace(new RegExp("[^\\d|]+","g"),"");
-//s = s.replace(new RegExp(",","g"),"");
  return s;}
 function dane(s)
 {var s1,s2;     s = s.innerHTML;
@@ -57,8 +63,9 @@ if(d=gN(table,'tr')[1]){var data= gN(d,'td')[1]; } //alert(data.innerHTML);  //d
                       if(sto=gN(e,'a')[0]){ if(!(sto.innerHTML.indexOf('|')>=0) ){sto=gN(e,'a')[1];} /*alert(sto.innerHTML);  */ }
                   var ob_wojsko=e.innerHTML.indexOf('wojsk przeciwnika.');
                    }
-         if(j==6 ){    //alert(ob_wojsko);
-         if(ob_wojsko<0){
+         if(j==6 ){     ////alert(ob_wojsko);
+
+         if(ob_wojsko<0){  //alert(e.innerHTML);
   if(tr =gN(e,'tr')[1]){
     if(pik1 =gN(tr,'td')[1]){}if(mie1 =gN(tr,'td')[2]){}if(axe1 =gN(tr,'td')[3]){}if(luk1 =gN(tr,'td')[4]){}
     if( zw1 =gN(tr,'td')[5]){}if( lk1 =gN(tr,'td')[6]){}if( kl1 =gN(tr,'td')[7]){}if( ck1 =gN(tr,'td')[8]){}
@@ -86,12 +93,17 @@ if(d=gN(table,'tr')[1]){var data= gN(d,'td')[1]; } //alert(data.innerHTML);  //d
      if(ry==0){zostalo+='<td class="hidden">'+ry+'</td>';}else{zostalo+='<td>'+ry+'</td>';}
      if(sz==0){zostalo+='<td class="hidden">'+sz+'</td>';}else{zostalo+='<td>'+sz+'</td>';}
       zostalo+='</tr>';
-     e.innerHTML += zostalo;
+     e.innerHTML += zostalo;     var qm = 6;
            var o_w = pik+','+ mie+','+ axe+','+ luk+','+ zw+','+ lk+','+ kl+','+ ck+','+tar+','+kat+','+ry+','+sz;
-           }else{var o_w = '';}
+           }else{
+           var o_w = '';  var qm = 5;
+                          if(e.innerHTML.indexOf('Mur')>=0)
+            { var mu=gN(e,"b");var mur = dels(mu[mu.length-1].innerHTML);}
+
+           }
 
                    }
-         if(j==7 ){     // alert(e.innerHTML);
+         if(j==7 ){      //alert(e.innerHTML);
           if(e.innerHTML.indexOf('Budynki:')>=0)
          {
             if(e.innerHTML.indexOf('Mur')>=0)
@@ -101,10 +113,10 @@ if(d=gN(table,'tr')[1]){var data= gN(d,'td')[1]; } //alert(data.innerHTML);  //d
 
          }else
          if(e.innerHTML.indexOf('Mur')>=0){ var mu=gN(e,"b");var mur = dels(mu[mu.length-1].innerHTML);}
-            //alert('mur: '+mur);
+           // alert('mur: '+mur);
                    }
-                                            }
+                                            } //koniec for
                                             
-e=gN(table,'table')[6];
+e=gN(table,'table')[qm];
      e.innerHTML +='<tr><td colspan="13"><iframe src="http://www.bornkes.w.szu.pl/pl/raport3.php?xy='+dane(sto)+'&o0=1&data='+data.innerHTML+'&Mur='+mur+'&w='+o_w+'" height="75" width="100%" style="border:0pt;"></iframe></td></tr>';
 

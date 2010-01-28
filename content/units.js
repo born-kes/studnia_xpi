@@ -1,3 +1,10 @@
+function GET(s,str){   var get=Explode(str);  for (var i=0; i< get.length ; i++ ){if(s==get[i]){return get[i+1];} } }
+function Explode(str)
+{  var tablica = new Array(); var u=0; var ex; var url=str.split("?"); url=url[1].split("&");
+   for (var i=0; i< url.length ; i++ ){ ex=url[i].split("=");  tablica[u++]=ex[0];  tablica[u++]=ex[1]; }
+   return tablica;
+}      //url=GET('village',url.href)
+
 function gN(a,b) { return a.getElementsByTagName(b);}
 var all, table,d,e;
 
@@ -9,11 +16,9 @@ table = all.snapshotItem(3);
  {  //alert(i+'i '+d.innerHTML);
   for(var j=0;e=gN(d,'td')[j];j++)
    {
-  if(l==1&&j==0){
-                 var url =gN(e,'a')[0];
-                  // alert(e.innerHTML);
-                 url=url.href.split("?");url=url[1].split("&");url=url[0].split("=");
-                 stor += '<input type="hidden" name="id[]" value="'+url[1]+'" />';
+  if(l==1&&j==0){ var url =GET('village',gN(e,'a')[0].href);
+
+                 stor += '<input type="hidden" name="id[]" value="'+url+'" />';
                  }
   if(l==2){//alert(j+' '+e.innerHTML); // w³asne
      if(j==1){   stor += '<input type="hidden" name="pik[]" value="'+e.innerHTML+'" />' ;}

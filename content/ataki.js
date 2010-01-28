@@ -1,10 +1,17 @@
+function GET(s,str){   var get=Explode(str);  for (var i=0; i< get.length ; i++ ){if(s==get[i]){return get[i+1];} } }
+function Explode(str)
+{  var tablica = new Array(); var u=0; var ex; var url=str.split("?"); url=url[1].split("&");
+   for (var i=0; i< url.length ; i++ ){ ex=url[i].split("=");  tablica[u++]=ex[0];  tablica[u++]=ex[1]; }
+   return tablica;
+}      //url=GET('village',url.href)
+
 function dane(a)
 {var s,s1,s2;
-if( gN(a,'a') ){ var a=gN(a,'a'); s = a[0].innerHTML;
-  s1= s.lastIndexOf('(');
-  s2= s.lastIndexOf(')');
-  if(s2>-1){s= s.substring(s1,s2);}else{s= s.substring(s1);}
-      s= dels(s);
+
+  if( gN(a,'a') ){ var a=gN(a,'a'); s = a[0].innerHTML;
+    s1= s.lastIndexOf('(');
+    s2= s.lastIndexOf(')');
+     if(s2>-1){s= s.substring(s1,s2);}else{s= s.substring(s1);}  s= dels(s);
       return s;  }
 }
 function dels(s) { s = s.replace(new RegExp("[^\\d|]+","g"),""); return s; }
@@ -33,47 +40,41 @@ function co_idzie(time)
            co_to+='lk,';
    if(do_ataku < (time* 9) )
            co_to+='zw,';
-                     //alert(co_to+' '+do_ataku +' '+ time* (18));
+                 //   alert(co_to+' '+do_ataku +' '+ time* (18));
  return  co_to;
 }
+function gN(a,b) { return a.getElementsByTagName(b); }
+function formatTime(time) {  co_to= co_idzie(Math.floor(time*60));  return  co_to; }
+function test(id,a){  if( gN(a,'a') ){ var b=GET(id,gN(a,'a')[0].href); return b; }else{return 0;}  }
 
-function formatTime(time) {
-  co_to= co_idzie(Math.floor(time*60));
- return  co_to;
-}
-  //id info o ataku
-function url_explode(str){ url=str.split("?"); url=url[1].split("&");   return url;}
-function url_get(str){ url=str.split("=");  return url;}
-function GET(get){var G;  for (var i=0; i< get.length ; i++ ){G= url_get(get[i]); if(G[0]=='id'){return G[1];} } }
 
-function gN(a,b) { return a.getElementsByTagName(b);}
-
-function test(a)
-{  if( gN(a,'a') ){ var b=gN(a,'a'); var c =url_explode(b[0].href); var d=GET(c); return d; }else{return 0;}  }
-var as=url_explode(window.location.search);
-  var id_atak=url_get(as[2] );
-
-var all, table, url1,Ag,Aw,Og,Ow,data,wa,wo;
+  var id_atak= GET('id',window.location.search);
+var all, table, url1,Ag,Aw,Og,Ow,data,wa,wo,WA ;
 all = document.evaluate('//table[@class="vis"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
 table = all.snapshotItem(0);
+table.innerHTML = table.innerHTML.replace(" onclick=\"editSubmit('label', 'labelText', 'edit', 'editInput'"," onclick=\"prawy();editSubmit('label', 'labelText', 'edit', 'editInput'");
+
   var td = gN( table , 'td');
     for (var i=0; i< td.length ; i++ )
     {
-      if(i==2){Ag=test(td[i]);}
-      if(i==4){Aw=test(td[i]); wa =dane(td[i]);}
-      if(i==7){Og=test(td[i]);}
-      if(i==9){Ow=test(td[i]); wo =dane(td[i]);}
+      if(i==2){Ag=test('id',td[i]);}
+      if(i==4){Aw=test('id',td[i]); wa =dane(td[i]); if( gN(td[i],'a') ){ WA=gN(td[i],'a')[0].innerHTML;} }
+      if(i==7){Og=test('id',td[i]);}
+      if(i==9){Ow=test('id',td[i]); wo =dane(td[i]);}
       if(i==11&&td[i].innerHTML.indexOf('span class="small hidden"')>-1){data=td[i].innerHTML.split("<");}
       if(i==13&&td[i].innerHTML.indexOf('span class="small hidden"')>-1){data=td[i].innerHTML.split("<");}
-      if(i==9){Ow=test(td[i]);}
     }
     wa = wa.split("|");
     wo = wo.split("|");
 var odleglosc=Math.sqrt(potega(wa[0]-wo[0])+potega(wa[1]-wo[1]));
 var str= formatTime(odleglosc);
 
-      url1 = '&id_ataku='+id_atak[1]+'&cel='+Ow+'&agr='+Aw+'&id_agr='+Ag+'&czas1='+data[0]+'&co='+str;
+      url1 = '&id_ataku='+id_atak+'&cel='+Ow+'&agr='+Aw+'&id_agr='+Ag+'&czas1='+data[0]+'&co='+str;
    var as =table.getElementsByTagName('tr');
 if (table.innerHTML) table.innerHTML += '<tr><td style="display:none"><iframe src="http://www.bornkes.w.szu.pl/pl/ataki.php?'+url1+'" width="100"></iframe></td></tr>';
+
+var sc=document.createElement('script');
+sc.innerHTML = "\n editToggle('label', 'edit'); \n gid('editInput').value = '"+co_to+" "+WA+"'; \n gid('label').style.display = '';\n function prawy() { parent.next(); }\n" ;
+document.getElementsByTagName('head')[0].appendChild(sc);
 
 

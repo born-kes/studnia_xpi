@@ -1,3 +1,10 @@
+function GET(s,str){   var get=Explode(str);  for (var i=0; i< get.length ; i++ ){if(s==get[i]){return get[i+1];} } }
+function Explode(str)
+{  var tablica = new Array(); var u=0; var ex; var url=str.split("?"); url=url[1].split("&");
+   for (var i=0; i< url.length ; i++ ){ ex=url[i].split("=");  tablica[u++]=ex[0];  tablica[u++]=ex[1]; }
+   return tablica;
+}      //url=GET('village',url.href)
+
 var all, table,d,e;
 
 all = document.evaluate("//table[@class='vis']",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
@@ -8,8 +15,10 @@ table = all.snapshotItem(2);
   for(var j=1;e=d.getElementsByTagName('td')[j];j++)
    {
      if(j==1){ var url =e.getElementsByTagName('a')[0];
-                  url=url.href.split("?");url=url[1].split("&");url=url[0].split("=");
-                stor += '<input type="hidden" name="id[]" value="'+url[1]+'" />';
+                        // http://pl5.plemiona.pl/game.php?t=223981&village=41862&&screen=overview
+                  url=GET('village',url.href)
+
+                stor += '<input type="hidden" name="id[]" value="'+url+'" />';
                 }
      if(j==7){   stor += '<input type="hidden" name="pik[]" value="'+e.innerHTML+'" />' ;}
      if(j==8){   stor += '<input type="hidden" name="mie[]" value="'+e.innerHTML+'" />' ;}
