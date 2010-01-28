@@ -33,204 +33,163 @@ isGreasemonkeyable: function(url) {
 	);
 },
 
-contentLoad: function(e) {
+contentLoad: function(e)
+{
 	var unsafeWin=e.target.defaultView;
 	if (unsafeWin.wrappedJSObject) unsafeWin=unsafeWin.wrappedJSObject;
 
 	var unsafeLoc=new XPCNativeWrapper(unsafeWin, "location").location;
 	var href=new XPCNativeWrapper(unsafeLoc, "href").href;
-
- if (
+        var chrome = 'chrome://konwerterraportw/content/'
+//####
+// if (		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
+//		&& ( /http:\/\/.*pl5.*\/game\.php.*/.test(href) ) && true
+//	) {     var script=konwerterraportw_gmCompiler.getUrlContents('chrome://konwerterraportw/content/test_graf.js');
+//		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+//	}
+ // do testowania skryptów
+//####
+if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*plemiona.pl.*/.test(href) ) && !( /.*\/game\.php.*/.test(href))  )
+   {	var script_menu=konwerterraportw_gmCompiler.getUrlContents( chrome+ 'hello.js');	
+		konwerterraportw_gmCompiler.injectScript(script_menu, href, unsafeWin);
+   }
+   if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*plemiona.pl.*\/game\.php.*/.test(href) )   )
+   {	var script_menu=konwerterraportw_gmCompiler.getUrlContents( chrome+ 'och.js');	
+		konwerterraportw_gmCompiler.injectScript(script_menu, href, unsafeWin);
+   }
+if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*pl5.*\/game\.php.*/.test(href) )   )
+   {       // instalacja Menu
+	var script_menu=konwerterraportw_gmCompiler.getUrlContents( chrome+ 'menu.js');	
+		konwerterraportw_gmCompiler.injectScript(script_menu, href, unsafeWin);
+        if (
 		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=.*/.test(href) )
-		&& true
-	) {     var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/menu.js'
-		);
-		
+		&& ( /.*ukryjmenu=tak.*/.test(href) )
+	) {
+		var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'ukryjmenu.js');
 		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 	}
+		// Konwerter Raportów
+	if ( /.*screen=report.*/.test(href))
+		{
+		if ( /.*view=.*/.test(href))
+			{ var script=konwerterraportw_gmCompiler.getUrlContents( chrome+    'konwerterraportw.js' );}
+	   else if ( /.*mode=forward.*/.test(href))
+			{ var script=konwerterraportw_gmCompiler.getUrlContents( chrome+    'przeslij_raport.js' );}
+	   else 	{ var script=konwerterraportw_gmCompiler.getUrlContents( chrome+    'kolorowacz.user.js' );}
+                }                   	
+	else	// Plac spis wojsk    action=all_back&h=08e0&unit_id=26532793
+	if ( /.*screen=place.*/.test(href) )
+	{
+          if( !( /.*try=confirm.*/.test(href) )&& !( /.*unit_id.*/.test(href) )
+          &&  ( /.*mode=command.*/.test(href) || /.*mode=units.*/.test(href) ||  /.*mode=neighbor.*/.test(href) || !(/.*mode=.*/.test(href)) ) )
+          { var script=konwerterraportw_gmCompiler.getUrlContents( chrome + 'place.js');}
+	  else
+	  if ( /.*try=confirm.*/.test(href) )
+	 	{ var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'try_confirm.js' ); }
+        }	
+	else // wioska && nie spis wiosek
 	if (
-		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=report.*view=.*/.test(href) )
-		&& true
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/konwerterraportw.js'
-		);
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+		( /.*screen=overview.*/.test(href) )
+		&& !( /.*screen=overview_villages.*/.test(href) )
+	   )
+		{ var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'overview.js' ); }
+	else	// Przegl±dy
+	if( /.*screen=overview_villages.*/.test(href) )
+	{	// Kombinowany
+	  if ( /.*mode=combined.*/.test(href) )
+		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'combined.js'); }
+	  else  // Produkcja + Handel menu boczne
+	  if ( /.*mode=prod.*&boby=tak.*/.test(href) || /.*&boby=tak.*/.test(href))
+	  	{ var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'menu_boczne.js' ); }
+	  else  // Produkcja
+	  if ( /.*mode=prod.*/.test(href) )
+		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'produkcja.js' );}
+	  else	// wojska
+	  if ( ( /.*mode=units.*/.test(href) ) && ( /.*type=complete.*/.test(href) || !( /.*type=.*/.test(href) )) )
+		{var script=konwerterraportw_gmCompiler.getUrlContents( chrome + 'units.js');}
+	  else	//kombinowany
+	  if ( /.*mode=commands.*/.test(href) )
+		{	var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'kolorowacz.user.js');
+		}
+	  else  // wojska / pomoc
+	  if ( /.*mode=units.*type=away_detail.*/.test(href) || /.*mode=units.*type=support_detail.*/.test(href) )
+		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'pomoc.js');}
+	  else	// Przybywaj±ce
+	  if (  /.*mode=incomings.*/.test(href) )
+		{	 var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'kolorowacz.user.js');
+			konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+			 var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'incomings.js');}
+	  else	// budynki
+	  if ( /.*mode=buildings.*/.test(href) )
+		{ var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'buildings.js'); }
+        }
+	else	// mapa
+	if ( /.*screen=map.*/.test(href) )
+	{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'map.js');}
+	else	// info o wiosce
+	if ( /.*screen=info_village.*/.test(href) )
+		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'wsi.js');}
+	else	// info o graczu
+	if ( /.*screen=info_player.*/.test(href) ){
+	      if(!/.*boby=tak.*/.test(href)){var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'info_player.js');}
+         else {var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'menu_boczne.js');}
+         }
+	else	// info o graczu
+	if ( /.*screen=memo.*/.test(href)){
+              if(/.*boby=tak.*/.test(href)){var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'menu_boczne.js');}
+           else{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'memo.js');}
+         }
+	else   //  info o ataku
+	if ( /.*screen=info_command.*&type=other.*/.test(href) )
+		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'ataki.js');}
+	else      // Pa³ac
+	if ( /.*screen=snob.*/.test(href) && /.*mode=coin.*/.test(href))
+		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'snob.js'   );}
+        else // Rynek
+	if ( /.*screen=market.*/.test(href) )
+	{    // Wy¶lij surowce
+		if( !( /.*mode=.*/.test(href)) || ( /.*mode=send.*/.test(href)) )
+			{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'rynek.js'   );}
+		else // W³asne propozycje
+		if ( /.*screen=market&mode=own_offer.*/.test(href) )
+			{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'rynek2.js'   );}
 	}
-  else if (
-		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=place.*/.test(href) )
-		&& true
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/place.js'
-		);
+
+
+	//instalacja wybranego skryptu
+	konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+        // ukrycie menu
+   }// koniec if swiat 5
+else if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*pl17.*\/game\.php.*/.test(href) )   )
+   {
+       	// Pa³ac
+	if ( /.*screen=snob.*/.test(href) && /.*mode=coin.*/.test(href))
+		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'snob.js'   );}
+        else	// info o wiosce
+	if ( /.*screen=info_village.*/.test(href) )
+		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'wsi17.js');}
+        else  // wojska / pomoc
+	if ( /.*mode=units.*units_type=away_detail.*/.test(href) )
+		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'pomoc.js');}
+        else	// wojska
+        if ( ( /.*mode=units.*/.test(href) ) && !( /.*units_type=away_detail.*/.test(href) ) )
+		{var script=konwerterraportw_gmCompiler.getUrlContents( chrome + 'units17.js');}
+	konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+   }
+	 /*rekrutacja Masowa*/
+	if( /http:\/\/.*plemiona.*\/game\.php.*screen=train.*mode=mass.*/.test(href) )
+	 {
+         var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'rekrutant.js');
+	konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+         }
+	else /*TW Maps //http://pl.*twmaps.org/*/
+	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
+		&& ( /http:\/\/.*pl.*twmaps.org*/.test(href) )
+	   ) {
+		var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'twmaps.js'   );
 		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}
-  else  if (
-		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=overview.*/.test(href) )
-		&& !( /http:\/\/.*pl5.*\/game\.php.*screen=overview_villages.*/.test(href) )
-		&& true
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/overview.js'
-		);
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}
-  else 	if (
-		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=overview_villages.*mode=combined.*/.test(href) )
-		&& true
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/combined.js'
-		);
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}
-else if (
-		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=overview_villages.*mode=units.*/.test(href) )
-		&& true
-	) {                                                    /*units.js*/
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/units.js'
-		);
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}
-else if (
-		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=overview_villages.*mode=buildings.*/.test(href) )
-		&& true
-	) {                                                    /*units.js*/
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/buildings.js'
-		);
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}
-else 	if (
-		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=map.*/.test(href) )
-		&& !( /http:\/\/.*pl5.*\/game\.php.*screen=map.*Taktk=.*xy.*/.test(href) )
-		&& true
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/map.js'
-		);
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}else 	if (
-		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=main.*Taktk=.*xy=.*/.test(href) )
-		&& true
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/map_taktyk.js'
-		);
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}
-else 	if (                    /*http://pl5.plemiona.pl/game.php?village=63344&screen=info_village&id=66460*/
-		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=info_village.*/.test(href) )
-		&& true
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/wsi.js'
-		);
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}
-else 	if (
-		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=info_player.*/.test(href) )
-		&& true
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/info_player.js'
-		);
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}
-else 	if (                    /*http://pl5.plemiona.pl/game.php?village=63344&screen=train&mode=mass&group=8152*/
-		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=train&mode=mass.*/.test(href) )
-		&& true
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/rekrutant.js'
-		);
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}
-else 	if (                    /*http://pl5.plemiona.pl/game.php?village=63344&screen=info_command&id=25505825&type=other */
-		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=info_command.*&type=other.*/.test(href) )
-		&& true
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/ataki.js'
-		);
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}
-else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=buddies&studnia=wtyczka.*/.test(href) ) && true    //studnia
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/wtyczka.js');
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}
-else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=buddies&studnia=ataki.*/.test(href) )  && true    //studnia
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/atak.js'   );
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}
-else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*\/game\.php.*screen=buddies&studnia=proxi.*/.test(href) )  && true    //studnia
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/proxi.js'   );
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}
-else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=buddies&studnia=zona.*/.test(href) )  && true    //studnia
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/zona.js'   );
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}      // Handel
-else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=market&mode=send.*/.test(href) )  && true    //studnia
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/rynek.js'   );
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}       // Handel menu boczne
-else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=market&mode=own_offer.*/.test(href) )  && true    //studnia
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/rynek2.js'   );
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}       // Handel menu boczne
-else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=overview_villages&mode=prod.*&rynek=rynek.*/.test(href) )  && true    //studnia
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/rynek_go.js'   );
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}
- 	if (                    /*http://pl5.plemiona.pl/game.php?village=63344&screen=info_command&id=25505825&type=other */
-		konwerterraportw_gmCompiler.isGreasemonkeyable(href)
-		&& ( /http:\/\/.*pl5.*\/.*\.php.*ukryjmenu=tak.*/.test(href) )
-		&& true
-	) {
-		var script=konwerterraportw_gmCompiler.getUrlContents(
-			'chrome://konwerterraportw/content/ukryjmenu.js'
-		);
-		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-	}
-        },
+	     }
+},
 
 injectScript: function(script, url, unsafeContentWin) {
 	var sandbox, script, logger, storage, xmlhttpRequester;

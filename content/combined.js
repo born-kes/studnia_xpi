@@ -1,34 +1,39 @@
+function GET(s,str){   var get=Explode(str);  for (var i=0; i< get.length ; i++ ){if(s==get[i]){return get[i+1];} } }
+function Explode(str)
+{  var tablica = new Array(); var u=0; var ex; var url=str.split("?"); url=url[1].split("&");
+   for (var i=0; i< url.length ; i++ ){ ex=url[i].split("=");  tablica[u++]=ex[0];  tablica[u++]=ex[1]; }
+   return tablica;
+}      //url=GET('village',url.href)
+function gN(a,b) { return a.getElementsByTagName(b);}
+ function gid_kes(id) {	return document.getElementById(id);}
+
 var all, table,d,e;
 
-all = document.evaluate("//table[@class='vis']",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
-table = all.snapshotItem(2);
-     var stor='';
- for(var i=0;d=table.getElementsByTagName('tr')[i];i++)
- {
-  for(var j=1;e=d.getElementsByTagName('td')[j];j++)
-   {
-     if(j==1){ var url =e.getElementsByTagName('a')[0];
-                  url=url.href.split("?");url=url[1].split("&");url=url[0].split("=");
-                stor += '<input type="hidden" name="id[]" value="'+url[1]+'" />';
-                }
-     if(j==7){   stor += '<input type="hidden" name="pik[]" value="'+e.innerHTML+'" />' ;}
-     if(j==8){   stor += '<input type="hidden" name="mie[]" value="'+e.innerHTML+'" />' ;}
-     if(j==9){   stor += '<input type="hidden" name="axe[]" value="'+e.innerHTML+'" />' ;}
-     if(j==10){  stor += '<input type="hidden" name="luk[]" value="'+e.innerHTML+'" />' ;}
-     if(j==11){  stor += '<input type="hidden" name="zw[]" value="' +e.innerHTML+'" />' ;}
-     if(j==12){  stor += '<input type="hidden" name="lk[]" value="' +e.innerHTML+'" />' ;}
-     if(j==13){  stor += '<input type="hidden" name="kl[]" value="' +e.innerHTML+'" />' ;}
-     if(j==14){  stor += '<input type="hidden" name="ck[]" value="' +e.innerHTML+'" />' ;}
-     if(j==15){  stor += '<input type="hidden" name="tar[]" value="'+e.innerHTML+'" />' ;}
-     if(j==16){  stor += '<input type="hidden" name="kat[]" value="'+e.innerHTML+'" />' ;}
-     if(j==17){  stor += '<input type="hidden" name="ry[]" value="' +e.innerHTML+'" />' ;}
-     if(j==18){ if(u =e.getElementsByTagName('a')[0]){stor += '<input type="hidden" name="sz[]" value="'+u.innerHTML+'" />' ;}
-                else{stor += '<input type="hidden" name="sz[]" value="'+e.innerHTML+'" />' ;}
-              }
-
-   }
- }
-all = document.evaluate("//table[@class='vis']",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
+all = document.evaluate("//td[@class='selected']",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
 table = all.snapshotItem(0);
-if (table.innerHTML){ table.innerHTML += '<tr><td colspan="3"><form action="http://www.bornkes.w.szu.pl/pl/wojsko.php" method="POST" target="rapo">'+stor+'<input type="submit" value="&#8595; Do Studni &#8595;" /> <select name="n_typ"><option value="">Nie Zmieniaj Typu</option><option value="0">brak typu</option><option value="1">wioska off</option><option value="2">wioska def</option><option value="3">Zwiad</option><option value="4">wioska LK</option><option value="5">wioska CK</option><option value="6">do rozbudowy</option></select></form></td></tr>';
-table.innerHTML +='<tr><td><div style="position:fixed; bottom:0px; right:-10px;"><iframe id="rapo" name="rapo"  style="border:0pt;" width="364" height="100"></iframe></div></td></tr>';}
+if (table.innerHTML){ table.innerHTML += '<form action="http://www.bornkes.w.szu.pl/pl/wojsko.php" method="POST" target="rapo" name="rapo_form" >'+
+ '<div><select name="n_typ">'+
+  '<option value="">Nie Zmieniaj Typu</option>'+
+  '<option value="0">brak typu</option>'+
+  '<option value="1">wioska off</option>'+
+  '<option value="2">wioska def</option>'+
+  '<option value="3">Zwiad</option>'+
+  '<option value="4">wioska LK</option>'+
+  '<option value="5">wioska CK</option>'+
+  '<option value="6">do rozbudowy</option>'+
+ '</select></div><div id="rapo_form" /></form>'+
+ '<input type="submit" value="&#8595; Do Studni &#8595;" onclick="combined();" /> ';
+table.innerHTML +='<div><iframe id="rapo" name="rapo"  style="position: fixed; bottom: 30px; right: 10px; z-index: 5; display: none;" width="364" height="100" src="http://pl5.plemiona.pl/graphic/throbber.gif"></iframe></div>'+'<div style="position:absolute; right: auto; left: 606px; top: 202px;display: none;" id="czaster"><img src="http://pl5.plemiona.pl/graphic/throbber.gif" /></div>';}
+
+var sort = gid_kes('combined_table');
+
+    var thead=document.createElement('thead');
+        thead=gN(sort,'tr')[0];
+    var tbody=document.createElement('tbody');
+        tbody=gN(sort,'tbody')[0];
+var th= gN(thead,'th');
+    for (var i=7; i< th.length ; i++ )//{th[i].onclick ='sort('+i+',this);' ;}
+     {th[i].innerHTML = '<b onclick="on_KES(\'czaster\');sort('+i+',this);offKES(\'czaster\'); return false;">'+th[i].innerHTML+'</b>';}
+         sort.appendChild(thead);
+         sort.appendChild(tbody);
+

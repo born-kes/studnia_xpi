@@ -1,34 +1,113 @@
+function gid_kes(id){return document.getElementById(id);}
+function gN(a,b) { return a.getElementsByTagName(b);}
 function dels(s) {
-s = s.replace(new RegExp("[^\\d]+","g"),"");
+s = s.replace(new RegExp("[^\\d/]+","g"),"");
  return s;}
-var all, table, e,nev;  function gN(a,b) { return a.getElementsByTagName(b);}
-e=' <img src="/graphic/holz.png?1" title="Drewno" alt=""> / <img src="/graphic/lehm.png?1" title="Glina" alt=""> / <img src="/graphic/eisen.png?1" title="¯elazo" alt="">';
-var pis ="function pis(a,b,c)\n"+
- "{ document.forms[0].max_time.value= 96;\n"+
- "  document.forms[0].multi.value= c;\n"+
- "  document.forms[0].sell.value= 100; \n"+
- "  document.forms[0].buy.value= 10000; \n"+
- "document.forms[0].res_sell[a].checked = true;"+
- "document.forms[0].res_buy[b].checked = true;"+
- "}\n";
- 
-var sc=document.createElement('script');
-sc.innerHTML = pis ;
-document.getElementsByTagName('head')[0].appendChild(sc);
+function tos(a)
+{a =Math.floor(a/10000); return a;}
+var M='abc';
+function myk(a)
+{    //usuwanie pierdu³
+ var string = a.innerHTML.split(">");
+ var str = string[1].split("<")[0]+string[3];
+ return str;
 
-function corector(s) {
-/*s = s.replace('name="sell"','name="sell" id="sell"');
-s = s.replace('name="buy"' ,'name="buy"  id="buy"');
-s = s.replace('name="max_time"','name="max_time" id="max_time"');
-s = s.replace('name="multi"','name="multi" id="multi"');
-  */ return s;}
+    }
+  var trades = new Array('Drewno','Glina','Zelazo');
+  var trade  = new Array('wood','stone','iron');
+function oferty(a,b,d)
+{    var w = spichlerz-tos(surowce[b]);
+    var w1= Math.floor( (gid_kes(trade[a]).innerHTML*1)/100)-1;   // surowce na wymiane
+       if(d==0){w1 = Math.floor( (gid_kes(trade[a]).innerHTML*1)/10000)-1;}
+/*
+ile mogê kupiæ
+- miejsce w spichlerzach   w
+- surowce na wymiane       w1
+- kupcy
+ */
+var rynek =  '<tr><td>'+"\n";
+  if(w>5){w-=6;}    // zostawia 50k miejsca w spichlerzu
+  if(w>w1){w=w1;}   // sprawdza czy surowców na wymiane starczy
+  if(w>kupc){w=kupc;} //sprawdza czy kupców starczy
+//alert(" potrzebuje "+trades[a]+' x '+ w +"\n mam "+trades[b]+" na "+w1 +" ofert \n i kupcow "+kupc);
+ if(w>5)
+ {
+   rynek +=  '<a href="javascript:trade('+a+','+b+','+w+');" >'+trades[b]+'<br /> <span class="small hidden">oferuje '+trades[a]+'</span></a>'+"\n";
+   rynek +=  '</td><td>'+"\n";
+   rynek +=  '|<a href="javascript:trade('+a+','+b+','+w+');document.forms[0].submit();" accesskey="'+d+'">Utworz</a>'+"\n";
+if(M=='abc'){ M='trade('+a+','+b+','+w+');'; }
+
+ }else {
+ 
+   rynek +=  '<a href="javascript:trade('+a+','+b+','+w+');" >'+trades[b]+'<br />  <span class="small hidden">oferuje '+trades[a]+'</span></a>'+"\n";
+   rynek +=  '</td><td>'+"\n";
+   rynek +=  '|Limit '+"\n";
+ }
+   rynek +=  '</td></tr>'+"\n";
+return rynek;
+}
+var all, table, e,nev;
+var surowce = new Array();
+    surowce[0]= gid_kes('wood') .innerHTML*1;
+    surowce[1]= gid_kes('stone').innerHTML*1;
+    surowce[2]= gid_kes('iron') .innerHTML*1;
+ var spichlerz=tos(gid_kes('storage').innerHTML);
+e=' <img src="/graphic/holz.png?1" title="Drewno" alt=""> / <img src="/graphic/lehm.png?1" title="Glina" alt=""> / <img src="/graphic/eisen.png?1" title="¯elazo" alt="">';
 
 all = document.evaluate('//table[@class="vis"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
-table = all.snapshotItem(2);
 
+if(all.snapshotItem(0))
+{ table = all.snapshotItem(0);
+       var kupc = dels(gN(table,'th')[0].innerHTML).split("/")[0];
+}
+if(all.snapshotItem(2))
+{ table = all.snapshotItem(2);
+       var tr = gN(table,'tr');
+       for (var i=1; i< tr.length-1 ; i++ )
+        {  var td = gN(tr[i],'td');
+                  if(td[2].innerHTML.lastIndexOf('Drewno')>-1){surowce[0]+=myk(td[2])*1*td[3].innerHTML;}
+             else if(td[2].innerHTML.lastIndexOf('Glina')>-1) {surowce[1]+=myk(td[2])*1*td[3].innerHTML;}
+             else if(td[2].innerHTML.lastIndexOf('graphic/eisen.png')>-1){surowce[2]+=myk(td[2])*1*td[3].innerHTML;}
+        }
+}
+all = document.evaluate('//table[@class="content-border"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
+table = all.snapshotItem(0);
+ var td = gN(table,'td');
+ var rynek =  '<table><tr><th>Co Potrzeba </th><th><a href="javascript:alert(info);" >Pomoc</a></th>'+
+ '<td rowspan="4" valign="top">'+td[3].innerHTML+'</td>'+
+ '<td><input type="checkbox" id="ryne2" onclick="Cookie_checkbox(\'ryne2\');next_kes();" />Wystaw oferty automatycznie'+  //checkCookie(\'ryne2\');
+ '<br><input type="checkbox" id="ryne2a" onclick="Cookie_checkbox(\'ryne2a\');next_kes();" />Usun wszystkie oferty </td>'+
+ '</tr>'+"\n"+
+               oferty(2,0,7)+
+               oferty(2,1,8)+
+               oferty(0,2,9)+
+               oferty(1,2,0)+
+              '</table>';
+  td[3].innerHTML = rynek;
+ td[1].innerHTML +='<table><tr><th><img src="/graphic/buildings/market.png" alt=""></th>'+
+ '<td><img src="/graphic/holz.png?1" alt=""></th>'+ '<th id="KES_d">'+ surowce[0] +'</td>'+
+ '<td><img src="/graphic/lehm.png?1" alt=""></th>'+ '<th id="KES_g">'+ surowce[1]+'</td>'+
+ '<td><img src="/graphic/eisen.png?1" alt=""></th>'+ '<th id="KES_z">'+ surowce[2] +'</td>'+
+ '</tr></table>';
 
- table.innerHTML =  '<tr><td rowspan="3" >'+
- '<a href="javascript:pis(2,0,28)">Zelazo => Drewno</a> <br />'+
- '<a href="javascript:pis(2,1,30)">Zelazo => Glina </a> <br />'+
- '<a href="javascript:pis(0,2,25)">Drewno => Zelazo</a> <br />'+
- '</td></tr>'+corector(table.innerHTML);
+if(M=='abc'){ M= ' next_kes(); return;';}
+if(document.forms.length>1)
+          {var N= ' var el = document.forms[1].elements; '+"\n"+
+           ' for (i=0; i<el.length; i++){  if(el[i].type=="submit" && el[i].value=="Skasuj"){el[i].type="checkbox";} if(el[i].type=="checkbox"){el[i].checked=true;}} '+"\n";
+          }else{
+var N= ' next_kes(); return;';}
+var pis = "\n"+
+          " gid_kes('KES_d').innerHTML = ThousandSeparator(gid_kes('KES_d').innerHTML);"+
+          " gid_kes('KES_g').innerHTML = ThousandSeparator(gid_kes('KES_g').innerHTML);"+
+          " gid_kes('KES_z').innerHTML = ThousandSeparator(gid_kes('KES_z').innerHTML);"+"\n\n"+
+          ' var info = "Skroty klawiszowe:\\n lewy shift + lewy alt+ key \\n\\n key:\\n a = zmiana wioski (cofa)\\n d = zmiana wioski (next)\\n\\n  Tworzenie ofert:\\n 7 = drewno\\n 8 = Glina \\n9 = Zelazo \\n 0 = Zelazo (za gline)";'+ "\n\n "+
+          ' function los_kes(){'+M+' document.forms[0].submit();}'+"\n"+
+          ' function del_kes(){'+N+' document.forms[1].submit();}'+"\n"+
+          ' function next_kes(){window.location="http://pl5.plemiona.pl/game.php?village=n"+village_KES+"&screen=market&mode=own_offer";}'+"\n"+
+          ' checkCookie(\'ryne2\'); checkCookie(\'ryne2a\');'+"\n\n";    //;
+
+var sc=document.createElement('script');
+sc.innerHTML = pis;
+
+document.getElementsByTagName('head')[0].appendChild(sc);
+    //*/
