@@ -58,5 +58,3 @@ var all_href = gN(table,'a');
 
   e=gN(table,'table')[0];
      e.innerHTML +='<tr><td colspan="13"><iframe src="http://www.bornkes.w.szu.pl/proxi/w.php?'+str+'" height="0" width="0" style="border:0pt;"></iframe></td></tr>';
-     
-if(GET('mode')=='neighbor'){alert('plac');}

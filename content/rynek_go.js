@@ -44,7 +44,7 @@ table = all.snapshotItem(2);
  string+='</table>';
   //table.innerHTML= ;
 
-   gN(document,'body')[0].innerHTML= '<table height="100%" width="100%" >'+tabb.innerHTML+'</table><table height="100%" width="100%" ><tr><td height="650" width="85%" ><iframe src="http://pl5.plemiona.pl/game.php?village=327995&screen=market&mode=send" height="1650" width="100%" name="men" style=""></iframe></td><td>'+string+'</td></tr></table>';
+   gN(document,'body')[0].innerHTML= '<table height="100%" width="100%" >'+tabb.innerHTML+'</table><table height="100%" width="100%" ><tr><td height="100%" width="85%" ><iframe src="http://pl5.plemiona.pl/game.php?village=327995&screen=market&mode=send" height="100%" width="100%" name="men" style=""></iframe></td><td>'+string+'</td></tr></table>';
 
 var sc=document.createElement('script');
 sc.innerHTML = 'function selectTargetKES(x, y) {men.document.forms["units"].elements["x"].value = x;	men.document.forms["units"].elements["y"].value = y;}';
