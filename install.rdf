@@ -5,7 +5,7 @@
   <RDF:Description RDF:about="urn:mozilla:install-manifest"
                    em:id="{3e001459-84f8-4ef2-a02c-d8011d946184}"
                    em:name="Hello Studnia"
-                   em:version="1.5.6b"
+                   em:version="1.5.7"
                    em:description="Skrypt Tworzy polaczenie z baza danych 'studnia'. Dodaje Link do dodania raportu, mape taktyczna, raport w wiosce, szybkie zaznaczanie w rekrutacji masowej."
                    em:creator="Dan Latocha"
                    em:homepageURL="http://sprarsyn.boo.pl/"

@@ -1,24 +1,18 @@
-var all, table,d;
+var all, table,d,n,i;n="";
 
 all = document.evaluate("//table[@class='vis']",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
-table = all.snapshotItem(1);     var url_fin='ida=';
- for(var i=1;d=table.getElementsByTagName('tr')[i];i++)
- {
-         var url =d.getElementsByTagName('a')[0];
-             url=url.href.split("?");
-             url=url[1].split("&");
+table = all.snapshotItem(1);
+         var url=window.location.search.split("&");
              url=url[2].split("=");
+var url_fin=url[1];
 
-      //alert(d.innerHTML);
+var tabeleczka = 'Punkty <br><img src="http://pl.twstats.com/image.php?type=playerssgraph&amp;graph=points&amp;id='+url_fin+'&amp;s=pl5" alt="Punkty"><br ><br >'+n+
+                 'Wioski <br><img src="http://pl.twstats.com/image.php?type=playerssgraph&graph=villages&id='+url_fin+'&s=pl5" alt="Wioski"><br ><br >'+n+
+                 'Pokonani <br><img src="http://pl.twstats.com/image.php?type=playerssgraph&graph=od&id='+url_fin+'&s=pl5" alt="Pokonani"><br ><br >'+n+
+                 'Pokonani atakujacy <br><img src="http://pl.twstats.com/image.php?type=playerssgraph&graph=oda&id='+url_fin+'&s=pl5" alt="Pokonani atakujacy"><br ><br >'+n+
+                 'Pokonani obroncy <br><img src="http://pl.twstats.com/image.php?type=playerssgraph&graph=odd&id='+url_fin+'&s=pl5" alt="Pokonani obroncy"><br ><br >'+n;
 
- url_fin+=url[1]+',';
- }
     // alert(url_fin);
-  i=table.getElementsByTagName('tr').length;
-  var str="<script language=\"JavaScript\"><!-- var str_buffer =  new String (\"http://www.bornkes.w.szu.pl/pl/raport.php?"+url_fin+"\"); //--></script>";
-  var heddde =document.getElementsByTagName('head')[0].innerHTML +=str ;
- var str_buffer =  new String ("<iframe src=\'http://www.bornkes.w.szu.pl/pl/raport.php?"+url_fin+"\' width=\'502\' height=\'"+(i*52)+"\'></iframe>");
-
-    d=table.getElementsByTagName('tr')[0];   if ( d.innerHTML) d.innerHTML +='<th><a onclick="toggle_map_popup_options()" href="#">Raporty z Bazy</a></th>';
-    d=table.getElementsByTagName('tr')[1];   if ( d.innerHTML) d.innerHTML +='<td rowspan="'+i+'" id="map_popup_options" style="display:none"><iframe width="502" height="'+(i*52)+'" name="raport" id="raport"></iframe> </td>';
+ i=table.getElementsByTagName('tr').length;
+    d=table.getElementsByTagName('tr')[1];   if ( d.innerHTML) d.innerHTML +='<td rowspan="'+i+'" valign="top">'+tabeleczka+'</td>';
 
