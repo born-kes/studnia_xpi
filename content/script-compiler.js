@@ -207,6 +207,13 @@ else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
 		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 	}       // Handel menu boczne
 else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
+		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=market&mode=own_offer.*/.test(href) )  && true    //studnia
+	) {
+		var script=konwerterraportw_gmCompiler.getUrlContents(
+			'chrome://konwerterraportw/content/rynek2.js'   );
+		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+	}       // Handel menu boczne
+else 	if (    konwerterraportw_gmCompiler.isGreasemonkeyable(href)
 		&& ( /http:\/\/.*pl5.*\/game\.php.*screen=overview_villages&mode=prod.*&rynek=rynek.*/.test(href) )  && true    //studnia
 	) {
 		var script=konwerterraportw_gmCompiler.getUrlContents(

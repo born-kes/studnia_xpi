@@ -27,14 +27,8 @@ all = document.evaluate('//table[@class="vis"]',document,null,XPathResult.ORDERE
 table = all.snapshotItem(2);
 
 
- table.innerHTML =  '<tr><td colspan="2" >'+"\n"+
- '<a href="javascript:pis(2,0,28);" >Zelazo => Drewno</a> <br />'+"\n"+
- '<a href="javascript:pis(2,1,30);" >Zelazo => Glina </a> <br />'+"\n"+
- '<a href="javascript:pis(0,2,25);" >Drewno => Zelazo</a> <br />'+"\n"+
- '<a href="javascript:pis(1,2,25);" >Glina => Zelazo</a> <br />'+"\n"+
- '</td><td>'+"\n"+
- '|<a href="javascript:pis(2,0,28);document.forms[0].submit();" accesskey="1">Utworz</a> <br />'+"\n"+
- '|<a href="javascript:pis(2,1,28);document.forms[0].submit();" accesskey="2">Utworz</a> <br />'+"\n"+
- '|<a href="javascript:pis(0,2,28);document.forms[0].submit();" accesskey="3">Utworz</a> <br />'+"\n"+
- '|<a href="javascript:pis(0,2,28);document.forms[0].submit();" accesskey="4">Utworz</a> <br />'+"\n"+
+ table.innerHTML =  '<tr><td rowspan="3" >'+
+ '<a href="javascript:pis(2,0,28)">Zelazo => Drewno</a> <br />'+
+ '<a href="javascript:pis(2,1,30)">Zelazo => Glina </a> <br />'+
+ '<a href="javascript:pis(0,2,25)">Drewno => Zelazo</a> <br />'+
  '</td></tr>'+corector(table.innerHTML);

@@ -3,11 +3,8 @@ var pis = "function pis(a)\n"+
  "{ var all, table,login,url;\n"+
  "  switch (a){\n"+
  "   case 1:\n"+
- "   login = 'Masz Wtyczke 1.5.5';\n"+
- "   url = 'rada/wtyczka.php?wersja=Hello_Studnia1.5.5';break;\n"+
-// "   case 2:\n"+
-// "   login = 'Lista Proxi dla Graczy';\n"+
-// "   url = 'rada/proxi.php';break;\n"+
+ "   login = 'Masz Wtyczke 1.5.ZOMOX';\n"+
+ "   url = 'rada/wtyczka.php?wersja=Hello_Studnia1.5.6b';break;\n"+
  "   case 3:\n"+
  "   login = 'Spis Wszystkich Ataków na plemie';\n"+
  "   url = 'rada/atak.php'; break;\n"+
