@@ -1,4 +1,4 @@
-var wersja = '1.7.6b';
+var wersja = '1.7.7';
 
  function gid(id) {	return document.getElementById(id);}
 

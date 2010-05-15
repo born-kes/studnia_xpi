@@ -104,10 +104,12 @@ var pis = "\n"+
           ' function los_kes(){'+M+' document.forms[0].submit();}'+"\n"+
           ' function del_kes(){'+N+' document.forms[1].submit();}'+"\n"+
           ' function next_kes(){window.location="http://pl5.plemiona.pl/game.php?village=n"+village_KES+"&screen=market&mode=own_offer";}'+"\n"+
-          ' checkCookie(\'ryne2\'); checkCookie(\'ryne2a\');'+"\n\n";    //;
+          " checkCookie('ryne2'); checkCookie('ryne2a'); \n\n";
 
 var sc=document.createElement('script');
 sc.innerHTML = pis;
-
+sc.type = 'text/javascript';
 document.getElementsByTagName('head')[0].appendChild(sc);
+//document.addEventListener("DOMContentLoaded", , false);
+//document.addEventListener("DOMContentLoaded", , false);
     //*/

@@ -9,3 +9,4 @@ function gN(a,b) { return a.getElementsByTagName(b);}
       {
        if(div[i].textContent.lastIndexOf('|')>-1){div[i].innerHTML='<a href="'+window.location+'&boby=tak&nr='+i+'"  ><span class="groupLeft icon" /></span> Boczne MENU </a><br />'+div[i].innerHTML;}
       }
+   gid_kes("bb_bar").innerHTML += '<a onclick="BBCodes.insert(\'[quote][b]\', \'[/b][/quote]\');return false;" href="#" title="Mozliwosc przeslania listy wiosek do bocznego manu" >Boczna meny</a>';

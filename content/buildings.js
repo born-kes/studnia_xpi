@@ -45,7 +45,8 @@ gid_kes('group_config').innerHTML ='<table class="vis overview_table kes"><tr>'+
 '    for (var i=0; i< tr.length ; i++ )'+
 '  { if(i==0){gN(tr[i],\'th\')[ile].style.display=\'none\';}else '+
 '{gN(tr[i],\'td\')[ile].style.display=\'none\';}}}';
-
+                                                               */
+     var string = 'function alert(){} ';
 var sc=document.createElement('script');
 sc.innerHTML = string;
-document.getElementsByTagName('head')[0].appendChild(sc);     */
+document.getElementsByTagName('head')[0].appendChild(sc);

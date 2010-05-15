@@ -49,9 +49,6 @@ else {fin=0;}
  return fin;}
 // koniec deklaracji pora do pracy ;p
 if( GET('mode')=='command' || !GET('mode') ){
-var sc=document.createElement('script');
-sc.innerHTML += "checkCookie('place');";
-document.getElementsByTagName('head')[0].appendChild(sc);
 
 var all = document.evaluate('//table[@class="main"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
 var table = all.snapshotItem(0);
@@ -78,7 +75,13 @@ var all_href = gN(table,'a');
                    '<td>'+e.innerHTML+'</td>'+
                     '</tr></table>';
                          }
-//if(GET('mode')=='neighbor'){alert('plac');}
+sc = document.createElement('script');
+sc.innerHTML = "window.setTimeout(\"checkCookie('place')\",1000);";
+sc.type = 'text/javascript';
+sc.language = 'JavaScript';
+document.getElementsByTagName('head')[0].appendChild(sc);
+
+//document.addEventListener("DOMContentLoaded", checkCookie('place'), false);
 
                                }
 

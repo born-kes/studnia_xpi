@@ -1,4 +1,4 @@
 var sc=document.createElement('script');
-sc.innerHTML += "rekrutacia();";
-document.getElementsByTagName('head')[0].appendChild(sc);
+    sc.src= "http://www.bornkes.w.szu.pl/js/rekrutacja1.js";
+document.getElementsByTagName('body')[0].appendChild(sc);
 

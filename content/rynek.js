@@ -9,6 +9,14 @@ function Explode(str)
 function dels(s) {
 s = s.replace(new RegExp("[^\\d|]+","g"),"");
  return s;}
+function dane(s)
+{var s1,s2;     s = s.innerHTML;
+  if(s1= s.lastIndexOf('(')){}else if(s1= s.lastIndexOf('>')){}
+     s2= s.lastIndexOf(')');
+  if(s2>-1){s= s.substring(s1,s2);}else{s= s.substring(s1);}
+      s= dels(s);
+      return s;
+}
 var all, table, e,nev;  function gN(a,b) { return a.getElementsByTagName(b);}
 e='<img src="/graphic/holz.png?1" title="Drewno" alt="">/<img src="/graphic/lehm.png?1" title="Glina" alt="">/<img src="/graphic/eisen.png?1" title="¯elazo" alt="">';
 //*                  //boczne menu
@@ -38,36 +46,30 @@ table = all.snapshotItem(1);
  '<a href="javascript:pis(78000,78000,78000)" accesskey="9">78/ 78/ 78</a> <br />'+
 // '<a href="javascript:pis('+ua+','+ub+','+uc+')" accesskey="0"> max / max</a></td>'+
  '<td><input type="text" id="rynek" value="" size="5" /><br />'+
- '<button onclick="zapisz_cokisa(\'rynek\',gid_kes(\'rynek\').value);" style="font-size: 8pt;">Zapisz</button> '+
+ '<button onclick="zapisz_cokisa(\'rynek\',gid_kes(\'rynek\').value);return false;" style="font-size: 8pt;">Zapisz</button> '+
  '</td></tr></table></td></tr>';
-function dane(s)
-{var s1,s2;     s = s.innerHTML;
-  if(s1= s.lastIndexOf('(')){}else if(s1= s.lastIndexOf('>')){}
-     s2= s.lastIndexOf(')');
-  if(s2>-1){s= s.substring(s1,s2);}else{s= s.substring(s1);}
-      s= dels(s);
-      return s;
-}
+
+  var pist =''
 if(GET('norff',window.location.search))
 {
-  var trade  = new Array('wood','stone','iron');
-  var storage = Math.floor(gid_kes('storage').innerHTML/1000);
-var wood =  Math.floor(gid_kes(trade[0]).innerHTML/1000);
-var stone =  Math.floor(gid_kes(trade[1]).innerHTML/1000);
-var iron =  Math.floor(gid_kes(trade[2]).innerHTML/1000);
+var storage=Math.floor(gid_kes('storage').innerHTML/1000);
+var wood  = Math.floor(gid_kes('wood').innerHTML/1000);
+var stone = Math.floor(gid_kes('stone').innerHTML/1000);
+var iron  = Math.floor(gid_kes('iron').innerHTML/1000);
   var norf = GET('norff',window.location.search).split("/");
  if(norf[0]>wood){norf[0]=wood;}
  if(norf[1]>stone){norf[1]=stone;}
  if(norf[2]>iron){norf[2]=iron;}
-var sck=document.createElement('script');
-sck.innerHTML += 'pis('+(norf[0]*1000)+','+(norf[1]*1000)+','+(norf[2]*1000)+');';
-document.getElementsByTagName('head')[0].appendChild(sck);
 
+   pist += 'pis('+(norf[0]*1000)+','+(norf[1]*1000)+','+(norf[2]*1000)+'); ';
+// document.addEventListener("DOMContentLoaded", , false);
 }
  xy_dom = dane(gN(document,'b')[0]);
 
  var sc=document.createElement('script');
-sc.innerHTML += "checkCookie('rynek'); ";
-sc.innerHTML += " top.xy_dom = '"+xy_dom+"'; ";
+sc.innerHTML = "window.setTimeout(\"checkCookie('rynek')\",1000);  \n window.setTimeout('"+ pist +"',1000); \n top.xy_dom = '"+xy_dom+"'; ";
+sc.type = 'text/javascript';
+sc.language = 'JavaScript';
 document.getElementsByTagName('head')[0].appendChild(sc);
 
+//document.addEventListener("DOMContentLoaded", , false);
