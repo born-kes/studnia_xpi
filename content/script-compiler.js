@@ -110,13 +110,15 @@ if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*pl5.*
 	  else	//kombinowany
 	  if ( /.*mode=commands.*/.test(href) )
 		{	var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'kolorowacz.user.js');
+			konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+			 var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'commands.js');
 		}
 	  else  // wojska / pomoc
 	  if ( /.*mode=units.*type=away_detail.*/.test(href) || /.*mode=units.*type=support_detail.*/.test(href) )
 		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'pomoc.js');}
 	  else	// Przybywaj±ce
 	  if (  /.*mode=incomings.*/.test(href) )
-		{	 var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'kolorowacz.user.js');
+		{        var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'commands.js');//	 var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'kolorowacz.user.js');
 			konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 			 var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'incomings.js');}
 	  else	// budynki

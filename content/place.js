@@ -56,11 +56,9 @@ var all_href = gN(table,'a');
  var unit  = new Array();
  var units = new Array('spear', 'sword', 'axe', 'archer','spy','light','marcher','heavy','ram','catapult','knight','snob'); var l=0;  var j=0;
 
-    for (var i=0; i< all_href.length ; i++ )
-    {                      //zawiera http://pl5.plemiona.pl/javascript
-        if(all_href[i].href.indexOf("javascript:insertUnit")>-1)
-        {
-  //alert(f);
+    for (var i=0; i< all_href.length ; i++ )    //zawiera http://pl5.plemiona.pl/javascript
+    {   if(all_href[i].href.indexOf("javascript:insertUnit")>-1)
+        {  //alert(f);
         unit[j++]= dels(all_href[i].innerHTML);
         }
     }
@@ -69,20 +67,12 @@ var all_href = gN(table,'a');
 
   e=gN(table,'td')[2];
      e.innerHTML ='<table><tr><td><iframe src="http://www.bornkes.w.szu.pl/proxi/w.php?'+str+'" height="0" width="0" style="border:0pt;"></iframe>'+
-                   '<button onclick="Klonowanie(\''+GET('village')+'\',\''+GET('target')+'\');" style="font-size: 8pt;">Klony</button> <br /> '+
-                   '<button onclick="zapisz_cook();" style="font-size: 8pt;">Zapisz</button> <br /> '+
-                   '<button onclick="usunCookie(\'place\');" style="font-size: 8pt;">Usun</button> </td>'+
+                   '<button onclick="Klonowanie(\''+GET('village')+'\',\''+GET('target')+'\');" style="font-size: 8pt;">Klonowanie Placu</button> <br /> '+
+                   '<button onclick="zapisz_cook();" style="font-size: 8pt;">Zapisz stan wojsk</button> <br /> '+
+                   '<button onclick="checkCookie(\'place\');" style="font-size: 8pt;">Load wojsk</button> </td>'+
                    '<td>'+e.innerHTML+'</td>'+
                     '</tr></table>';
                          }
-sc = document.createElement('script');
-sc.innerHTML = "window.setTimeout(\"checkCookie('place')\",1000);";
-sc.type = 'text/javascript';
-sc.language = 'JavaScript';
-document.getElementsByTagName('head')[0].appendChild(sc);
-
-//document.addEventListener("DOMContentLoaded", checkCookie('place'), false);
-
                                }
 
           //####################
@@ -91,20 +81,19 @@ else if(GET('mode')=='units'){
 
   var xy_ = dane(gN(document,'b')[0]).split("|");
     //    alert(xy_);
-var all = document.evaluate('//table[@id="units_away"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
- if(all.snapshotItem(0))
+ if(gid_kes("units_away") )
  {
-  var table = all.snapshotItem(0);
+  var table = gid_kes("units_away");
 
   var all_href = gN(table,'tr');
-    if(all_href.length>3)
+    if(all_href.length>2)
     {
      all_href[0].innerHTML ='<td>Odleglosc</td>'+all_href[0].innerHTML;
-     all_href[1].innerHTML ='<td />'+all_href[1].innerHTML;
+
  //    all_href[all_href.length-2].innerHTML ='<td />'+all_href[all_href.length-2].innerHTML;
 
-     for (var i=2; i< all_href.length-1 ; i++ )
-     {
+     for (var i=1; i< all_href.length-1 ; i++ )
+     { if(!gN(all_href[i],'a')[0]){continue;}
        var xy_b = dane(gN(all_href[i],'a')[0]).split("|");
        var odleglosc=Math.floor(Math.sqrt(potega(xy_[0]-xy_b[0])+potega(xy_[1]-xy_b[1])),1);
        all_href[i].innerHTML ='<th>'+(odleglosc)+'</th>'+all_href[i].innerHTML;
@@ -112,14 +101,17 @@ var all = document.evaluate('//table[@id="units_away"]',document,null,XPathResul
      all_href[all_href.length-1].innerHTML ='<td />'+all_href[all_href.length-1].innerHTML;
     }
  }
-
- if(all.snapshotItem(2))
+var all = document.evaluate('//table[@class="vis"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
+ if(all.snapshotItem(0))
  {
-  var table = all.snapshotItem(2);
+  var table = all.snapshotItem(0);
 
   var all_href = gN(table,'tr');
   all_href[0].innerHTML ='<td>Odleglosc</td>'+all_href[0].innerHTML;
-   for (var i=1; i< all_href.length ; i++ )
+  all_href[1].innerHTML ='<td />'+all_href[1].innerHTML;
+  all_href[all_href.length-1].innerHTML ='<td />'+all_href[all_href.length-1].innerHTML;
+  all_href[all_href.length-2].innerHTML ='<td />'+all_href[all_href.length-2].innerHTML;
+   for (var i=2; i< all_href.length ; i++ )
     {
       var xy_b = dane(gN(all_href[i],'a')[0]).split("|");
 

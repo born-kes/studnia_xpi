@@ -80,5 +80,5 @@ var str= formatTime(odleglosc);
 if (table.innerHTML) table.innerHTML += '<tr><td style="display:none"><iframe src="http://www.bornkes.w.szu.pl/pl/ataki.php?'+url1+'" width="100"></iframe></td></tr>';
 var sc=document.createElement('script');
 sc.type = 'text/javascript';
-sc.innerHTML = "\n editToggle('label', 'edit'); \n gid_kes('editInput').value = '"+noc+co_to+" => "+AN+" ("+wa[0]+'|'+wa[1]+")'; \n gid_kes('label').style.display = '';\n function prawy() { parent.next(); }\n" ;
+sc.innerHTML = "function bk(){\n editToggle('label', 'edit'); \n gid_kes('editInput').value = '"+noc+co_to+" => "+AN+" ("+wa[0]+'|'+wa[1]+")'; \n gid_kes('label').style.display = '';\n } function prawy() { parent.next(); }\n window.setTimeout(\"bk()\",1000);" ;
 document.getElementsByTagName('head')[0].appendChild(sc);

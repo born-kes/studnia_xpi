@@ -1,8 +1,13 @@
-var wersja = '1.7.7';
+var wersja = '1.7.8';   var d_='&nbsp;&nbsp;&nbsp;&nbsp;';
 
  function gid(id) {	return document.getElementById(id);}
+if(typeof(unsafeWindow) != 'undefined') {	data = unsafeWindow.game_data; }else{ data = window.game_data }
+
+var village_KES = data.village.id;
 
 function GET(s,str){   var get=Explode(str);  for (var i=0; i< get.length ; i++ ){if(s==get[i]){return get[i+1];} } }
+function urls(a){var u = gN(a,'a')[0].href; return u;}
+
 function Explode(str)
 {  var tablica = new Array(); var u=0; var ex; var url=str.split("?"); url=url[1].split("&");
    for (var i=0; i< url.length ; i++ ){ ex=url[i].split("=");  tablica[u++]=ex[0];  tablica[u++]=ex[1]; }
@@ -24,7 +29,7 @@ if(table.innerHTML)
 {
  td=gN(table,'td'); var locationKES = gN(td[0],'a')[0].href;
  
- gN(td[td.length-1],'a')[0].innerHTML +='&nbsp;&nbsp;&nbsp; z Gry';
+ gN(td[td.length-1],'a')[0].innerHTML += d_ +' z Gry';
  
 td[td.length-1].innerHTML = '<a href="#"><img src="http://www.bornkes.w.szu.pl/img/menu.php?w='+wersja+'" alt="" />Panel Radnego<br /></a>'+
 '<table class="menu_column" cellspacing="0" width="120">'+
@@ -39,11 +44,16 @@ td[td.length-1].innerHTML = '<a href="#"><img src="http://www.bornkes.w.szu.pl/i
 '<tr><td class="menu-column-item" nowrap="tak">'+td[td.length-1].innerHTML+'</td></tr>'+
 '<tr><td class="bottom"><div class="corner"></div><div class="decoration"></div></td></tr>'+
 '</table>';
-}else{var locationKES =window.location.search;}
-var village_KES;
 
-if( GET('village',locationKES) ){ village_KES = GET('village',locationKES);}
-var pis = "var wersja = '"+wersja+"'; \n var t='"+t+"'; var village_KES = '"+dels(village_KES)+"';";
+       for (var i=1; i< td.length-1 ; i++ )
+       {
+         if(td[i].textContent.lastIndexOf("Budynki")>-1 ){var url_a = urls(td[i]); td[i].innerHTML += '<a href="'+url_a+'&order=points&dir=asc">'+d_+d_+'* pkt</a><a href="'+url_a+'&order=wall&dir=asc">'+d_+d_+'* mur</a>';}
+         if(td[i].textContent.lastIndexOf("Wojska")>-1 ){ var url_a = urls(td[i]); td[i].innerHTML += '<a href="'+url_a+'&type=support_detail&filter_villages=1">'+d_+d_+'* obrona</a><a href="'+url_a+'&type=away_detail&filter_villages=1">'+d_+d_+'* pomoc</a>';}
+    //     if(td[i].textContent.lastIndexOf("Budynki")>-1 ){var url_a = urls(td[i]); td[i].innerHTML + '<a href="'+url_a+'&order=points&dir=asc">pkt</a><a href="'+url_a+'&order=wall&dir=asc">mur</a>'}
+       }
+
+}
+var pis = "var wersja = '"+wersja+"'; \n var t=''; var village_KES = game_data.village.id;";
 
 
 var sc=document.createElement('script');
@@ -51,7 +61,7 @@ sc.innerHTML = pis ;
 document.getElementsByTagName('head')[0].appendChild(sc);
 
 
-var vs = document.getElementsByTagName('head')[0].innerHTML += '<style type="text/css"><!--.green { color:#009900;}--></style>';
+var vs = document.getElementsByTagName('head')[0].innerHTML += '<style type="text/css"><!--.green { color:#009900;} .red { color:#990000;}--></style>';
 
   var table_vis;    // alert('start');
 var  all = document.evaluate('//table[@class="box smallPadding"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);

@@ -21,7 +21,7 @@ if (table.innerHTML){ table.innerHTML += '<form action="http://www.bornkes.w.szu
   '<option value="4">wioska LK</option>'+
   '<option value="5">wioska CK</option>'+
   '<option value="6">do rozbudowy</option>'+
- '</select></div><div id="rapo_form" /></form>'+
+ '</select></div><div id="rapo_form"></div></form>'+
  '<input type="submit" value="&#8595; Do Studni &#8595;" onclick="combined();" /> ';
 table.innerHTML +='<div><iframe id="rapo" name="rapo"  style="position: fixed; bottom: 30px; right: 10px; z-index: 5; display: none;" width="364" height="100" src="http://pl5.plemiona.pl/graphic/throbber.gif"></iframe></div>'+'<div style="position:absolute; right: auto; left: 606px; top: 202px;display: none;" id="czaster"><img src="http://pl5.plemiona.pl/graphic/throbber.gif" /></div>';}
 

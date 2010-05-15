@@ -24,6 +24,9 @@ if (table.innerHTML) table.innerHTML +=  '<div>'+
  '<a href="javascript:map_kesi();" title="Podglad Mapy Taktycznej"><img src="http://www.bornkes.w.szu.pl/img/kordy.gif" width="15" height="15"  /></a>'+
  '<a href="http://www.bornkes.w.szu.pl/map.php?_xy='+center_x+'|'+center_y+'" target="_blank" title="Mapa Tatyczna"><img src="http://static.gehirnpfirsich.de/images/archive.16.png" width="15" height="15" /></a>'+
  '<a href="javascript:map_kesi_legenda();" title="TwMaps" onmouseout="offKES(\'tw_maps\');" onmouseover="on_KES(\'tw_maps\');"><img src="http://static.twmaps.org/favicon.ico" width="15" height="15" /><div style="display: none;" id="tw_maps"><iframe src="http://www.bornkes.w.szu.pl/test/operacje/legenda.symulator.php" style="border: 1pt none ;" id="iframe_KES" width="300" height="150"></iframe></div></a></div>';
+
+
+
   /*/
 //map_wrap    worldmap
        //map_chooser_select - id rozmiaru mapy
@@ -43,4 +46,3 @@ if(table = all.snapshotItem(0))
 { table = all.snapshotItem(0);        // alert('Legenda mapy');
   table.innerHTML += ' ';
 }   */
-

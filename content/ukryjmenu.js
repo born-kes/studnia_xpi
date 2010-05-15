@@ -16,7 +16,7 @@ var get= Explode(window.location.search);
    {
                   // all = gN(gN(document,'form')[0],'table');  for (var i = 0; i < all.length ; i++){  all[i].style = '';}
       var form_elenent = gN(document,'form')[0];
-          form_elenent.innerHTML = '<input class="attack" name="attack" value="Napad" style="font-size: 10pt;" type="submit"><br>'+form_elenent.innerHTML
+          form_elenent.innerHTML = '<input class="attack" name="attack" value="Napad" style="font-size: 10pt;" type="submit">  <button onclick="checkCookie(\'place\');return false;" style="font-size: 8pt;">Load wojsk</button> <br>'+form_elenent.innerHTML
 document.getElementsByTagName('body')[0].innerHTML= '<table class="main"><tr><td>'+form_elenent.parentNode.innerHTML+'</td><td style="display:none;">'+document.getElementsByTagName('body')[0].innerHTML+'</td></tr></table>';
 exit();   }
 var all = document.getElementsByTagName("hr");

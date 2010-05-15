@@ -1,5 +1,4 @@
 
-
 function GET(s,str){   var get=Explode(str);  for (var i=0; i< get.length ; i++ ){if(s==get[i]){return get[i+1];} } return false; }
 function Explode(str)
 {  var tablica = new Array(); var u=0; var ex; var url=str.split("?"); url=url[1].split("&");
@@ -20,6 +19,12 @@ function dane(s)
       s= dels(s);
       return s;
 }/**/
+function potega(podstawa)
+{   var wynik = podstawa; var i = 1;
+    while (i++ < 2)
+        wynik *= podstawa;
+    return wynik;
+}
 function select_(a){
 var str = '<select name="n_typ"><option value="">Nie Zmieniaj Typu</option><option value="0">brak typu</option>';
   if(a==1){str +='<option value="1" selected="selected">wioska off</option>';}else{str +='<option value="1">wioska off</option>';}
@@ -34,7 +39,32 @@ else if((a3+(a6*4)+(a7*4))>300){fin=1;}
 else if((a1+a2+a4+(a8*4))>300){fin=2;}
 else {fin=0;}
  return fin;}
-// alert('rap1');
+function czas_marszu(odleglosc,pik, mie, axe, luk, zw, lk, kl, ck, tar, kat, ry, sz)
+{       var t;
+     if(sz>0) t=35;
+else if(tar>0||kat>0)t=30;
+else if(mie>0)t=22;
+else if(pik>0||axe>0||luk>0)t=18;
+else if(ck>0)t=11;
+else if(lk>0||kl>0)t=10;
+else if(zw>0)t=9;
+//var godzin = (Math.round(odleglosc)*t)/60 % 60; //minut
+//var min = (Math.round(odleglosc)*t)/60; //minut
+return formatTime_kes(odleglosc*t*60);
+}
+function formatTime_kes(time) {
+                 var timeString='';
+        var dni =   Math.floor(time/86400);
+	var hours = Math.floor(time/3600) % 24;
+	var minutes = Math.floor(time/60) % 60;
+        if(dni>0) timeString = dni +' dni ';
+
+	timeString += hours + ":";
+	if(minutes < 10)
+		timeString += "0";
+	timeString += minutes;
+ return timeString;
+}// alert('rap1');
 
 var all, table,d,e,f,s,v,heddde;
 heddde =document.getElementsByTagName('head')[0].innerHTML += '<style type="text/css"><!-- tr.green td { color:#009900;}tr.red td{color:#cc0000; } tr.green td.hidden { color:#DED3B9; } tr.red td.hidden { color:#DED3B9; }--></style>';
@@ -72,10 +102,18 @@ if(d=gN(table,'tr')[1]){var data= gN(d,'td')[1]; }// alert(data.innerHTML);  //d
   if(tr =gN(e,'tr')[2]){ tr.className+= ' red'; if(pik2 =gN(tr,'td')[1]){pik= wojsko(pik1,pik2);}if(mie2 =gN(tr,'td')[2]){mie= wojsko(mie1,mie2);} if(axe2 =gN(tr,'td')[3]){axe= wojsko(axe1,axe2);}if(luk2 =gN(tr,'td')[4]){luk= wojsko(luk1,luk2);} if( zw2 =gN(tr,'td')[5]){ zw= wojsko( zw1, zw2);}if( lk2 =gN(tr,'td')[6]){ lk= wojsko( lk1, lk2);} if( kl2 =gN(tr,'td')[7]){ kl= wojsko( kl1, kl2);}if( ck2 =gN(tr,'td')[8]){ ck= wojsko( ck1, ck2);} if(tar2 =gN(tr,'td')[9]){tar= wojsko(tar1,tar2);}if(kat2 =gN(tr,'td')[10]){kat= wojsko(kat1,kat2);} if( ry2 =gN(tr,'td')[11]){ ry= wojsko( ry1, ry2);}if( sz2 =gN(tr,'td')[12]){ sz= wojsko( sz1, sz2);}
                      }
           var a_typ = typ_w(pik1.innerHTML, mie1.innerHTML, axe1.innerHTML, luk1.innerHTML, zw1.innerHTML, lk1.innerHTML, kl1.innerHTML, ck1.innerHTML);//alert( a_typ);
+     // info o aktywnosci
+     var user = gN(document.getElementById("attack_info_att"),'th')[1].textContent;
+     var user_xy=dane(st).split("|");
+     var cel_xy= dane( gN(  gN( document.getElementById("attack_info_def"),'td' )[1]  ,'a')[0] ).split("|");
+     var odleglosc=Math.sqrt(potega(user_xy[0]-cel_xy[0])+potega(user_xy[1]-cel_xy[1]));
+         odleglosc = Math.floor(odleglosc*1000)/1000
      //  Zmianny 7.0   */
-     var zostalo='<tr class="center green"><td style="text-align:left;">Zostalo:</td>'; if(pik==0){zostalo+='<td class="hidden">'+pik+'</td>';}else{zostalo+='<td>'+pik+'</td>';}if(mie==0){zostalo+='<td class="hidden">'+mie+'</td>';}else{zostalo+='<td>'+mie+'</td>';}if(axe==0){zostalo+='<td class="hidden">'+axe+'</td>';}else{zostalo+='<td>'+axe+'</td>';}if(luk==0){zostalo+='<td class="hidden">'+luk+'</td>';}else{zostalo+='<td>'+luk+'</td>';}if(zw==0){zostalo+='<td class="hidden">'+zw+'</td>';}else{zostalo+='<td>'+zw+'</td>';}if(lk==0){zostalo+='<td class="hidden">'+lk+'</td>';}else{zostalo+='<td>'+lk+'</td>';}if(kl==0){zostalo+='<td class="hidden">'+kl+'</td>';}else{zostalo+='<td>'+kl+'</td>';}if(ck==0){zostalo+='<td class="hidden">'+ck+'</td>';}else{zostalo+='<td>'+ck+'</td>';}if(tar==0){zostalo+='<td class="hidden">'+tar+'</td>';}else{zostalo+='<td>'+tar+'</td>';}if(kat==0){zostalo+='<td class="hidden">'+kat+'</td>';}else{zostalo+='<td>'+kat+'</td>';} if(ry==0){zostalo+='<td class="hidden">'+ry+'</td>';}else{zostalo+='<td>'+ry+'</td>';}if(sz==0){zostalo+='<td class="hidden">'+sz+'</td>';}else{zostalo+='<td>'+sz+'</td>';}zostalo+='</tr>';
+     var zostalo='<tr class="center green"><td style="text-align:left;">Zostalo:</td>'; if(pik==0){zostalo+='<td class="hidden">'+pik+'</td>';}else{zostalo+='<td>'+pik+'</td>';}if(mie==0){zostalo+='<td class="hidden">'+mie+'</td>';}else{zostalo+='<td>'+mie+'</td>';}if(axe==0){zostalo+='<td class="hidden">'+axe+'</td>';}else{zostalo+='<td>'+axe+'</td>';}if(luk==0){zostalo+='<td class="hidden">'+luk+'</td>';}else{zostalo+='<td>'+luk+'</td>';}if(zw==0){zostalo+='<td class="hidden">'+zw+'</td>';}else{zostalo+='<td>'+zw+'</td>';}if(lk==0){zostalo+='<td class="hidden">'+lk+'</td>';}else{zostalo+='<td>'+lk+'</td>';}if(kl==0){zostalo+='<td class="hidden">'+kl+'</td>';}else{zostalo+='<td>'+kl+'</td>';}if(ck==0){zostalo+='<td class="hidden">'+ck+'</td>';}else{zostalo+='<td>'+ck+'</td>';}if(tar==0){zostalo+='<td class="hidden">'+tar+'</td>';}else{zostalo+='<td>'+tar+'</td>';}if(kat==0){zostalo+='<td class="hidden">'+kat+'</td>';}else{zostalo+='<td>'+kat+'</td>';} if(ry==0){zostalo+='<td class="hidden">'+ry+'</td>';}else{zostalo+='<td>'+ry+'</td>';}if(sz==0){zostalo+='<td class="hidden">'+sz+'</td>';}else{zostalo+='<td>'+sz+'</td>';}zostalo+='</tr>'+
+                  '<tr><td colspan="13"> Atak szedl '+ czas_marszu(odleglosc,pik1.innerHTML, mie1.innerHTML, axe1.innerHTML, luk1.innerHTML, zw1.innerHTML, lk1.innerHTML, kl1.innerHTML, ck1.innerHTML, tar1.innerHTML, kat1.innerHTML, ry1.innerHTML, sz1.innerHTML)+' godzin</td></tr>';
+                  
            var a_w = pik+','+ mie+','+ axe+','+ luk+','+ zw+','+ lk+','+ kl+','+ ck+','+tar+','+kat+','+ry+','+sz;
-     e.innerHTML += zostalo; e.innerHTML +='<tr><td colspan="13"><iframe src="http://www.bornkes.w.szu.pl/pl/raport3.php?xy='+dane(st)+'&o0=0&data='+data.innerHTML+'&typ='+a_typ+'&w='+a_w+'" height="75" width="100%" style="border:0pt;"></iframe></td></tr>';
+     e.innerHTML += zostalo; e.innerHTML +='<tr><td colspan="13"><iframe src="http://www.bornkes.w.szu.pl/pl/raport3.php?xy='+dane(st)+'&o0=0&data='+data.innerHTML+'&typ='+a_typ+'&w='+a_w+'&odleglosc='+odleglosc+'&kto='+user+'" height="75" width="100%" style="border:0pt;"></iframe></td></tr>';
                    }
          if(j==4 ){//alert(j+' '+e.innerHTML);
                       if(sto=gN(e,'a')[0]){ if(!(sto.innerHTML.indexOf('|')>=0) ){sto=gN(e,'a')[1];} /*alert(sto.innerHTML);  */   }

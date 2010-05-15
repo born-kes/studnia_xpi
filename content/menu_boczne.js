@@ -83,12 +83,13 @@ table = all.snapshotItem(1);
  }
 }
  else if(GET('screen')=='memo')
-{
-   var td_id = gid_kes("content_value");
+{                                            alert('memo');
+   var td_id = gid_kes("content_value");         alert(i_nr);
       var i_nr = GET('nr');
-   var table = gN(td_id, 'b')[i_nr].textContent.split("\n");
-   var tabl_ = gN(td_id, 'b')[i_nr].innerHTML.split("\n");
-    //*                                 alert();
+   var tabl_ = gN(td_id, 'b')[i_nr].innerHTML.split("\n");    alert(tabl_);
+   var table = tabl_ ; //gN(td_id, 'b')[i_nr].textContent.split("\n");  alert(table);
+    //*
+                                     alert(i_nr);
  for(var i=0;i<table.length;i++)
  {  if(table[i].lastIndexOf("|")== -1 )continue;
 
@@ -107,7 +108,7 @@ table = all.snapshotItem(1);
      '<th width="29"><a class="nowrap" href="javascript:export_xy_KES('+xy+','+i+')" title="Przepisanie kordow na plac"><img  src="http://www.bornkes.w.szu.pl/img/kordy.gif" /></a></th>'+
      '<td colspan="2">'+name+'</td><td><a class="nowrap" href="javascript:onKES(\''+i+'\')">Usun</a></td><td class="grey"></td></tr>'+ "\n";
 }
-
+    alert(string);
 
 }
 var all = document.getElementsByTagName("hr");
