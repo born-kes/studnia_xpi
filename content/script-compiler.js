@@ -118,9 +118,10 @@ if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*pl5.*
 		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'pomoc.js');}
 	  else	// Przybywaj±ce
 	  if (  /.*mode=incomings.*/.test(href) )
-		{        var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'commands.js');//	 var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'kolorowacz.user.js');
+		{	var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'incomings.js');
 			konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-			 var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'incomings.js');}
+                       var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'commands.js');//	 var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'kolorowacz.user.js');
+                 }
 	  else	// budynki
 	  if ( /.*mode=buildings.*/.test(href) )
 		{ var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'buildings.js'); }

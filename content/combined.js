@@ -11,7 +11,8 @@ var all, table,d,e;
 
 all = document.evaluate("//td[@class='selected']",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
 table = all.snapshotItem(0);
-if (table.innerHTML){ table.innerHTML += '<form action="http://www.bornkes.w.szu.pl/pl/wojsko.php" method="POST" target="rapo" name="rapo_form" >'+
+if (table.innerHTML)
+{ table.innerHTML += '<form action="http://www.bornkes.w.szu.pl/pl/wojsko.php" method="POST" target="rapo" name="rapo_form" >'+
  '<div><select name="n_typ">'+
   '<option value="">Nie Zmieniaj Typu</option>'+
   '<option value="0">brak typu</option>'+
@@ -23,7 +24,8 @@ if (table.innerHTML){ table.innerHTML += '<form action="http://www.bornkes.w.szu
   '<option value="6">do rozbudowy</option>'+
  '</select></div><div id="rapo_form"></div></form>'+
  '<input type="submit" value="&#8595; Do Studni &#8595;" onclick="combined();" /> ';
-table.innerHTML +='<div><iframe id="rapo" name="rapo"  style="position: fixed; bottom: 30px; right: 10px; z-index: 5; display: none;" width="364" height="100" src="http://pl5.plemiona.pl/graphic/throbber.gif"></iframe></div>'+'<div style="position:absolute; right: auto; left: 606px; top: 202px;display: none;" id="czaster"><img src="http://pl5.plemiona.pl/graphic/throbber.gif" /></div>';}
+table.innerHTML +='<div><iframe id="rapo" name="rapo"  style="position: fixed; bottom: 30px; right: 10px; z-index: 5; display: none;" width="364" height="100" src="http://pl5.plemiona.pl/graphic/throbber.gif"></iframe></div>'+'<div style="position:absolute; right: auto; left: 606px; top: 202px;display: none;" id="czaster"><img src="http://pl5.plemiona.pl/graphic/throbber.gif" /></div>';
+}
 
 var sort = gid_kes('combined_table');
 

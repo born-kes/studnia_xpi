@@ -15,8 +15,6 @@
 if (window.opera) {
         unsafeWindow = window;
 }
-
-
 var fakesHidden = false;
 function gN(a,b) { return a.getElementsByTagName(b);}
 
@@ -146,13 +144,13 @@ function addLinks() {
         }
 }
 
-function createVillagesList() {
+function createVillagesList() {     // alert(document.URL.indexOf("mode=inco"));
         if (document.URL.indexOf("mode=inco") >= 0){var v=true;
         var ordersTable = document.getElementById("incomings_table");
         }else{                                      var v=false;
         var ordersTable = document.getElementById("commands_table");}
 
-        var rows = ordersTable.getElementsByTagName('tr');   rows.getElementsByTagName('th').style.width ='400px';
+        var rows = ordersTable.getElementsByTagName('tr');   rows[0].getElementsByTagName('th')[0].style.width ='400px';
         var villages = new Array(0);
         for (i = 1; i < rows.length; i++) {
 
@@ -160,11 +158,12 @@ function createVillagesList() {
                        if ( v && i == rows.length-1){break;}
                        var target = rows[i].cells[1].textContent;
                        var order = trim(gN(rows[i],'a')[0].className);
-                      // var orders = trim(gN(rows[i],'td')[1].textContent);
-                       }else
-                var order = trim(rows[i].getElementsByTagName('td')[0].textContent);
-                var orders= trim(rows[i].getElementsByTagName('td')[1].textContent);
-
+                //var orders= trim(rows[i].getElementsByTagName('td')[1].textContent);
+                       var orders = trim(gN(rows[i],'td')[1].textContent);
+                       }else{
+                var order = trim(rows[i].getElementsByTagName('td')[0].innerHTML);
+                var orders= trim(rows[i].getElementsByTagName('td')[0].textContent);
+                             }
                 var village;
                 if (order.match(/attack.png/)) {// "Atak na"
                         village = orders;
@@ -221,4 +220,3 @@ if (document.URL.indexOf("mode=comm") >= 0 || document.URL.indexOf("mode=inco") 
 } else if (document.URL.indexOf("screen=info_village")) {
         addLinks();
 }
-
