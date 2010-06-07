@@ -6,6 +6,21 @@ function Explode(str)
    for (var i=0; i< url.length ; i++ ){ ex=url[i].split("=");  tablica[u++]=ex[0];  tablica[u++]=ex[1]; }
    return tablica;
 }
+function getCookie(c_name)
+{
+if (document.cookie.length>0)
+  { var c_start;
+  c_start=document.cookie.indexOf(c_name + "=");
+  if (c_start!=-1)
+    {
+    c_start=c_start + c_name.length+1;
+    c_end=document.cookie.indexOf(";",c_start);
+    if (c_end==-1) c_end=document.cookie.length;
+    return unescape(document.cookie.substring(c_start,c_end));
+    }
+  }
+return "";
+}
 function dels(s) {
 s = s.replace(new RegExp("[^\\d|]+","g"),"");
  return s;}
@@ -35,18 +50,21 @@ ub = dels(urll[1].innerHTML);
 uc = dels(urll[2].innerHTML);
 //*/
 all = document.evaluate('//table[@class="vis"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
-table = all.snapshotItem(1);
- var td = gN(table,'td');
+table = all.snapshotItem(1);        var imgs = '<img src="http://rookie.pl/obrazki/crate.gif">';
+ var td = gN(table,'td');           var imgy = '<img src="http://rookie.pl/obrazki/Box.gif">';
+ var vw=getCookie('rynek'); var vo=getCookie('rynek1');
  table.innerHTML += '<tr><td><table class="vis "><tr><th>'+e+'</th><th>moje</th></tr>'+
  '<tr><td rowspan="3" width="90"  >'+
- '<a href="javascript:pis(gid_kes(\'rynek\').value, gid_kes(\'rynek\').value, gid_kes(\'rynek\').value)" accesskey="5">&nbsp;&nbsp;moje x 3&nbsp;&nbsp;</a> <br />'+
- '<a href="javascript:pis(10000,10000,10000)" accesskey="6">10/ 10/ 10</a> <br />'+
- '<a href="javascript:pis(28000,30000,25000)" accesskey="7">28/ 30/ 25</a> <br />'+
- '<a href="javascript:pis(30000,30000,30000)" accesskey="8">30/ 30/ 30</a> <br />'+
- '<a href="javascript:pis(78000,78000,78000)" accesskey="9">78/ 78/ 78</a> <br />'+
+ '<a href="javascript:pis('+vw+','+vw+','+vw+')" title="'+(vw/1000)+'k x3">'+imgy+'</a>'+
+ '<a href="javascript:pis(10000,10000,10000)" title="10k x3" />'+imgs+'</a> <br />'+
+ '<a href="javascript:pis('+vo+','+vo+','+vo+')" title="'+(vo/1000)+'k x3">'+imgy+'</a>'+
+ '<a href="javascript:pis(30000,30000,30000)" title="30k x3" />'+imgs+'</a> '+
+ '<a href="javascript:pis(78000,78000,78000)" title="78k x3" />'+imgs+'</a> <br />'+
 // '<a href="javascript:pis('+ua+','+ub+','+uc+')" accesskey="0"> max / max</a></td>'+
- '<td><input type="text" id="rynek" value="" size="5" /><br />'+
- '<button onclick="zapisz_cokisa(\'rynek\',gid_kes(\'rynek\').value);return false;" style="font-size: 8pt;">Zapisz</button> '+
+ '<td valign="top"><input type="text" id="rynek" value="'+vw+'" size="5" />'+
+ '<button onclick="zapisz_cokisa(\'rynek\',gid_kes(\'rynek\').value);return false;" style="font-size: 8pt;">Zapisz 1</button><br /> '+
+ '<input type="text" id="rynek1" value="'+vo+'" size="5" />'+
+ '<button onclick="zapisz_cokisa(\'rynek1\',gid_kes(\'rynek1\').value);return false;" style="font-size: 8pt;">Zapisz 2</button><br /> '+
  '</td></tr></table></td></tr>';
 
   var pist =''

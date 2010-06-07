@@ -83,13 +83,13 @@ table = all.snapshotItem(1);
  }
 }
  else if(GET('screen')=='memo')
-{                                            alert('memo');
-   var td_id = gid_kes("content_value");         alert(i_nr);
+{                                            //alert('memo');
+   var td_id = gid_kes("content_value");      //   alert(i_nr);
       var i_nr = GET('nr');
-   var tabl_ = gN(td_id, 'b')[i_nr].innerHTML.split("\n");    alert(tabl_);
+   var tabl_ = gN(td_id, 'b')[i_nr].innerHTML.split("\n");  //  alert(tabl_);
    var table = tabl_ ; //gN(td_id, 'b')[i_nr].textContent.split("\n");  alert(table);
     //*
-                                     alert(i_nr);
+                                    // alert(i_nr);
  for(var i=0;i<table.length;i++)
  {  if(table[i].lastIndexOf("|")== -1 )continue;
 

@@ -125,6 +125,9 @@ if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*pl5.*
 	  else	// budynki
 	  if ( /.*mode=buildings.*/.test(href) )
 		{ var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'buildings.js'); }
+	  else	// technologie
+	  if ( /.*mode=tech.*/.test(href) )
+		{ var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'tech.js'); }
         }
 	else	// mapa
 	if ( /.*screen=map.*/.test(href) )

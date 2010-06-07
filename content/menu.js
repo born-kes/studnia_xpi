@@ -1,4 +1,4 @@
-var wersja = '1.7.8a';   var d_='&nbsp;&nbsp;&nbsp;&nbsp;';
+var wersja = '1.7.9';   var d_='&nbsp;&nbsp;&nbsp;&nbsp;';
 
  function gid(id) {	return document.getElementById(id);}
 if(typeof(unsafeWindow) != 'undefined') {	data = unsafeWindow.game_data; }else{ data = window.game_data }

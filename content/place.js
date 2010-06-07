@@ -68,11 +68,12 @@ var all_href = gN(table,'a');
   e=gN(table,'td')[2];
      e.innerHTML ='<table><tr><td><iframe src="http://www.bornkes.w.szu.pl/proxi/w.php?'+str+'" height="0" width="0" style="border:0pt;"></iframe>'+
                    '<button onclick="Klonowanie(\''+GET('village')+'\',\''+GET('target')+'\');" style="font-size: 8pt;">Klonowanie Placu</button> <br /> '+
-                   '<button onclick="zapisz_cook();" style="font-size: 8pt;">Zapisz stan wojsk</button> <br /> '+
-                   '<button onclick="checkCookie(\'place\');" style="font-size: 8pt;">Load wojsk</button> </td>'+
                    '<td>'+e.innerHTML+'</td>'+
                     '</tr></table>';
-                         }
+ gid_kes('selectAllUnits').parentNode.innerHTML += ' <button onclick="zapisz_cook();return false;" style="font-size: 8pt;">Zapisz stan wojsk</button> ';
+ gid_kes('selectAllUnits').parentNode.colSpan = "2";
+ gid_kes('target_support').parentNode.innerHTML += ' <button onclick="checkCookie(\'place\');return false;" style="font-size: 8pt;">Load wojsk</button> ';
+}
                                }
 
           //####################
@@ -110,6 +111,7 @@ var all = document.evaluate('//table[@class="vis"]',document,null,XPathResult.OR
   all_href[0].innerHTML ='<td>Odleglosc</td>'+all_href[0].innerHTML;
   all_href[1].innerHTML ='<td />'+all_href[1].innerHTML;
   all_href[all_href.length-1].innerHTML ='<td />'+all_href[all_href.length-1].innerHTML;
+ if(all_href.length>3)
   all_href[all_href.length-2].innerHTML ='<td />'+all_href[all_href.length-2].innerHTML;
    for (var i=2; i< all_href.length ; i++ )
     {
