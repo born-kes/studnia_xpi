@@ -1,41 +1,32 @@
-	var $x = function(p, context) {
-		if(!context)
-			context = document;
-	    	 var i, arr = [], xpr = document.evaluate(p      , context,null,XPathResult.UNORDERED_NODE_SNAPSHOT_TYPE, null);
-		for (i = 0; item = xpr.snapshotItem(i); i++)
-			arr.push(item);
-		return arr;
-	};
-var all = document.evaluate('//strong[@class="group_tooltip"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
-var table = all.snapshotItem(0);   alert(table.innerHTML);
-        var groups = [];
-	var selectedgroup = '';                                            //@href,"mode=mass"
-//	var grps = $x('//td/a[contains(@href,"screen=train") and contains(@href,"mode=success") and contains(@href,"group=") and not(contains(@href,"page=")) and starts-with(.," [")]');
-	if(grps.length > 0) {
-		var grpsel = $x('parent::td/strong[starts-with(.," >")]', grps[0]);
-		for(var i = 0; i < grps.length; i++) {
-			var grp = / \[(.*)\] /.exec(grps[i].textContent);
-			if(grp)
-				groups.push(grp[1]);
-		}
-	} else {
-		var grpsel = $x('//td/strong[@class="group_tooltip"]');
-	}
-unit_input_spear
-unit_input_sword
-unit_input_axe
-unit_input_archer
-unit_input_spy
-unit_input_light
-unit_input_marcher
-unit_input_heavy
-unit_input_ram
-unit_input_catapult
-res_buffer
+function gid_kes(id){return document.getElementById(id);}     // textContent
+function gN(a,b) { return a.getElementsByTagName(b);}
+var inputs = gN(gid_kes('mr_all_form').parentNode,'input');
+    for (var i=0; i< inputs.length ; i++ ){
+        if(inputs[i].name=='village_ids')
+         inputs[i].id='village_ids';
+    }
+var v =" \n"+
+"function max(a){ \n"+
+"var vilage = gid_kes('village_ids').value.split(','); \n"+
+"    for (var i=0; i< vilage.length-1 ; i++ ){  \n"+
+"         unit_managers[vilage[i] ].set_max(a); \n"+
+"    } \n"+
+"} \n";
+var sc=document.createElement('script');
+sc.innerHTML += v;
+document.getElementsByTagName('head')[0].appendChild(sc);
 
-
-
-
+var th = gN(gid_kes('mass_train_table'),'th');
+th[3].innerHTML = '<a href="javascript:max(\'spear\');">max' +th[3].innerHTML+'</a>';
+th[4].innerHTML = '<a href="javascript:max(\'sword\');">max' +th[4].innerHTML+'</a>';
+th[5].innerHTML = '<a href="javascript:max(\'axe\');">max'   +th[5].innerHTML+'</a>';
+th[6].innerHTML = '<a href="javascript:max(\'archer\');">max'+th[6].innerHTML+'</a>';
+th[7].innerHTML = '<a href="javascript:max(\'spy\');">max'   +th[7].innerHTML+'</a>';
+th[8].innerHTML = '<a href="javascript:max(\'light\');">max' +th[8].innerHTML+'</a>';
+th[9].innerHTML = '<a href="javascript:max(\'marcher\');">max'+th[9].innerHTML+'</a>';
+th[10].innerHTML= '<a href="javascript:max(\'heavy\');">max' +th[10].innerHTML+'</a>';
+th[11].innerHTML= '<a href="javascript:max(\'ram\');">max'   +th[11].innerHTML+'</a>';
+th[12].innerHTML= '<a href="javascript:max(\'catapult\');">max'+th[12].innerHTML+'</a>';
 
 
 

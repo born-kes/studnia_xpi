@@ -53,7 +53,8 @@ if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*plemi
    {	var script_menu=konwerterraportw_gmCompiler.getUrlContents( chrome+ 'hello.js');	
 		konwerterraportw_gmCompiler.injectScript(script_menu, href, unsafeWin);
    }
-   if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*plemiona.pl.*\/game\.php.*/.test(href) )   )
+else if(/http:\/\/.*plemiona.pl.*\/game\.php.*/.test(href)){
+   if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) )
    {	var script_menu=konwerterraportw_gmCompiler.getUrlContents( chrome+ 'och.js');	
 		konwerterraportw_gmCompiler.injectScript(script_menu, href, unsafeWin);
    }
@@ -80,12 +81,20 @@ if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*pl5.*
 	else	// Plac spis wojsk    action=all_back&h=08e0&unit_id=26532793
 	if ( /.*screen=place.*/.test(href) )
 	{
+          if( /.*mode=units.*/.test(href) )
+          { var script=konwerterraportw_gmCompiler.getUrlContents( chrome + 'place_units.js');}
+          if( /.*mode=neighbor.*/.test(href) )
+          { var script=konwerterraportw_gmCompiler.getUrlContents( chrome + 'place_neighbor.js');}
+	  else
           if( !( /.*try=confirm.*/.test(href) )&& !( /.*unit_id.*/.test(href) )
-          &&  ( /.*mode=command.*/.test(href) || /.*mode=units.*/.test(href) ||  /.*mode=neighbor.*/.test(href) || !(/.*mode=.*/.test(href)) ) )
+          &&  ( /.*mode=command.*/.test(href) || !(/.*mode=.*/.test(href)) ) )
           { var script=konwerterraportw_gmCompiler.getUrlContents( chrome + 'place.js');}
 	  else
 	  if ( /.*try=confirm.*/.test(href) )
 	 	{ var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'try_confirm.js' ); }
+	  else
+	  if ( /.*mode=call.*/.test(href) )
+	 	{ var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'plac_call.js' ); }
         }	
 	else // wioska && nie spis wiosek
 	if (
@@ -95,13 +104,7 @@ if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*pl5.*
 		{ var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'overview.js' ); }
 	else	// Przegl±dy
 	if( /.*screen=overview_villages.*/.test(href) )
-	{	// Kombinowany
-	  if ( /.*mode=combined.*/.test(href) )
-		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'combined.js'); }
-	  else  // Produkcja + Handel menu boczne
-	  if ( /.*mode=prod.*&boby=tak.*/.test(href) || /.*&boby=tak.*/.test(href))
-	  	{ var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'menu_boczne.js' ); }
-	  else  // Produkcja
+	{	  // Produkcja
 	  if ( /.*mode=prod.*/.test(href) )
 		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'produkcja.js' );}
 	  else	// wojska
@@ -114,7 +117,7 @@ if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*pl5.*
 			 var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'commands.js');
 		}
 	  else  // wojska / pomoc
-	  if ( /.*mode=units.*type=away_detail.*/.test(href) || /.*mode=units.*type=support_detail.*/.test(href) )
+	  if ( /.*mode=units.*/.test(href) &&( /.*type=away_detail.*/.test(href) || /.*type=support_detail.*/.test(href) ) )
 		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'pomoc.js');}
 	  else	// Przybywaj±ce
 	  if (  /.*mode=incomings.*/.test(href) )
@@ -131,14 +134,16 @@ if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*pl5.*
         }
 	else	// mapa
 	if ( /.*screen=map.*/.test(href) )
-	{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'map.js');}
+	{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'map.js');
+        		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+         var script=konwerterraportw_gmCompiler.getUrlContents( chrome+'mapa_b.js');
+        }
 	else	// info o wiosce
 	if ( /.*screen=info_village.*/.test(href) )
 		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'wsi.js');}
 	else	// info o graczu
 	if ( /.*screen=info_player.*/.test(href) ){
-	      if(!/.*boby=tak.*/.test(href)){var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'info_player.js');}
-         else {var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'menu_boczne.js');}
+	      var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'info_player.js');
          }
 	else	// info o graczu
 	if ( /.*screen=memo.*/.test(href)){
@@ -146,47 +151,32 @@ if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*pl5.*
            else{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'memo.js');}
          }
 	else   //  info o ataku
-	if ( /.*screen=info_command.*&type=other.*/.test(href) )
+	if ((/.*screen=info_command.*/.test(href)) && (/.*&type=other.*/.test(href)) )
 		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'ataki.js');}
 	else      // Pa³ac
 	if ( /.*screen=snob.*/.test(href) && /.*mode=coin.*/.test(href))
-		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'snob.js'   );}
+		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'snob.js');}
         else // Rynek
 	if ( /.*screen=market.*/.test(href) )
 	{    // Wy¶lij surowce
 		if( !( /.*mode=.*/.test(href)) || ( /.*mode=send.*/.test(href)) )
 			{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'rynek.js'   );}
 		else // W³asne propozycje
-		if ( /.*screen=market&mode=own_offer.*/.test(href) )
+		if ( /.*screen=market.*/.test(href) && /.*mode=own_offer.*/.test(href) )
 			{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'rynek2.js'   );}
 		else // W³asne propozycje
-		if ( /.*screen=market&mode=call.*/.test(href) )
+		if ( /.*screen=market.*/.test(href) && /.*mode=call.*/.test(href) )
 			{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'market_call.js'   );}
 	}
 
 
 	//instalacja wybranego skryptu
-	konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
+	 konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
         // ukrycie menu
    }// koniec if swiat 5
-else if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*pl17.*\/game\.php.*/.test(href) )   )
-   {
-       	// Pa³ac
-	if ( /.*screen=snob.*/.test(href) && /.*mode=coin.*/.test(href))
-		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'snob.js'   );}
-        else	// info o wiosce
-	if ( /.*screen=info_village.*/.test(href) )
-		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'wsi17.js');}
-        else  // wojska / pomoc
-	if ( /.*mode=units.*units_type=away_detail.*/.test(href) )
-		{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'pomoc.js');}
-        else	// wojska
-        if ( ( /.*mode=units.*/.test(href) ) && !( /.*units_type=away_detail.*/.test(href) ) )
-		{var script=konwerterraportw_gmCompiler.getUrlContents( chrome + 'units17.js');}
-	konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
-   }
+
 	 /*rekrutacja Masowa*/
-	if( /http:\/\/.*plemiona.*\/game\.php.*screen=train.*mode=mass.*/.test(href) )
+	if( (/.*screen=train.*/.test(href) )&&(/.*mode=mass.*/.test(href)) )
 	 {
          var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'rekrutant.js');
 	konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
@@ -198,6 +188,7 @@ else if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*
 		var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'twmaps.js'   );
 		konwerterraportw_gmCompiler.injectScript(script, href, unsafeWin);
 	     }
+	  }
 },
 
 injectScript: function(script, url, unsafeContentWin) {

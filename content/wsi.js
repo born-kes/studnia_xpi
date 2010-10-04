@@ -3,32 +3,40 @@ if(typeof(unsafeWindow) != 'undefined') {	data = unsafeWindow.game_data; }else{ 
 
 var t_z = '&g='+data.player.id;
 
+function gid_kes(id){return document.getElementById(id);}     // textContent
 function gN(a,b) { return a.getElementsByTagName(b);}
 function dels(s) {
 s = s.replace(new RegExp("[^A-Za-z]+","g"),"");
  return s;}
 var all,table_all, table, e,rows;
-all = document.evaluate('//table[@class="main"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
-table_all = all.snapshotItem(0);
+table_all =gid_kes("content_value");
  table=gN(table_all,'table');
-                                                    if(window.location.search.indexOf("t=")>-1)t_z='';
-   var as =gN(table[0],'tr');
-  if (as[0].innerHTML) as[1].innerHTML += '<th><div id="tyt_KES">Raport w Bazie</div><a href="javascript:radar(\''+window.location.search+t_z+'\');"> Raport / Radar / Tancerz Wojny </a> <iframe style="border:0pt;" width="40" height="0" id="se_KES" name="se_KES"></iframe> <a href="javascript:pops(gid_kes(\'iframe_KES\').src,30);">Do Nowego okna</a></th>';
-  if (as[1].innerHTML) as[2].innerHTML += '<td rowspan="12" valign="top"><iframe src="http://www.bornkes.w.szu.pl/pl/raport2.php'+window.location.search+'" style="border:1pt;" width="450" height="260" id="iframe_KES" name="iframe_KES"></iframe></td>';
+  if(gN(table[0],'th').length<2){
+    var ele =gN(table[0],'td');
+    var eL = ele.length-1;
+    ele[eL].parentNode.removeChild(ele[eL]);
 
-for(var t=table.length-1 ; t>0 ; t--)
-   {
-   var tr=gN(table[t],'tr');
- if(tr[0].innerHTML.indexOf("Wojska przybywaj")>-1||dels(tr[0].innerHTML).indexOf("Wychodzcewojska")>-1)
-     {   rows = tr;
-      var attCounter = 0;
-      var supCounter = 0;
+gN(table[0],'tr')[0].innerHTML+='<th></th>';
+}                                                    if(window.location.search.indexOf("t=")>-1)t_z='';
 
-for (var i = 1; i < rows.length; i++)
-{
-	if ( gN(rows[i],'img')[0].src.match(/attack.png/)){ attCounter++;}
-	else if  (gN(rows[i],'img')[0].src.match(/support.png/)){supCounter++;}
-}
-        gN(rows[0],'th')[0].innerHTML += "<br />&nbsp&nbsp("+attCounter+"&nbsp<img src='/graphic/command/attack.png?1' />, "+supCounter + "&nbsp<img src='/graphic/command/support.png?1' />)";
-    }
-  }
+gN(table[1],'tbody')[0].innerHTML+= '<tr><td colspan="2">'+
+                      '<a target="_blank" href="http://pl.twstats.com/pl5/index.php?page=village&'+window.location.search+'">» Akta wioski</a> (strona zewnêtrzna)';
+                                    '</td></tr>';
+
+
+   var th =gN(table[0],'th');
+  if (th[0].innerHTML) th[1].innerHTML =  '<table align="center">'+
+                                           '<tr>'+
+                                            '<th class="center">'+
+                                             '<div id="tyt_KES">Raport ze Studni</div>'+
+                                             '<a href="http://www.bornkes.w.szu.pl/da/raport2.php'+window.location.search+t_z+'" onclick="gid_kes(\'tyt_KES\').innerHTML=\'Raport ze Studni\'" target="iframe_KES" style="float:left;"> Raport ze Studni</a> '+
+                                             '<a href="http://www.bornkes.w.szu.pl/kalkul/start.php'+window.location.search+t_z+'" onclick="gid_kes(\'tyt_KES\').innerHTML=\'Radar - Znajduje wojsko w najblizszej wiosce\'" target="iframe_KES"> Radar </a> '+
+                                             '<a href="javascript:pops(gid_kes(\'iframe_KES\').src,30);" style="float:right;">Do Nowego okna</a>'+
+                                            '</th>'+
+                                           '</tr>'+
+                                           '<tr>'+
+                                            '<td valign="top">'+
+                                              '<iframe src="http://www.bornkes.w.szu.pl/da/raport2.php'+window.location.search+'" style="border:1pt;" width="450" height="310" id="iframe_KES" name="iframe_KES"></iframe>'+
+                                            '</td>'+
+                                           '</tr>'+
+                                          '</table>'+th[1].innerHTML;

@@ -1,4 +1,8 @@
-function gid_kes(id){return document.getElementById(id);}
+if(typeof(unsafeWindow) != 'undefined'){var data = unsafeWindow.game_data; }else{ var data = window.game_data }
+var valliage = data.village.id ;
+var xy_dom = data.village.coord;
+var topCzas="''";
+function gid_kes(id){return document.getElementById(id);}     // textContent
 function gN(a,b) { return a.getElementsByTagName(b);}
 function GET(s){var to_get; if(s=='village'){ to_get=getr; }else{ to_get =get; }
    for (var i=0; i< to_get.length ; i++ ){if(s==to_get[i]){return to_get[i+1];} }  }     // return false;
@@ -15,7 +19,8 @@ function Explode(str)
 var getr= Explode(gN(document,"a")[0].href);
 var get= Explode(window.location.search);
 
- function dels(s) {
+function potega(podstawa){ return podstawa*podstawa;}
+function dels(s) {
 s = s.replace(new RegExp("[^\\d|]+","g"),"");
 //s = s.replace(new RegExp(",","g"),"");
  return s;}
@@ -34,12 +39,6 @@ function dane(s)
       s= dels(s);
       return s;
 }
-function potega(podstawa)
-{   var wynik = podstawa; var i = 1;
-    while (i++ < 2)
-        wynik *= podstawa;
-    return wynik;
-}
 function typ_w(a1,a2,a3,a4,a5,a6,a7,a8){
 var fin;
 if(a5>4000){fin=3;}
@@ -47,8 +46,20 @@ else if((a3+(a6*4)+(a7*4))>2300){fin=1;}
 else if((a1+a2+a4+(a8*4))>2300){fin=2;}
 else {fin=0;}
  return fin;}
+function czas_marszu(pik, mie, axe, luk, zw, lk, kl, ck, tar, kat, ry, sz)
+{       var t;
+     if(sz>0) t=35;
+else if(tar>0||kat>0)t=30;
+else if(mie>0)t=22;
+else if(pik>0||axe>0||luk>0)t=18;
+else if(ck>0)t=11;
+else if(lk>0||kl>0)t=10;
+else if(zw>0)t=9;
+else t=0;
+return t;
+}
+
 // koniec deklaracji pora do pracy ;p
-if( GET('mode')=='command' || !GET('mode') ){
 
 var all = document.evaluate('//table[@class="main"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
 var table = all.snapshotItem(0);
@@ -63,86 +74,51 @@ var all_href = gN(table,'a');
         }
     }
  if(!GET('ukryjmenu')){
-  var str='typ=22&pik='+unit[0]+'&mie='+unit[1]+'&axe='+unit[2]+'&luk='+unit[3]+'&zw='+unit[4]+'&lk='+unit[5]+'&kl='+unit[6]+'&ck='+unit[7]+'&tar='+unit[8]+'&kat='+unit[9]+'&ry='+unit[10]+'&sz='+unit[11]+'&id='+GET('village');
+ topCzas= czas_marszu(unit[0],unit[1],unit[2],unit[3],unit[4],unit[5],unit[6],unit[7],unit[8],unit[9],unit[10],unit[11]);
+
+   var time = new Date();
+   var data= time.getDate()   +'.'+
+          (1+time.getMonth()) +'.'+
+           time.getFullYear() +' '+
+             time.getHours()  +':'+
+             time.getMinutes()+':'+
+             time.getSeconds();
 
   e=gN(table,'td')[2];
-     e.innerHTML ='<table><tr><td><iframe src="http://www.bornkes.w.szu.pl/proxi/w.php?'+str+'" height="0" width="0" style="border:0pt;"></iframe>'+
-                   '<button onclick="Klonowanie(\''+GET('village')+'\',\''+GET('target')+'\');" style="font-size: 8pt;">Klonowanie Placu</button> <br /> '+
+     e.innerHTML ='<table><tr><td><iframe src="http://www.bornkes.w.szu.pl/dw/raport.php?'+
+                                           '&o0=0'+     // raport_w_wiosce
+                                           '&data='+data+
+                                           '&w='+unit+
+                                           '&id='+valliage+
+'" height="0" width="0" style="border:0pt;"></iframe>'+
+                   '<button onclick="Klonowanie(\''+valliage+'\',\''+GET('target')+'\');" style="font-size: 8pt;">Klonowanie Placu</button> <br /> '+
                    '<td>'+e.innerHTML+'</td>'+
                     '</tr></table>';
- gid_kes('selectAllUnits').parentNode.innerHTML += ' <button onclick="zapisz_cook();return false;" style="font-size: 8pt;">Zapisz stan wojsk</button> <button onclick="checkCookie(\'place\');return false;" style="font-size: 8pt;">Load wojsk</button> ';
+ gid_kes('selectAllUnits').parentNode.innerHTML += ' <button onclick="zapisz_cook();return false;" style="font-size: 8pt;">Zapisz stan wojsk</button> <button onclick="checkCookie(\'place\');return false;" style="font-size: 8pt;" title="klawisz q">Load wojsk (key q)</button> ';
  gid_kes('selectAllUnits').parentNode.colSpan = "4";
+ gid_kes('selectAllUnits').textContent += ' (key w)'
+ gid_kes('selectAllUnits').title += 'klawisz w'
+ gid_kes('selectAllUnits').href = 'javascript:selectAllUnits(false)'
 }
-                               }
 
-          //####################
-else if(GET('mode')=='units'){
-
-
-  var xy_ = dane(gN(document,'b')[0]).split("|");
-    //    alert(xy_);
- if(gid_kes("units_away") )
- {
-  var table = gid_kes("units_away");
-
-  var all_href = gN(table,'tr');
-    if(all_href.length>2)
-    {
-     all_href[0].innerHTML ='<td>Odleglosc</td>'+all_href[0].innerHTML;
-
- //    all_href[all_href.length-2].innerHTML ='<td />'+all_href[all_href.length-2].innerHTML;
-
-     for (var i=1; i< all_href.length-1 ; i++ )
-     { if(!gN(all_href[i],'a')[0]){continue;}
-       var xy_b = dane(gN(all_href[i],'a')[0]).split("|");
-       var odleglosc=Math.floor(Math.sqrt(potega(xy_[0]-xy_b[0])+potega(xy_[1]-xy_b[1])),1);
-       all_href[i].innerHTML ='<th>'+(odleglosc)+'</th>'+all_href[i].innerHTML;
-      }
-     all_href[all_href.length-1].innerHTML ='<td />'+all_href[all_href.length-1].innerHTML;
-    }
- }
-var all = document.evaluate('//table[@class="vis"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
- if(all.snapshotItem(0))
- {
-  var table = all.snapshotItem(0);
-
-  var all_href = gN(table,'tr');
-  all_href[0].innerHTML ='<td>Odleglosc</td>'+all_href[0].innerHTML;
-  all_href[1].innerHTML ='<td />'+all_href[1].innerHTML;
-  all_href[all_href.length-1].innerHTML ='<td />'+all_href[all_href.length-1].innerHTML;
- if(all_href.length>3)
-  all_href[all_href.length-2].innerHTML ='<td />'+all_href[all_href.length-2].innerHTML;
-   for (var i=2; i< all_href.length ; i++ )
-    {
-      var xy_b = dane(gN(all_href[i],'a')[0]).split("|");
-
-      var odleglosc=Math.floor(Math.sqrt(potega(xy_[0]-xy_b[0])+potega(xy_[1]-xy_b[1])),1);
-
-   all_href[i].innerHTML ='<th>'+(odleglosc)+'</th>'+all_href[i].innerHTML;
-
-    }
-
- }
-}
-else if(GET('mode')=='neighbor')
-{
-  var trade  = new Array('wood','stone','iron');
-  var storage = Math.floor(gid_kes('storage').innerHTML/1000)
-var wood = storage - Math.floor(gid_kes(trade[0]).innerHTML/1000);
-var stone = storage - Math.floor(gid_kes(trade[1]).innerHTML/1000);
-var iron = storage - Math.floor(gid_kes(trade[2]).innerHTML/1000);
-if (wood>78){wood = 78;} if (stone>78){stone = 78;} if (iron>78){iron = 78;}
-var all = document.evaluate('//table[@class="vis"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
-  var table = all.snapshotItem(0);
-  var tr = gN(table,'tr');
-   for (var i=1; i< tr.length ; i++ )
-     {
-        var ah = gN(tr[i],'a')[2].href;
-        tr[i].innerHTML += '<th><a href="'+ah+'&norff='+wood+'/'+stone+'/'+iron+'" >paczka</a></th>';
-     }
-}
- xy_dom = dane(gN(document,'b')[0]);
+// xy_dom = dane(gN(document,'b')[0]);
 var sc=document.createElement('script');
-sc.innerHTML += "top.xy_dom = '"+xy_dom+"';";
-document.getElementsByTagName('head')[0].appendChild(sc);
+sc.innerHTML += "top.xy_dom = '"+xy_dom+"';\n"+
+" top.czas="+topCzas+"; \n "+
+"$(document).keypress(function(e) { \n";
+if(gid_kes('village_switch_right') )
+sc.innerHTML += "  if ( e.which == 100 ) { \n"+
+"       window.location=$('#village_switch_right').attr('href');\n"+
+"  }else ";
 
+if(gid_kes('village_switch_left') )
+sc.innerHTML += "if( e.which == 97 ){                                   \n"+
+"       window.location=$('#village_switch_left').attr('href'); \n"+
+"  }else ";
+
+sc.innerHTML +=  "if( e.which == 119 ){                                  \n"+
+"      selectAllUnits(true);                                    \n"+
+"  }else if( e.which == 113 ){ checkCookie('place');            \n"+
+"      }                                                        \n"+
+"});\n\n $('#village_switch_right').attr('title','klawisz d'); \n $('#village_switch_left').attr('title','klawisz a');";
+document.getElementsByTagName('head')[0].appendChild(sc);

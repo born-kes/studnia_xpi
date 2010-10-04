@@ -178,8 +178,8 @@ function display() {
 
 summarize();
 display();
-if(GET('type')=='away_detail')
+/*if(GET('type')=='away_detail')
 gid_kes('units_table').parentNode.innerHTML='<input type="submit" value="cofnij" name="submit_units_back">'+gid_kes('units_table').parentNode.innerHTML;
 else if(GET('type')=='support_detail')
 gid_kes('units_table').parentNode.innerHTML='<input type="submit" value="odeslij" name="submit_units_back">'+gid_kes('units_table').parentNode.innerHTML;
-
+//*/

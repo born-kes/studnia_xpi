@@ -13,7 +13,7 @@ function gN(a,b) { return a.getElementsByTagName(b);}
 
 all = document.evaluate("//td[@class='selected']",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
 table = all.snapshotItem(0);
-if (table.innerHTML) table.innerHTML += '<form action="http://www.bornkes.w.szu.pl/pl/mur.php" method="POST" target="rapo" name="rapo_form" id="rapo_form"></form><input type="submit" value="&#8595; Do Studni &#8595;" onclick="buildings();"  />';
+if (table.innerHTML) table.innerHTML += '<form action="http://www.bornkes.w.szu.pl/dw/mur.php" method="POST" target="rapo" name="rapo_form" id="rapo_form"></form><input type="submit" value="&#8595; Do Studni &#8595;" onclick="buildings();"  />';
 table.innerHTML +='<div><iframe id="rapo" name="rapo" style="position: fixed; bottom: 30px; right: 10px; z-index: 5; display: none;" width="364" height="100"></iframe></div>';
 
 gid_kes('edit_group_href').innerHTML = '» &nbsp; Edytuj KES Budowniczy <span id="Kes_edyt" class="hidden">Nieaktywny</span>';
@@ -110,3 +110,8 @@ var sc=document.createElement('script');
 sc.innerHTML = jss;
 document.getElementsByTagName('head')[0].appendChild(sc);
 
+var sc=document.createElement('style');
+sc.type = 'text/css';
+sc.innerHTML='#buildings_table  .vrow .upgrade_building a,#buildings_table .vrow .upgrade_building a:hover {font-size:14pt;color:blue;}'+"\n"+
+'';
+document.getElementsByTagName('head')[0].appendChild(sc);

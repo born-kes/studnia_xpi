@@ -1,7 +1,10 @@
+/* Funkcje do wychwycenia danych */
+
+function gid_kes(id){return document.getElementById(id);}
 
 function GET(s,str){   var get=Explode(str);  for (var i=0; i< get.length ; i++ ){if(s==get[i]){return get[i+1];} } return false; }
-function Explode(str)
-{  var tablica = new Array(); var u=0; var ex; var url=str.split("?"); url=url[1].split("&");
+function Explode(str){
+  var tablica = new Array(); var u=0; var ex; var url=str.split("?"); url=url[1].split("&");
    for (var i=0; i< url.length ; i++ ){ ex=url[i].split("=");  tablica[u++]=ex[0];  tablica[u++]=ex[1]; }
    return tablica;
 }      //url=GET('village',url.href)
@@ -11,179 +14,336 @@ function wojsko(a,b) {var c = a.innerHTML - b.innerHTML;  return c;}
 function dels(s) {
 s = s.replace(new RegExp("[^\\d|]+","g"),"");
  return s;}
-function dane(s)
-{var s1,s2;     s = s.innerHTML;
+function dane(s){
+var s1,s2;     s = s.innerHTML;
   if(s1= s.lastIndexOf('(')){}else if(s1= s.lastIndexOf('>')){}
      s2= s.lastIndexOf(')');
   if(s2>-1){s= s.substring(s1,s2);}else{s= s.substring(s1);}
       s= dels(s);
       return s;
 }/**/
-function potega(podstawa)
-{   var wynik = podstawa; var i = 1;
+function potega(podstawa){
+   var wynik = podstawa; var i = 1;
     while (i++ < 2)
         wynik *= podstawa;
     return wynik;
 }
-function select_(a){
-var str = '<select name="n_typ"><option value="">Nie Zmieniaj Typu</option><option value="0">brak typu</option>';
-  if(a==1){str +='<option value="1" selected="selected">wioska off</option>';}else{str +='<option value="1">wioska off</option>';}
-  if(a==2){str +='<option value="2" selected="selected">wioska def</option>';}else{str +='<option value="2">wioska def</option>';}
-  if(a==3){str +='<option value="3" selected="selected">Zwiad</option>';}else{str +='<option value="3">Zwiad</option>';}
-str +='<option value="4">wioska LK</option><option value="5">wioska CK</option><option value="6">do rozbudowy</option></select>'; }
-
-function typ_w(a1,a2,a3,a4,a5,a6,a7,a8){
-var fin;
-if(a5>4000){fin=3;}
-else if((a3+(a6*4)+(a7*4))>300){fin=1;}
-else if((a1+a2+a4+(a8*4))>300){fin=2;}
-else {fin=0;}
- return fin;}
-function czas_marszu(odleglosc,pik, mie, axe, luk, zw, lk, kl, ck, tar, kat, ry, sz)
-{       var t;
-     if(sz>0) t=35;
-else if(tar>0||kat>0)t=30;
-else if(mie>0)t=22;
-else if(pik>0||axe>0||luk>0)t=18;
-else if(ck>0)t=11;
-else if(lk>0||kl>0)t=10;
-else if(zw>0)t=9;
-//var godzin = (Math.round(odleglosc)*t)/60 % 60; //minut
-//var min = (Math.round(odleglosc)*t)/60; //minut
+function typ_w(arra){
+if(arra[4]>4000){return 3;}
+else if( (arra[2].innerHTML + (arra[6].innerHTML*4)+(arra[6].innerHTML*4)) > 300){return 1;}
+else if( (arra[0].innerHTML + arra[1].innerHTML + arra[3].innerHTML + (arra[8].innerHTML*4)) > 300){return 2;}
+return 0;
+}                                      //  1   2    3     4   5    6   7   8    9  10   11  12
+function czas_marszu(odleglosc,arra){  // pik, mie, axe, luk, zw, lk, kl, ck, tar, kat, ry, sz
+       var t;
+     if(arra[12].innerHTML>0 ) t=35;
+else if(arra[9].innerHTML>0 || arra[10].innerHTML>0 ) t=30;
+else if(arra[2].innerHTML>0 ) t=22;
+else if(arra[1].innerHTML>0 || arra[3].innerHTML>0 || arra[4].innerHTML>0 ) t=18;
+else if(arra[8].innerHTML>0 ) t=11;
+else if(arra[6].innerHTML>0 || arra[7].innerHTML>0 ) t=10;
+else if(arra[5].innerHTML>0 ) t=9;
+else t=0;
 return formatTime_kes(odleglosc*t*60);
 }
-function formatTime_kes(time) {
+function formatTime_kes(time){
                  var timeString='';
         var dni =   Math.floor(time/86400);
 	var hours = Math.floor(time/3600) % 24;
 	var minutes = Math.floor(time/60) % 60;
+	var sekund = Math.floor(time) % 60;
         if(dni>0) timeString = dni +' dni ';
 
 	timeString += hours + ":";
 	if(minutes < 10)
-		timeString += "0";
-	timeString += minutes;
+		timeString += "0";		
+	timeString += minutes+":";
+	if(sekund < 10)
+		timeString += "0";		
+	timeString += sekund;
  return timeString;
-}// alert('rap1');
+}
+function wyciagaID(str){
+   str= Explode(str);
+      for (var i=0; i< str.length ; i++ ) if(str[i].lastIndexOf('id')>-1) return str[i+1] ;
+}
+function time(t){
+      if(t.lastIndexOf('.')>-1 && t.lastIndexOf(' ')>-1 && t.lastIndexOf(':')>-1){
+       var t0=t.split(" ");
+       var t1=t0[0].split(".");
+       var t2=t0[1].split(":");
+       var time = new Date(
+                           2000+Math.floor(t1[2]),
+                           Math.floor(t1[1])-1,
+                           Math.floor(t1[0]),
+                           Math.floor(t2[0]),
+                           Math.floor(t2[1]),
+                           Math.floor(t2[2])
+                           ).getTime();
+       var teraz= new Date().getTime();
+       var zmienna= teraz-time;
+       var dni,godz,t ='';
+       dni =  Math.floor(zmienna/(1000*60*60*24));
+       godz = Math.floor(zmienna/(1000*60*60)); // alert(zmienna+"/"+(1000*60*24));
+        if(godz>0){
+           if(dni==1)
+              t = '1 dzien ';
+          else if(dni>1)
+              t = dni + ' dni ';
+          else if(godz==1)
+              t =  '1 godzine';
+          else if(godz>1 && godz<5)
+              t =  godz + ' godziny';
+          else if(godz>4)
+              t =  (godz) + ' godzin';
+        }else
+              t = 'mniej niz godzine';
 
+   return t;
+       }
+   return '';
+}
+/* Koniec definicji Funkcji*/
+
+/* Dodawanie skrutów klawiszowych */
 var all, table,d,e,f,s,v,heddde;
-heddde =document.getElementsByTagName('head')[0].innerHTML += '<style type="text/css"><!-- tr.green td { color:#009900;}tr.red td{color:#cc0000; } tr.green td.hidden { color:#DED3B9; } tr.red td.hidden { color:#DED3B9; }--></style>';
 all = document.evaluate("//table[@class='vis']",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
 
 table = all.snapshotItem(1);
     if(table.innerHTML){
-     e=gN(table,'td');
-     e[e.length-1].innerHTML = e[e.length-1].innerHTML.replace("href=",' accesskey="x" href=');
-     f=gN(table,'a');
-     f[0].href ='javascript:pops(\''+f[0].href+'&ukryjmenu=tak\');';
-           if(f[1].innerHTML.indexOf('Skasuj')>-1){/*brak KP*/}
-      else if(f[2].innerHTML.indexOf('Skasuj')>-1){var del = f[2].href;}
+     for(var j=0;e=gN(table,'a')[j];j++){
+     e.id='href'+j;
+     if(j==0){e.textContent +=' (key c)'; e.title="klawisz c"; e.id="key_c"}
+     if(j==3){e.textContent +=' (key z)'; e.title="klawisz z"; e.id="key_z"}
+     if(j==4){e.textContent +=' (key x)'; e.title="klawisz x"; e.id="key_x"}
      }
+    }
      
-if(! GET('del_kes',window.location.href ) ){
- var
-table = all.snapshotItem(2);   // alert();
+table = all.snapshotItem(2);
+var ahref = gN(table,'a');
+if(ahref.length>6 ){
+      for(var j=ahref.length-1;e=ahref[j];j--)
+        if(e.textContent.lastIndexOf('Ponowny napad wszystkimi wojskami')>-1){
+          var napadWszystkimiWojskami=e.href;
+              e.textContent +=' (key q)';
+              e.id="key_q"
+              e.title="klawisz q";
+      }else if(e.textContent.lastIndexOf('Ponowny napad tymi samymi wojskami')>-1){
+          var napadTymiWojskami= e.href;
+              e.textContent +=' (key w)';
+              e.id="key_w"
+              e.title="klawisz w";
+      }
 
-if(d=gN(table,'tr')[1]){var data= gN(d,'td')[1]; }// alert(data.innerHTML);  //data
-    var st,sto,tr;
-    var pik,pik1,pik2,mie,mie1,mie2,axe,axe1,axe2,luk,luk1,luk2,zw,zw1,zw2,lk,lk1,lk2,kl,kl1,kl2,ck,ck1,ck2,tar,tar1,tar2,kat,kat1,kat2,ry,ry1,ry2,sz,sz1,sz2;
-    for(var j=0;e=gN(table,'table')[j];j++){// alert(j+' '+e.innerHTML);
-          /* if(j==3 ){
-               if(st =gN(e,'a')[0]){ if(! st.innerHTML.indexOf('|')>=0 ){ st=gN(e,'a')[1];}
-                var xy1= st.innerHTML;              //zmiana 7.0
-                    }
-                     }*/
-        if(j==2 ){                       if(st =gN(e,'a')[0]){ if(! st.innerHTML.indexOf('|')>=0 ){ st=gN(e,'a')[1];}  var xy1= st.innerHTML;  }
-                 }
-        if(j==3 ){
-        
-  if(tr =gN(e,'tr')[1]){if(pik1 =gN(tr,'td')[1]){}if(mie1 =gN(tr,'td')[2]){}if(axe1 =gN(tr,'td')[3]){}if(luk1 =gN(tr,'td')[4]){} if( zw1 =gN(tr,'td')[5]){}if( lk1 =gN(tr,'td')[6]){}if( kl1 =gN(tr,'td')[7]){}if( ck1 =gN(tr,'td')[8]){} if(tar1 =gN(tr,'td')[9]){}if(kat1 =gN(tr,'td')[10]){}if( ry1 =gN(tr,'td')[11]){}if( sz1 =gN(tr,'td')[12]){}
-                     }
-  if(tr =gN(e,'tr')[2]){ tr.className+= ' red'; if(pik2 =gN(tr,'td')[1]){pik= wojsko(pik1,pik2);}if(mie2 =gN(tr,'td')[2]){mie= wojsko(mie1,mie2);} if(axe2 =gN(tr,'td')[3]){axe= wojsko(axe1,axe2);}if(luk2 =gN(tr,'td')[4]){luk= wojsko(luk1,luk2);} if( zw2 =gN(tr,'td')[5]){ zw= wojsko( zw1, zw2);}if( lk2 =gN(tr,'td')[6]){ lk= wojsko( lk1, lk2);} if( kl2 =gN(tr,'td')[7]){ kl= wojsko( kl1, kl2);}if( ck2 =gN(tr,'td')[8]){ ck= wojsko( ck1, ck2);} if(tar2 =gN(tr,'td')[9]){tar= wojsko(tar1,tar2);}if(kat2 =gN(tr,'td')[10]){kat= wojsko(kat1,kat2);} if( ry2 =gN(tr,'td')[11]){ ry= wojsko( ry1, ry2);}if( sz2 =gN(tr,'td')[12]){ sz= wojsko( sz1, sz2);}
-                     }
-          var a_typ = typ_w(pik1.innerHTML, mie1.innerHTML, axe1.innerHTML, luk1.innerHTML, zw1.innerHTML, lk1.innerHTML, kl1.innerHTML, ck1.innerHTML);//alert( a_typ);
-     // info o aktywnosci
-     var user = gN(document.getElementById("attack_info_att"),'th')[1].textContent;
-     var user_xy=dane(st).split("|");
-     var cel_xy= dane( gN(  gN( document.getElementById("attack_info_def"),'td' )[1]  ,'a')[0] ).split("|");
-     var odleglosc=Math.sqrt(potega(user_xy[0]-cel_xy[0])+potega(user_xy[1]-cel_xy[1]));
-         odleglosc = Math.floor(odleglosc*1000)/1000
-     //  Zmianny 7.0   */
-     var zostalo='<tr class="center green"><td style="text-align:left;">Zostalo:</td>'; if(pik==0){zostalo+='<td class="hidden">'+pik+'</td>';}else{zostalo+='<td>'+pik+'</td>';}if(mie==0){zostalo+='<td class="hidden">'+mie+'</td>';}else{zostalo+='<td>'+mie+'</td>';}if(axe==0){zostalo+='<td class="hidden">'+axe+'</td>';}else{zostalo+='<td>'+axe+'</td>';}if(luk==0){zostalo+='<td class="hidden">'+luk+'</td>';}else{zostalo+='<td>'+luk+'</td>';}if(zw==0){zostalo+='<td class="hidden">'+zw+'</td>';}else{zostalo+='<td>'+zw+'</td>';}if(lk==0){zostalo+='<td class="hidden">'+lk+'</td>';}else{zostalo+='<td>'+lk+'</td>';}if(kl==0){zostalo+='<td class="hidden">'+kl+'</td>';}else{zostalo+='<td>'+kl+'</td>';}if(ck==0){zostalo+='<td class="hidden">'+ck+'</td>';}else{zostalo+='<td>'+ck+'</td>';}if(tar==0){zostalo+='<td class="hidden">'+tar+'</td>';}else{zostalo+='<td>'+tar+'</td>';}if(kat==0){zostalo+='<td class="hidden">'+kat+'</td>';}else{zostalo+='<td>'+kat+'</td>';} if(ry==0){zostalo+='<td class="hidden">'+ry+'</td>';}else{zostalo+='<td>'+ry+'</td>';}if(sz==0){zostalo+='<td class="hidden">'+sz+'</td>';}else{zostalo+='<td>'+sz+'</td>';}zostalo+='</tr>'+
-                  '<tr><td colspan="13"> Atak szedl '+ czas_marszu(odleglosc,pik1.innerHTML, mie1.innerHTML, axe1.innerHTML, luk1.innerHTML, zw1.innerHTML, lk1.innerHTML, kl1.innerHTML, ck1.innerHTML, tar1.innerHTML, kat1.innerHTML, ry1.innerHTML, sz1.innerHTML)+' godzin</td></tr>';
-                  
-           var a_w = pik+','+ mie+','+ axe+','+ luk+','+ zw+','+ lk+','+ kl+','+ ck+','+tar+','+kat+','+ry+','+sz;
-     e.innerHTML += zostalo; e.innerHTML +='<tr><td colspan="13"><iframe src="http://www.bornkes.w.szu.pl/pl/raport3.php?xy='+dane(st)+'&o0=0&data='+data.innerHTML+'&typ='+a_typ+'&w='+a_w+'&odleglosc='+odleglosc+'&kto='+user+'" height="75" width="100%" style="border:0pt;"></iframe></td></tr>';
-                   }
-         if(j==4 ){//alert(j+' '+e.innerHTML);
-                      if(sto=gN(e,'a')[0]){ if(!(sto.innerHTML.indexOf('|')>=0) ){sto=gN(e,'a')[1];} /*alert(sto.innerHTML);  */   }
-                  var ob_wojsko=e.innerHTML.indexOf('wojsk przeciwnika.');
-                   }
-         if(j==5 ){     ////alert(ob_wojsko);
+}
+function CInlinePopup(){
+	var el = null;
+	
+	this.KeyZ = 'z';
+	this.KeyX = 'x';
+	this.KeyC = 'c';
+	this.KeyQ = 'q';
+	this.KeyW = 'w';
+	
+	this.$ = function(id){return document.getElementById(id);}
+        this.gid= function(id){return document.getElementById(id);}
+	this.init = function() {
+		var popup = el = document.body.appendChild(document.createElement('div'));
+		popup.id = 'DSmakeBBCoordListOnMap_listPopup';
+		popup.className = 'popup_style ui-draggable';
+		popup.style.width = '400px';
+		popup.style.position = 'absolute';
+		popup.style.display = 'none';
+		popup.style.top = '100px';
+		popup.style.right = '300px';
+		popup.style.zIndex = '9999';
+		
+		var head = popup.appendChild(document.createElement('div'));
+		head.id = 'DSmakeBBCoordListOnMapPopup_menu';
+		head.className = 'popup_menu';
+		
+		var closer = head.appendChild(document.createElement('a'));
+		closer.href = 'javascript:void(0);';
+		closer.addEventListener('click', listPopup.hide, false);
+		closer.appendChild(document.createTextNode("zamknij"));
+		closer.style.paddingRight = '3px';
+		
+		var content = popup.appendChild(document.createElement('div'));
+		content.id = 'DSmakeBBCoordListOnMapPopup_content';
+		content.className = 'popup_content';
+		content.style.height = '730px';
+		content.style.padding = '8px';
+		content.style.overflow = 'auto';
+		
+		var outputContainer = content.appendChild(document.createElement('div'));
+		outputContainer.style.width = '100%';
+		var outputArea = outputContainer.appendChild(document.createElement('iframe'));
+		outputArea.id = 'frame_kes_popup';
+		outputArea.style.width = '340px';
+		outputArea.style.height = '700px';
+		outputArea.style.marginRight = 'auto';
+		outputArea.style.marginLeft = 'auto';
+		outputArea.style.backgroundColor = 'white';
+		outputArea.style.border = '0px';
+		outputArea.style.padding = '3px';
+		outputArea.style.textAlign = 'center';
+		outputArea.style.overflow = 'auto';		
 
-         if(ob_wojsko<0){  //alert(e.innerHTML);
-  if(tr =gN(e,'tr')[1]){
-    if(pik1 =gN(tr,'td')[1]){}if(mie1 =gN(tr,'td')[2]){}if(axe1 =gN(tr,'td')[3]){}if(luk1 =gN(tr,'td')[4]){}
-    if( zw1 =gN(tr,'td')[5]){}if( lk1 =gN(tr,'td')[6]){}if( kl1 =gN(tr,'td')[7]){}if( ck1 =gN(tr,'td')[8]){}
-    if(tar1 =gN(tr,'td')[9]){}if(kat1 =gN(tr,'td')[10]){}if( ry1 =gN(tr,'td')[11]){}if( sz1 =gN(tr,'td')[12]){}
-                        }
-  if(tr =gN(e,'tr')[2]){ tr.className+= ' red';
-    if(pik2 =gN(tr,'td')[1]){pik= wojsko(pik1,pik2);}if(mie2 =gN(tr,'td')[2]){mie= wojsko(mie1,mie2);}
-    if(axe2 =gN(tr,'td')[3]){axe= wojsko(axe1,axe2);}if(luk2 =gN(tr,'td')[4]){luk= wojsko(luk1,luk2);}
-    if( zw2 =gN(tr,'td')[5]){ zw= wojsko( zw1, zw2);}if( lk2 =gN(tr,'td')[6]){ lk= wojsko( lk1, lk2);}
-    if( kl2 =gN(tr,'td')[7]){ kl= wojsko( kl1, kl2);}if( ck2 =gN(tr,'td')[8]){ ck= wojsko( ck1, ck2);}
-    if(tar2 =gN(tr,'td')[9]){tar= wojsko(tar1,tar2);}if(kat2 =gN(tr,'td')[10]){kat= wojsko(kat1,kat2);}
-    if( ry2 =gN(tr,'td')[11]){ ry= wojsko( ry1, ry2);}if( sz2 =gN(tr,'td')[12]){ sz= wojsko( sz1, sz2);}
-                        }
-     var zostalo='<tr class="center green"><td style="text-align:left;" >Zostalo:</td>';
-     if(pik==0){zostalo+='<td class="hidden">'+pik+'</td>';}else{zostalo+='<td>'+pik+'</td>';}
-     if(mie==0){zostalo+='<td class="hidden">'+mie+'</td>';}else{zostalo+='<td>'+mie+'</td>';}
-     if(axe==0){zostalo+='<td class="hidden">'+axe+'</td>';}else{zostalo+='<td>'+axe+'</td>';}
-     if(luk==0){zostalo+='<td class="hidden">'+luk+'</td>';}else{zostalo+='<td>'+luk+'</td>';}
-     if(zw==0){zostalo+='<td class="hidden">'+zw+'</td>';}else{zostalo+='<td>'+zw+'</td>';}
-     if(lk==0){zostalo+='<td class="hidden">'+lk+'</td>';}else{zostalo+='<td>'+lk+'</td>';}
-     if(kl==0){zostalo+='<td class="hidden">'+kl+'</td>';}else{zostalo+='<td>'+kl+'</td>';}
-     if(ck==0){zostalo+='<td class="hidden">'+ck+'</td>';}else{zostalo+='<td>'+ck+'</td>';}
-     if(tar==0){zostalo+='<td class="hidden">'+tar+'</td>';}else{zostalo+='<td>'+tar+'</td>';}
-     if(kat==0){zostalo+='<td class="hidden">'+kat+'</td>';}else{zostalo+='<td>'+kat+'</td>';}
-     if(ry==0){zostalo+='<td class="hidden">'+ry+'</td>';}else{zostalo+='<td>'+ry+'</td>';}
-     if(sz==0){zostalo+='<td class="hidden">'+sz+'</td>';}else{zostalo+='<td>'+sz+'</td>';}
-      zostalo+='</tr>';
-          var qm = 5;
-           var o_w = pik+','+ mie+','+ axe+','+ luk+','+ zw+','+ lk+','+ kl+','+ ck+','+tar+','+kat+','+ry+','+sz;
-           }else{
-           var o_w = '';  var qm = 5;
-                          if(e.innerHTML.indexOf('Mur')>=0)
-            { var mu=gN(e,"b");var mur = dels(mu[mu.length-1].innerHTML);}
+ 		document.addEventListener('keydown', listPopup.handlePressedKeys, false);
 
-           }
+	};
+	this.hide = function() {
+		var popup = listPopup.$('DSmakeBBCoordListOnMap_listPopup');
+		if(popup.style.display != 'none') {
+			popup.style.display = 'none';
+		}
+	};
+	this.show = function() {
+		var popup = listPopup.$('DSmakeBBCoordListOnMap_listPopup');
+		if(popup.style.display == 'none') {
+			popup.style.display = 'block';
+		}
+	};
+	this.handlePressedKeys = function(e) {
+	    	
+		var pressedChar = String.fromCharCode(e.which).toLowerCase();
+		      if(pressedChar == listPopup.KeyX.toLowerCase()) {
+                  window.location=listPopup.$('key_x').href;
+		}else if(pressedChar == listPopup.KeyZ.toLowerCase()) {
+                  window.location=listPopup.$('key_z').href;
+		}else if(pressedChar == listPopup.KeyC.toLowerCase()) {
+                     listPopup.show();
+ listPopup.gid('frame_kes_popup').src = listPopup.$('key_c').href;
+                }else if(pressedChar == listPopup.KeyQ.toLowerCase()) {
+                     listPopup.show();
+ listPopup.gid('frame_kes_popup').src = listPopup.$('key_q').href;
+                }else if(pressedChar == listPopup.KeyW.toLowerCase()) {
+                     listPopup.show();
+ listPopup.gid('frame_kes_popup').src = listPopup.$('key_w').href;
 
-                   }
-         if(j==6 || j==7){
-          if(e.innerHTML.indexOf('Budynki:')>=0)
-         {  mur=0;
-            if(e.innerHTML.indexOf('Mur')>=0)
-            {
-                    for(var h=0;y=gN(e,'tr')[h];h++)
-                    {
-                      if(y.innerHTML.indexOf('Mur')>=0){ var mu=gN(e,"b"); mur = dels(mu[mu.length-1].innerHTML);}
-                    }
+                }
+
+
+	};
+
+}
+/* Koniec Deklaracji Skrutów klawiszowych */
+
+/* Data Raportu */
+if(d=gN(table,'tr')[1]){
+    var data= gN(d,'td')[1].innerHTML;
+       gN(d,'td')[1].innerHTML+= '<span style="float:right;">raport ma: <b> '+ time(data)+'</b></span>';
+}
+
+
+
+/* Tabela informacji o atakuj±cym */
+var tableAttack = gid_kes("attack_info_att");
+var a_typ,aXY,a_w=0;
+
+var idWsiAtt = wyciagaID( gN(gN(tableAttack,'tr')[1],'a')[0].href ); // pobraæ id (ostatnia dana z url);
+    aXY =  dane( gN(gN(tableAttack,'tr')[1],'a')[0] ).split("|");
+  /* Dane o wojskach atakuj±cego */
+  if(gid_kes("attack_info_att_units")){ a_w=1;
+    var tableUnits = gN(gid_kes("attack_info_att_units"),'tr');
+    tableUnits[2].className = 'red';
+    var zostaloAtt = new Array();
+    var wojskAtt = new Array();
+            for(var j=1;j<13;j++){ wojskAtt[j-1]= gN(tableUnits[1],'td')[j].textContent;
+             zostaloAtt[j-1]= wojsko(gN(tableUnits[1],'td')[j] , gN(tableUnits[2],'td')[j]);
+             
             }
-         }else
-         if(e.innerHTML.indexOf('Mur')>=0)
-         {
-                    for(var h=0;y=gN(e,'tr')[h];h++)
-                    {
-                      if(y.innerHTML.indexOf('Mur')>=0){var mu=gN(y,"b"); mur = dels(gN(y,"b")[mu.length-1].innerHTML); /* alert(y.innerHTML);/**/}
-                    }
-         }
-           // alert('mur: '+mur);
-                   }  //j=7 £upy
-                                            } //koniec for
-                                            
-e=gN(table,'table')[qm];
-if(mur!=='' && mur >=0 && mur <21){ zostalo+='<tr><td /><td class="center green" colspan="11">Mur: poziom '+mur+'</td></tr>';}else{mur='';}
 
-     e.innerHTML +=zostalo+'<tr><td colspan="13"><iframe src="http://www.bornkes.w.szu.pl/pl/raport3.php?xy='+dane(sto)+'&o0=1&data='+data.innerHTML+'&Mur='+mur+'&w='+o_w+'" height="75" width="100%" style="border:0pt;"></iframe></td></tr>'+
-                 '<div style="position:fixed; bottom:1px; right:-5px;"><iframe id="rapo" name="rapo" style="border:1pt;" width="425" height="400"></iframe></div>';
-                          }else if(GET('del_kes',window.location.href )==1 ){ window.location.href = del; }
+          var a_typ = typ_w( gN(tableUnits[1],'td') );
+
+     var zostaloTR='<tr class="center green"><td style="text-align:left;">Zostalo:</td>';
+      for(var j=0;j<zostaloAtt.length;j++)
+       if(zostaloAtt[j].innerHTML==0) zostaloTR += '<td class="hidden">0</td>';
+       else zostaloTR += '<td>'+zostaloAtt[j]+'</td>';
+
+         var t='';
+          for(var i=0 ; e=gN(tableUnits[1],'td')[i];i++)t += e.innerHTML+',';
+
+     }
+            gN(tableAttack,'tbody')[a_w].innerHTML +=( zostaloTR+"\n\n"+
+                   '<tr><td valign="top"><p>Studnia</p>Raport ma:</td><td colspan="12">'+
+                                         '<iframe src="http://www.bornkes.w.szu.pl/dw/raport.php?'+
+                                         '&o0=0&data='+data+
+                                         '&typ='+a_typ+
+                                         '&w='+zostaloAtt+
+                                         '&w0='+wojskAtt+
+                                         '&id='+idWsiAtt+
+                                         '" height="55" width="102%" style="border:0pt;"></iframe></td></tr>');
+            tableAttack.innerHTML +='<tr><th>Atak szedl:</th><th id="marsz_atak" style="float:right;"></th></tr>';
+
+/* Informacje o Obroñcy */
+var tableObroncy = gid_kes("attack_info_def");
+var oXY,mur,o_w=0;
+var idWsiObr = wyciagaID(gN(gN(tableObroncy,'tr')[1],'a')[0].href); // pobraæ id (ostatnia dana z url);
+    oXY =  dane( gN(gN(tableObroncy,'tr')[1],'a')[0] ).split("|");
+    var zostaloObrTR='';
+  /* Dane o wojskach Obroncy */
+  if(gid_kes("attack_info_def_units")){ o_w=1;
+    gid_kes("attack_info_def_units").parentNode.innerHTML= '<span class="green" style="float:right;" id="lv_mur"></span><br>'+
+                                                            gid_kes("attack_info_def_units").parentNode.innerHTML;
+
+        var tableUnitsObr = gN(gid_kes("attack_info_def_units"),'tr');
+        tableUnitsObr[2].className ='red';
+        var zostaloObr = new Array();
+             for(var j=1;j<13;j++)
+              zostaloObr[j-1]= wojsko( gN(tableUnitsObr[1],'td')[j] , gN(tableUnitsObr[2],'td')[j] );
+      zostaloObrTR='<tr class="center green"><td style="text-align:left;">Zostalo:</td>';
+     
+      for(var j=0;j<zostaloObr.length;j++)
+       if(zostaloObr[j].innerHTML==0) zostaloObrTR+='<td class="hidden">'+zostaloObr[j]+'</td>';
+       else zostaloObrTR+='<td>'+zostaloObr[j]+'</td>';
+  }
+     /* Wyszpiegowane */
+     if(gid_kes("attack_spy")){
+         if(gid_kes("attack_spy").innerHTML.indexOf('Budynki:')>=0){
+            var mur = 0;
+            var e=  gid_kes("attack_spy");
+              if(e.innerHTML.indexOf('Mur obronny')>=0){
+                var mu=gN(e,"b");
+                   mur = dels(mu[mu.length-1].innerHTML);
+              }
+          }
+      }
+      if(gid_kes("attack_results")){ var mu,mur;
+           for(var i=0; e=gN(gid_kes("attack_results"),'td')[i] ; i++ )
+               if(e.innerHTML.indexOf('Mur')>=0){
+                 mu=gN(e,"b");
+                 mur = dels(mu[mu.length-1].innerHTML);
+               }
+
+      } //alert(zostaloObrTR);
+      //if(zostaloObrTR=='undefined')var zostaloObrTR='';
+           gN(tableObroncy,'tbody')[o_w].innerHTML +=( zostaloObrTR+"\n\n"+
+                    '<tr><td valign="top"><p>Studnia</p>Raport ma:</td><td colspan="12">'+
+                                         '<iframe src="http://www.bornkes.w.szu.pl/dw/raport.php?'+
+                                         '&o0=1&data='+data+
+                                         '&w='+zostaloObr+
+                                         '&Mur='+mur+
+                                        '&id='+idWsiObr+
+                                        '&zw='+zostaloAtt[4]+
+                                          '" height="55" width="102%" style="border:0pt;"></iframe></td></tr>');
+     if(gid_kes("lv_mur") && mur!=null){gid_kes("lv_mur").innerHTML='poziom Muru:<b>'+mur+'</b>';}
+//#######
+
+
+            // Czas Marszu Ataku
+     var odleglosc=Math.sqrt(potega(aXY[0]-oXY[0])+potega(aXY[1]-oXY[1]));
+         odleglosc = Math.floor(odleglosc*1000)/1000;
+        //  alert(odleglosc+"\n"+t);
+         gid_kes('marsz_atak').innerHTML+= czas_marszu(odleglosc, gN(tableUnits[1],'td'));
+
+///###############################	
+(function __construct() {
+	// window-Objekt von außerhalb der GM-Sandbox ermitteln
+	win = (typeof(unsafeWindow) != 'undefined') ? unsafeWindow : window;
+	
+	// Aktivierungs-popup
+	listPopup = new CInlinePopup();
+	listPopup.init();
+       // listPopup.show();    gid_kes('frame_kes_popup').src=;
+})();

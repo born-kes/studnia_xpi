@@ -16,7 +16,7 @@
 var autoMarkierung=true;
 
 //Ile razy musi sie powtórzyć dany raport aby skrypt zaczął kolorować raporty tego typu?
-var mindestHaufigkeit=3;
+var mindestHaufigkeit=2;
 
 //Czy przeszukiwanie ma sie odbywac po koordynatach? (najlepiej true)
 var koordinatenSuchen=true;
@@ -37,26 +37,14 @@ var farben = new Array(
 	"#AD966B", "#9E7A8B", "#AE6AA9", "#6B6398", "#6F8BAA", "#6DABAB", "#6BAD71",
 	"#B79300", "#4F03AB", "#020F7D", "#034A7E", "#026258", "#014503", "#DFD9CE");
 
-try{
-	var css=document.styleSheets[2];
-	for(var i=0;i<css.cssRules.length;i++)
-	{
-		if(css.cssRules[i].selectorText=="table.vis td"){
-			css.cssRules[i].style.backgroundImage = 'none';
-		}
-	}
-} catch(evt){}
-
-for(var farbNummer=0;farbNummer<farben.length;farbNummer++){
-	GM_addStyle("table.vis td.color"+farbNummer+" { background-color:"+farben[farbNummer]+"}");
-	GM_addStyle("table.vis tr.row_a td.color"+farbNummer+" { background-color:"+farben[farbNummer]+"}");
-	GM_addStyle("table.vis tr.row_b td.color"+farbNummer+" { background-color:"+farben[farbNummer]+"}");
-}
+	var css='';
+	for(var i=0;i<farben.length;i++){	css+="\n table.vis td.color"+i+'{background-color:'+farben[i]+';}';		}
+document.getElementsByTagName('head')[0].innerHTML += '<style type="text/css"><!--'+css+"\n--></style>";
 
 var pattern1=new RegExp("\\(\\d{1,3}\\|\\d{1,3}\\)","g");
 var pattern2=new RegExp("\\(\\d{1,2}:\\d{1,2}:\\d{1,2}\\)","g");
 
-var vistabellen,tabellenNummer,datenOrt,datenOrtStelle,offsetVonHinten,laengeVonHinten;
+var vistabellen,tabellenNummer,offsetVonHinten,laengeVonHinten;
 var gruppenArray=new Array();
 var zeilenArray = new Array();
 var ersterDurchlauf=true;
@@ -64,58 +52,22 @@ var neustart=false;
 var hakenSetzenFunktion=false;
 var PA=false;
 
-
-/*dla przyszłego wsparcia dla Opery (by poncho)
- *if(typeof GM_addStyle!="function"){
- *	function GM_setValue(name, value) {
- *		document.cookie = name + '=' + escape(value) + '; expires=' + (new Date(2036, 1, 1)).toGMTString() + ';';
- *	}
- *	function GM_getValue(name) {
- *		var value = document.cookie.match('/'+name+'=(.*?)(?:;|$)/');
- *		if(value)
- *		return unescape(value[1]);
- *		return false;
- *	}
- *	function GM_addStyle(style) {
- *		var styleel = document.createElement('style');
- *		styleel.setAttribute('type', 'text/css');
- *		styleel.innerHTML = style;
- *		document.getElementsByTagName('head')[0].appendChild(styleel);
- *	}
- *}                   i => i
- */
-
 function starten() {
 	try {
-		var doc = getGameDoc();
-		try{if(doc.getElementsByTagName("ul")[0].className=="menu nowrap quickbar"){PA=true;}}
-		catch(evt){}
-		var tabellen=doc.getElementsByTagName("table");
-		vistabellen=new Array();
-		for(var i=0;i<tabellen.length;i++){
-			if(tabellen[i].className=="vis"){vistabellen.push(tabellen[i]);}
-		}
-
-    	if(doc.URL.match("screen=report")){	
-			tabellenNummer=2;
-			if(!PA){
-				var seitenAuswahlZeile=vistabellen[1].getElementsByTagName("td")[0].getElementsByTagName("a")[0].textContent;
-				if(seitenAuswahlZeile.search("&gt;[0-9]+&lt;")<0){
-					tabellenNummer=1;
-				}
-			}
-	    	datenOrt="span";
-	    	datenOrtStelle=1;
-	    	offsetVonHinten=0;
+		var doc = document;
+		PA=true;
+	//	var vistabellen=document.getElementsByTagName("form");
+		var vistabellen=new Array( document.getElementById("report_list") );
+	    	    tabellenNummer=0
+                    offsetVonHinten=0;
 	    	laengeVonHinten=12;
 	    	hakenSetzenFunktion=true;
-	    }
 
 		var zeilen = vistabellen[tabellenNummer].getElementsByTagName("tr");
     	for(var i=0;i<zeilen.length;i++){
-    		var daten = zeilen[i].getElementsByTagName(datenOrt);
+    		var daten = zeilen[i].getElementsByTagName("span");
 			try{
-				var auswahlText=daten[datenOrtStelle].textContent;
+				var auswahlText=daten[1].textContent;
 				var gruppenText="";
 				if(koordinatenSuchen&&pattern1.test(auswahlText)){
 					pattern1.lastIndex=0;
@@ -132,7 +84,7 @@ function starten() {
       				gruppenText+=auswahlText.slice(auswahlText.search(" greift ")+8,auswahlText.lastIndexOf(" ("));
 				} else if(auswahlText.match(" wurde angegriffen")){
       				if(berichttypenUnterscheiden){gruppenText+="AngriffAufUnterstützung ";}
-      				gruppenText+=auswahlText.slice(auswahlText.search(" in ")+4,auswahlText.search(" wurde angegriffen"));
+      				gruppenText+=auswahlText.slice(auswahlText.search(" in ")+4,auswahlText.search(" zosta�o zaatakowane"));
 				} else if(auswahlText.match(" zieht seine Unterstützung von ")){
       				if(berichttypenUnterscheiden){gruppenText+="Abzug ";}
       				gruppenText+=auswahlText.slice(auswahlText.search(" zieht seine Unterstützung von ")+31,auswahlText.search(" ab"));
@@ -175,16 +127,17 @@ function starten() {
 				catch(evt){gruppenArray[gruppenNummer]=[gruppenNummer,gruppenText,autoMarkierung,false,1];}
 														//gruppennummer,gruppentext,markierung,checkbox,haeufigkeit
 				if(ersterDurchlauf|neustart){zeilenArray[i]=[gruppenNummer,function(){}];}
+			// alert(gruppenText +"\n"+gruppenNummer);	
 			}
 			catch(evt){}
     	}
 
-    	if(gruppenArray.length>farben.length|mindestHaufigkeit>1){
-			gruppenArray.sort(function(p1,p2){return p2[4]-p1[4];});
-	   	}
-
+/*    	if(gruppenArray.length>farben.length|mindestHaufigkeit>1){
+*			gruppenArray.sort(function(p1,p2){return p2[4]-p1[4];});
+*	   	}
+*/
     	for(var i=0;i<zeilen.length;i++){
-    		var daten = zeilen[i].getElementsByTagName(datenOrt);
+    		var daten = zeilen[i].getElementsByTagName("span");
 			try{
 				var platzNummer=0;
 				while(gruppenArray[platzNummer]!=null&&gruppenArray[platzNummer][0]!=zeilenArray[i][0]){
@@ -198,7 +151,7 @@ function starten() {
 					zeilen[i].addEventListener('dblclick', zeilenArray[i][1], false);
 					if(hakenSetzenFunktion){
 						zeilenArray[i][2]=(function(e) {return function() {gruppenArray[e][2]=!gruppenArray[e][2];gruppenArray[e][3]=!gruppenArray[e][3];starten();}})(platzNummer);
-						zeilen[i].getElementsByTagName("input")[0].addEventListener('dblclick',zeilenArray[i][2], false);
+                                                zeilen[i].getElementsByTagName("input")[0].addEventListener('dblclick',zeilenArray[i][2], false);
 					}
 				}
 
@@ -216,7 +169,7 @@ function starten() {
   } catch(evt) {
    
   }
-}//startuje, wybiera grupy, przyporządkowywuje grupy i farbuje
+}//startuje, wybiera grupy, przyporzadkowywuje grupy i farbuje
 
 function neustarten(){
 	gruppenArray=new Array();
@@ -243,3 +196,31 @@ function getGameDoc(){
 }//getGameDoc
 
 starten();
+/*
+	document.getElementsByTagName("form")[1].getElementsByTagName("tbody")[0].innerHTML += '<tr><td colspan="5"> Utwurz liste napadaj ponownie<br><a id="bente">Tymi co ostatnio wojskami</a><br><a id="benten">wszystkimi wojskami</a><br><a id="bentek"></a></td></tr>';
+
+	document.getElementById("bente").addEventListener("click", function(event) {
+  var list=new Array();
+  document.getElementById("bentek").innerHTML='';
+  var tu= document.getElementById("bentek");
+ 		var inputs=document.getElementsByTagName("form")[0].getElementsByTagName("input");
+               for(var i=0;i<inputs.length;i++)
+                   if(inputs[i].type=='checkbox')
+                     if(inputs[i].checked)
+                        tu.innerHTML += "\n <br> [url=http://pl5.plemiona.pl/game.php?village=323696&screen=place&try=confirm&type=same&report_id="+inputs[i].name.split('_')[1]+']'+inputs[i].name.split('_')[1]+'|same[/url]';
+if(tu.innerHTML=='')alert('zaznacz cos');
+	}, true);
+       	document.getElementById("benten").addEventListener("click", function(event) {
+  var list=new Array();
+  document.getElementById("bentek").innerHTML='';
+  var tu= document.getElementById("bentek");
+ 		var inputs=document.getElementsByTagName("form")[0].getElementsByTagName("input");
+               for(var i=0;i<inputs.length;i++)
+                   if(inputs[i].type=='checkbox')
+                     if(inputs[i].checked)
+                        tu.innerHTML += "\n <br> [url=http://pl5.plemiona.pl/game.php?village=323696&screen=place&try=confirm&type=all&report_id="+inputs[i].name.split('_')[1]+']'+inputs[i].name.split('_')[1]+'|all[/url]';
+if(tu.innerHTML=='')alert('zaznacz cos');
+	}, true);
+*/	
+	
+

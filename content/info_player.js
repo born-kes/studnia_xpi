@@ -17,25 +17,3 @@ var tabeleczka = '<tr><td colspan="2"><table><tr><td>Punkty <br><img height="90"
                  '<tr><td>Pokonani atakujacy <br><img height="90" width="236" src="http://pl.twstats.com/image.php?type=playergraph&graph=oda&id='+url_fin+'&s=pl5" alt="Pokonani atakujacy"></td>'+n+
                  '<td>Pokonani obroncy <br><img height="90" width="236" src="http://pl.twstats.com/image.php?type=playergraph&graph=odd&id='+url_fin+'&s=pl5" alt="Pokonani obroncy"></td></tr></table></td></tr>'+n;
     table.innerHTML+=tabeleczka;
-
-    // alert(url_fin);
-all = document.evaluate("//table[@class='vis ']",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
-table = all.snapshotItem(0); var url = gN(table,'a')[0].href; var s = url.lastIndexOf('screen='); url = url.substring(0,s);
-var left = GET('village',window.location.search);
-var right= GET('info_player',window.location.search);
-
-
-table.innerHTML +='<tr><td colspan="2"><a href="'+window.location.search+'&boby=tak" target="_blank">Boczne Menu</a> (Element Studni)</td></tr>';
-      /*
-table = all.snapshotItem(1);
-
- i=gN(table,'tr').length;
-    d=gN(table,'tr');
-       if ( d[0].innerHTML)
-            d[0].innerHTML  = '<td />'+d[0].innerHTML;
-		for (var i = 1; i < d.length; i++)
-		{
-		var url = gN(d[i],'a')[0].href.split("?");	
-                        d[i].innerHTML  = '<th><a href="javascript: popup(\'http://www.bornkes.w.szu.pl/pl/raport2.php?'+url[1]+'\', 450, 250);"><img src="http://www.bornkes.w.szu.pl/img/r_img.php?'+url[1]+'" title="Nowy raport" alt=""></th>'+d[i].innerHTML;
-		}
-//*/

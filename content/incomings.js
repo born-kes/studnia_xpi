@@ -11,7 +11,9 @@ table = gid_kes("incomings_table");
   tdclass = tdclas.snapshotItem(0);
 
    if (tdclass.innerHTML){ tdclass.innerHTML += '<input value="Znaleziono nie opisane Ataki" onclick="next();" type="button">'+
-                      '<div style="position:fixed; bottom:1px; right:-5px;" id="mono"><iframe id="rapo" style="border:1pt;" width="425" height="400"></iframe></div>';}
+                      '<div style="position:fixed; bottom:1px; right:-5px;" id="mono">'+
+                       '<iframe id="rapo" style="border:1pt;" width="425" height="600"></iframe>'+
+                      '</div>';}
 
 var string = "var d,e;var j=e=0;var linki=new Array; \n"+
              "all = document.evaluate(\"//table[@class='vis overview_table ']\",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null); \n"+
@@ -21,7 +23,7 @@ var string = "var d,e;var j=e=0;var linki=new Array; \n"+
              "     { linki[j++] = d.getElementsByTagName('a')[0].href; } \n"+
              " } \n"+
              " function next(){gid_kes(\"mono\").style.display = ''; if(e<linki.length){"+
-             " gid_kes('rapo').src=linki[e]+'&ukryjmenu=tak'; e++;} \n"+
+             " gid_kes('rapo').src=linki[e]+'&ukryjmenu=tak'; e++;}else{alert('koniec');} \n"+
              "}\n";
 var sc=document.createElement('script');
 sc.innerHTML = string;

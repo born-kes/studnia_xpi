@@ -9,9 +9,14 @@ var t = gid('date_arrival');
            var drop_time = get_time[i].split(":");
             if(drop_time[2]==undefined){drop_time[2]='00';}
                drop_time = drop_time[0]*1 +":"+drop_time[1] +":"+dels(drop_time[2]);
-              get_time[i]= "<span id=\"DATime\" class=\"warn\">"+drop_time+"</span>";
-             break;
+              get_time[i]= '<span id="DATime" class="green">'+drop_time+'</span>';
+            // break;
          }
+         if(get_time[i].lastIndexOf('nocny')>-1){
+           get_time[i]='<br><span class="warn">Bonus nocny';
+           get_time[get_time.length-1]+='</span>';
+         }
+
      }
 //gid('date_arrival').innerHTML = t.innerHTML.replace(get_time , "<span id=\"DATime\" class=\"warn\">"+drop_time+"</span>");
 t.innerHTML = get_time.join(" ");

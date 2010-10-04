@@ -34,15 +34,8 @@ function dane(s)
 }
 var all, table, e,nev;  function gN(a,b) { return a.getElementsByTagName(b);}
 e='<img src="/graphic/holz.png?1" title="Drewno" alt="">/<img src="/graphic/lehm.png?1" title="Glina" alt="">/<img src="/graphic/eisen.png?1" title="¯elazo" alt="">';
-//*                  //boczne menu
-all = document.evaluate('//table[@class="vis modemenu"]',document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
-table = all.snapshotItem(0); var url = gN(table,'a')[0].href; var s = url.lastIndexOf('screen='); url = url.substring(0,s);
-var left = GET('village',window.location.search);
-var right= 1;
- if(GET('t',window.location.search)){var t='&t='+GET('t',window.location.search);}else{var t='&mode=prod';}
-table.innerHTML +='<tr><td><a href="/game.php?village='+left+'&screen=overview_villages&boby=tak'+t+'" target="_blank">Boczne Menu</a></td></tr>';
- /*
-table = all.snapshotItem(2);        max
+/*
+table = all.snapshotItem(2);
  var ua,ub,uc;
  var urll = gN(table,'a');
 ua = dels(urll[0].innerHTML);
@@ -79,7 +72,7 @@ var iron  = Math.floor(gid_kes('iron').innerHTML/1000);
  if(norf[1]>stone){norf[1]=stone;}
  if(norf[2]>iron){norf[2]=iron;}
 
-   pist += 'pis('+(norf[0]*1000)+','+(norf[1]*1000)+','+(norf[2]*1000)+'); ';
+   pist += 'pis('+(norf[0]*1000)+','+(norf[1]*1000)+','+(norf[2]*1000)+')';
 // document.addEventListener("DOMContentLoaded", , false);
 }
  xy_dom = dane(gN(document,'b')[0]);

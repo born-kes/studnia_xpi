@@ -7,15 +7,11 @@ function gN(a,b) { return a.getElementsByTagName(b);}
 var wood = storage - Math.floor(gid_kes(trade[0]).innerHTML/1000);
 var stone = storage - Math.floor(gid_kes(trade[1]).innerHTML/1000);
 var iron = storage - Math.floor(gid_kes(trade[2]).innerHTML/1000);
-if (wood>78){wood = 78;}else if (wood<1){wood = 0;}
-if (stone>78){stone = 78;}else if (stone<1){stone = 0;}
-if (iron>78){iron = 78;}else if (iron<1){iron = 0;}
+/*if (wood>78){wood = 78;}else */  if (wood <1){wood  = 0;}
+/*if (stone>78){stone = 78;}else */if (stone<1){stone = 0;}
+/*if (iron>78){iron = 78;}else */  if (iron <1){iron  = 0;}
 
  var v="";
-//   gN(gid_kes('village_list'),'input')[0].checked=true;
-//   gN(gid_kes('village_list'),'input')[1].checked=true;
-//   gN(gid_kes('village_list'),'input')[2].checked=true;
-
 
 var t=''+
 '<table class="main">'+
@@ -34,45 +30,50 @@ var t=''+
 '</td>'+
 '  </tr>'+
 '  <tr>'+
-'   <td>Zapisz</td><td><input type="button" id="" value="zapisz" />'+
+'   <td>Zapisz</td><td><input type="button" id="" value="zapisz" onclick="zapisz_kes()" />'+
                       '<input type="hidden" id="kes_wood" value="'+wood*1000+'" />'+
                       '<input type="hidden" id="kes_stone" value="'+stone*1000+'" />'+
                       '<input type="hidden" id="kes_iron" value="'+iron*1000+'" /></td>'+
 '  </tr>'+
 '<tr><th colspan="2"><a href="javascript:kes_test_market();" onclick="zapisz_kes()" id="Kes_edyt">Wprowadz</a>'+
-' <input type="button" onclick="kes_test_market();this.disabled=true;" value="Przygotowanie paczki" /></th></tr>'+
+'</th></tr>'+
 ' </tbody>'+
 '</table>';
 
 var y = '<table class="vis"><tbody><tr><th>=> Potrzebuje</th>'+
-'<th><span class="icon  wood" /></th><th>'+wood*1000+'</th>'+
-'<th><span class="icon  stone" /></th><th>'+stone*1000+'</th>'+
-'<th><span class="icon iron" /></th><th>'+iron*1000+'</th>'+
+'<th><span class="icon  wood" /></th><th id="wood1">'+wood*1000+'</th>'+
+'<th><span class="icon  stone" /></th><th id="stone1">'+stone*1000+'</th>'+
+'<th><span class="icon iron" /></th><th id="iron1">'+iron*1000+'</th>'+
 '</tr></tbody></table>';
 
 table = gid_kes('content_value');
       gN(table,'td')[1].innerHTML+=y;
       gN(table,'td')[0].innerHTML=t;
 
-function upload_budy(values)         //     spear sword axe archer spy light marcher heavy ram catapult knight snob
-{   var valuer = values.split(":");
+function upload_budy(values){         //     spear sword axe archer spy light marcher heavy ram catapult knight snob
+   var valuer = values.split(":");
 
-if(valuer.length>1)
+  if(valuer.length>1)
   {
 	 gid_kes('kes_storage').value	=valuer[0];
 	 gid_kes('kes_name').value     	=valuer[1];
-if(valuer[2]=='false')	gid_kes('kes_name_ukryj').checked=false;
+    if(valuer[2]=='false')
+	gid_kes('kes_name_ukryj').checked=false;
 
-if(valuer[3]=='true'){ gid_kes('Kes_edyt').innerHTML = ' Aktywny';
- v +='window.setTimeout(\"off_name()\",2300);';
-}
-else gid_kes('Kes_edyt').innerHTML = ' NieAktywny';
+    if(valuer[3]=='true'){
+      gid_kes('Kes_edyt').innerHTML = ' Aktywny';
+      v +='window.setTimeout(\"off_name()\",2300);';
+    }else
+      gid_kes('Kes_edyt').innerHTML = ' NieAktywny';
   }
+  if(valuer[3]=='true')
+    return true;
+  else
+    return false;
 }
-function getCookie(c_name)
-{
-if (document.cookie.length>0)
-  { var c_start;
+function getCookie(c_name){
+if (document.cookie.length>0){
+ var c_start;
   c_start=document.cookie.indexOf(c_name + "=");
   if (c_start!=-1)
     {
@@ -82,13 +83,11 @@ if (document.cookie.length>0)
     return unescape(document.cookie.substring(c_start,c_end));
     }
   }
-return "";
+ return "";
 }
-upload_budy( getCookie('market') );
 
  v+=""+
-"function zapisz_kes()      \n"+
-"{                          \n"+
+"function zapisz_kes(){      \n"+
 "var 	string='';          \n"+
 "	string+=gid_kes('kes_storage').value+':'; \n"+
 "	string+=gid_kes('kes_name').value+':';    \n"+
@@ -134,6 +133,9 @@ upload_budy( getCookie('market') );
 "gid_kes('kes_wood').value =kes_wood;\n"+
 "gid_kes('kes_stone').value=kes_stone;\n"+
 "gid_kes('kes_iron').value =kes_iron;\n"+
+"gid_kes('wood1').innerHTML =kes_wood;\n"+
+"gid_kes('stone1').innerHTML=kes_stone;\n"+
+"gid_kes('iron1').innerHTML =kes_iron;\n"+
 "}\n\n"+
 "function off_name()\n"+
 "{"+
@@ -148,9 +150,24 @@ upload_budy( getCookie('market') );
 "  else{tablica[i].style.display= '';}\n"+
 " if(gN(tablica[i],'td')[6].textContent.split('/')[0]<50 ){tablica[i].style.display= 'none';}"+
 " }\n"+
-"}\n"+
-"function dels_(s,r) { s= (dels(gN(s,'td')[r].textContent)); return s;}\n";
+"}"+
+"function aea(){window.setTimeout(\"kes_test_market()\",500);} \n"+
+"function dels_(s,r) { s= (dels(gN(s,'td')[r].textContent)); return s;}\n"+
+  //*
+"function aes(){"+
+"var inputs = gN(gid_kes('village_list'),'input');\n"+
+"for (var i=3; i< inputs.length ; i++ )\n"+
+"{\n"+
+"    var inp = inputs[i];\n"+
+"    if(inp.type=='button') \n"+
+"     inp.onclick = aea;\n"+
+"  }   \n"+
+"} \n";
+if(upload_budy( getCookie('market') ))
+  v+=" window.setTimeout(\"aes()\",2000);\n";
+
 var sc=document.createElement('script');
 sc.innerHTML = v;
 document.getElementsByTagName('head')[0].appendChild(sc);
 
+            //onclick ="alert('jestem')";
