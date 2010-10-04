@@ -1,3 +1,4 @@
+function gid_kes(id){return document.getElementById(id);}
 function gN(a,b) { return a.getElementsByTagName(b);}
 function GET(s){var to_get; if(s=='village'){ to_get=getr; }else{ to_get =get; }
    for (var i=0; i< to_get.length ; i++ ){if(s==to_get[i]){return to_get[i+1];} }  }     // return false;
@@ -177,3 +178,8 @@ function display() {
 
 summarize();
 display();
+if(GET('type')=='away_detail')
+gid_kes('units_table').parentNode.innerHTML='<input type="submit" value="cofnij" name="submit_units_back">'+gid_kes('units_table').parentNode.innerHTML;
+else if(GET('type')=='support_detail')
+gid_kes('units_table').parentNode.innerHTML='<input type="submit" value="odeslij" name="submit_units_back">'+gid_kes('units_table').parentNode.innerHTML;
+

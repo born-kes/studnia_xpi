@@ -8,7 +8,7 @@
 // @include        http://pl*.plemiona.pl/game.php*screen=info_village*
 // @license        Creative Commons 3.0 BY-SA (http://creativecommons.org/licenses/by-sa/3.0/deed.pl)
 // @author         szatdafakp - Forum Plemion
-// @contributor    Lukasz032 - Plemiona å7
+// @contributor    Lukasz032 - Plemiona ?7
 // @contributor    Nexces
 // ==/UserScript==
 
@@ -102,7 +102,7 @@ unsafeWindow.filter = function filter(village) {
         var rowBClass ="nowrap row_b";
         var rowNumber = 0;
 
-        for (var i=1; i < rows.length; i++) {
+        for (var i=1; i < rows.length-1; i++) {
                 var order = rows[i].textContent;
                 order = trim(order);
                 if ((village == null || order.indexOf(village) < 0 && village != "Wszystkie") || (fakesHidden && isFake(rows[i]))){
@@ -128,14 +128,14 @@ function addLinks() {
                         var newRow = document.createElement("tr");
                         var newCell = document.createElement("td");
                         newCell.setAttribute("colspan", "2");
-                        newCell.innerHTML = "<a href='/game.php?screen=overview_villages&page=-1&group=0&mode=commands&type=attack&coords=" + coords + "'>ª Pokaø ataki wys≥ane na wioskÍ</a>"
+                        newCell.innerHTML = "<a href='/game.php?screen=overview_villages&page=-1&group=0&mode=commands&type=attack&coords=" + coords + "'>ù Pokaø ataki wys≥ane na wioskÍ</a>"
                         newRow.appendChild(newCell);
                         tables[i].getElementsByTagName('tbody')[0].appendChild(newRow);
 
                         newRow = document.createElement("tr");
                         newCell = document.createElement("td");
                         newCell.setAttribute("colspan", "2");
-                        newCell.innerHTML = "<a href='/game.php?screen=overview_villages&page=-1&group=0&mode=commands&type=support&coords=" + coords + "'>ª Pokaø wsparcia wys≥ane do wioski</a>"
+                        newCell.innerHTML = "<a href='/game.php?screen=overview_villages&page=-1&group=0&mode=commands&type=support&coords=" + coords + "'>ù Pokaø wsparcia wys≥ane do wioski</a>"
                         newRow.appendChild(newCell);
                         tables[i].getElementsByTagName('tbody')[0].appendChild(newRow);
 
@@ -144,7 +144,7 @@ function addLinks() {
         }
 }
 
-function createVillagesList() {     // alert(document.URL.indexOf("mode=inco"));
+function createVillagesList() {    //  alert(document.URL.indexOf("mode=inco"));
         if (document.URL.indexOf("mode=inco") >= 0){var v=true;
         var ordersTable = document.getElementById("incomings_table");
         }else{                                      var v=false;
@@ -152,7 +152,7 @@ function createVillagesList() {     // alert(document.URL.indexOf("mode=inco"));
 
         var rows = ordersTable.getElementsByTagName('tr');   rows[0].getElementsByTagName('th')[0].style.width ='400px';
         var villages = new Array(0);
-        for (i = 1; i < rows.length; i++) {
+        for (i = 1; i < rows.length-1; i++) {
 
                 if (v){
                        if ( v && i == rows.length-1){break;}
@@ -211,9 +211,9 @@ if (document.URL.indexOf("mode=comm") >= 0 || document.URL.indexOf("mode=inco") 
                 }
                 if (i == options.length) {
                         if ( document.URL.indexOf("type=support") >= 0) {
-                                alert("Nie wys≥a≥eú øadnych wsparÊ do wybranej wioski");
+                                alert("Nie wys≥a≥e? øadnych wsparÊ do wybranej wioski");
                         } else if ( document.URL.indexOf("type=attack") >= 0 ) {
-                                alert("Nie wys≥a≥eú øadnych atakÛw na wybranπ wioskÍ");
+                                alert("Nie wys≥a≥e? øadnych atakÛw na wybranö wioskÍ");
                         }
                 }
         }

@@ -70,9 +70,8 @@ var all_href = gN(table,'a');
                    '<button onclick="Klonowanie(\''+GET('village')+'\',\''+GET('target')+'\');" style="font-size: 8pt;">Klonowanie Placu</button> <br /> '+
                    '<td>'+e.innerHTML+'</td>'+
                     '</tr></table>';
- gid_kes('selectAllUnits').parentNode.innerHTML += ' <button onclick="zapisz_cook();return false;" style="font-size: 8pt;">Zapisz stan wojsk</button> ';
- gid_kes('selectAllUnits').parentNode.colSpan = "2";
- gid_kes('target_support').parentNode.innerHTML += ' <button onclick="checkCookie(\'place\');return false;" style="font-size: 8pt;">Load wojsk</button> ';
+ gid_kes('selectAllUnits').parentNode.innerHTML += ' <button onclick="zapisz_cook();return false;" style="font-size: 8pt;">Zapisz stan wojsk</button> <button onclick="checkCookie(\'place\');return false;" style="font-size: 8pt;">Load wojsk</button> ';
+ gid_kes('selectAllUnits').parentNode.colSpan = "4";
 }
                                }
 

@@ -75,8 +75,6 @@ table = all.snapshotItem(0);
  var td = gN(table,'td');
  var rynek =  '<table><tr><th>Co Potrzeba </th><th><a href="javascript:alert(info);" >Pomoc</a></th>'+
  '<td rowspan="4" valign="top">'+td[3].innerHTML+'</td>'+
- '<td><input type="checkbox" id="ryne2" onclick="Cookie_checkbox(\'ryne2\');next_kes();" />Wystaw oferty automatycznie'+  //checkCookie(\'ryne2\');
- '<br><input type="checkbox" id="ryne2a" onclick="Cookie_checkbox(\'ryne2a\');next_kes();" />Usun wszystkie oferty </td>'+
  '</tr>'+"\n"+
                oferty(2,0,7)+
                oferty(2,1,8)+
@@ -90,20 +88,11 @@ table = all.snapshotItem(0);
  '<td><img src="/graphic/eisen.png?1" alt=""></th>'+ '<th id="KES_z">'+ surowce[2] +'</td>'+
  '</tr></table>';
 
-if(M=='abc'){ M= ' next_kes(); return;';}
-if(document.forms.length>1)
-          {var N= ' var el = document.forms[1].elements; '+"\n"+
-           ' for (i=0; i<el.length; i++){  if(el[i].type=="submit" && el[i].value=="Skasuj"){el[i].type="checkbox";} if(el[i].type=="checkbox"){el[i].checked=true;}} '+"\n";
-          }else{
-var N= ' next_kes(); return;';}
 var pis = "\n"+
           " gid_kes('KES_d').innerHTML = ThousandSeparator(gid_kes('KES_d').innerHTML);"+
           " gid_kes('KES_g').innerHTML = ThousandSeparator(gid_kes('KES_g').innerHTML);"+
           " gid_kes('KES_z').innerHTML = ThousandSeparator(gid_kes('KES_z').innerHTML);"+"\n\n"+
           ' var info = "Skroty klawiszowe:\\n lewy shift + lewy alt+ key \\n\\n key:\\n a = zmiana wioski (cofa)\\n d = zmiana wioski (next)\\n\\n  Tworzenie ofert:\\n 7 = drewno\\n 8 = Glina \\n9 = Zelazo \\n 0 = Zelazo (za gline)";'+ "\n\n "+
-          ' function los_kes(){'+M+' document.forms[0].submit();}'+"\n"+
-          ' function del_kes(){'+N+' document.forms[1].submit();}'+"\n"+
-          ' function next_kes(){window.location="http://pl5.plemiona.pl/game.php?village=n"+village_KES+"&screen=market&mode=own_offer";}'+"\n"+
           " checkCookie('ryne2'); checkCookie('ryne2a'); \n\n";
 
 var sc=document.createElement('script');

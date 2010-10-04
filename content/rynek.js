@@ -55,14 +55,14 @@ table = all.snapshotItem(1);        var imgs = '<img src="http://rookie.pl/obraz
  var vw=getCookie('rynek'); var vo=getCookie('rynek1');
  table.innerHTML += '<tr><td><table class="vis "><tr><th>'+e+'</th><th>moje</th></tr>'+
  '<tr><td rowspan="3" width="90"  >'+
- '<a href="javascript:pis('+vw+','+vw+','+vw+')" title="'+(vw/1000)+'k x3">'+imgy+'</a>'+
- '<a href="javascript:pis(10000,10000,10000)" title="10k x3" />'+imgs+'</a> <br />'+
- '<a href="javascript:pis('+vo+','+vo+','+vo+')" title="'+(vo/1000)+'k x3">'+imgy+'</a>'+
- '<a href="javascript:pis(30000,30000,30000)" title="30k x3" />'+imgs+'</a> '+
- '<a href="javascript:pis(78000,78000,78000)" title="78k x3" />'+imgs+'</a> <br />'+
+ '<a href="javascript:pis(10000,10000,10000)" title="paczka zawiera po 10k drewna, gliny, zelaza" />'+imgs+'</a>'+
+ '<a href="javascript:pis(gid_kes(\'rynek\').value,gid_kes(\'rynek\').value,gid_kes(\'rynek\').value)" title="Paczka zawiera x 3 to co zapisales">'+imgy+'</a> <br />'+
+ '<a href="javascript:pis(30000,30000,30000)" title="paczka zawiera po 30k drewna, gliny, zelaza" />'+imgs+'</a> '+
+ '<a href="javascript:pis(gid_kes(\'rynek1\').value,gid_kes(\'rynek1\').value,gid_kes(\'rynek1\').value)" title="Paczka zawiera x 3 to co zapisales">'+imgy+'</a> <br />'+
+ '<a href="javascript:pis(78000,78000,78000)" title="paczka zawiera po 78k drewna, gliny, zelaza" />'+imgs+'</a> <br />'+
 // '<a href="javascript:pis('+ua+','+ub+','+uc+')" accesskey="0"> max / max</a></td>'+
  '<td valign="top"><input type="text" id="rynek" value="'+vw+'" size="5" />'+
- '<button onclick="zapisz_cokisa(\'rynek\',gid_kes(\'rynek\').value);return false;" style="font-size: 8pt;">Zapisz 1</button><br /> '+
+ '<button onclick="zapisz_cokisa(\'rynek\',gid_kes(\'rynek\').value);return false;" style="font-size: 8pt;">Zapisz 1</button><br /><br /> '+
  '<input type="text" id="rynek1" value="'+vo+'" size="5" />'+
  '<button onclick="zapisz_cokisa(\'rynek1\',gid_kes(\'rynek1\').value);return false;" style="font-size: 8pt;">Zapisz 2</button><br /> '+
  '</td></tr></table></td></tr>';

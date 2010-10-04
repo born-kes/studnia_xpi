@@ -29,10 +29,12 @@ function Explode(str)
 }
 var get= Explode(window.location.search);
 
+var form = gN(document,'form')[GET('nr')].parentNode;
 
 var all, table,d,e, name,xy,sur,spich,zagr;
 var string='';
 var a='a';
+var v='';
 
 if(GET('mode')=='prod'||GET('screen')=='overview_villages')
 {   all = document.evaluate("//table[@class='vis overview_table']",document,null,XPathResult.ORDERED_NODE_SNAPSHOT_TYPE,null);
@@ -56,9 +58,14 @@ else { table = all.snapshotItem(0);}
 }
 
   xy = dane(name).split("|");
-      string += '<tr id="lis_'+i+'" class="nowrap row_'+a+'"><td style="display:none;">odleglosc</td><td style="display:none;">'+name.innerHTML+'</td><td style="display:none;">'+xy[0]+'|'+xy[1]+'</td>'+
+      string += '<tr id="lis_'+i+'" class="nowrap row_'+a+'">'+
+      '<td class="grey">odleglosc</td>'+
+      '<td style="display:none;">'+name.innerHTML+'</td>'+
+      '<td style="display:none;">'+xy[0]+'|'+xy[1]+'</td>'+
+     '<td><a class="nowrap" href="javascript:onKES(\''+i+'\')">Usun</a></td>'+
+     '<td colspan="2">'+name.innerHTML+ ' <a href="'+href+'" target="men2"><img src="/graphic/buildings/snob.png" alt="do wioski"></a><br>'+sur+' ('+spich+')</td>'+
      '<th width="29"><a class="nowrap" href="javascript:export_xy_KES('+xy+','+i+')"><img  src="http://www.bornkes.w.szu.pl/img/kordy.gif" /></a></th>'+
-     '<td colspan="2">'+name.innerHTML+ ' <a href="'+href+'" target="men2"><img src="/graphic/buildings/snob.png" alt="do wioski"></a><br>'+sur+' ('+spich+')</td><td><a class="nowrap" href="javascript:onKES(\''+i+'\')">Usun</a></td><td class="grey"></td></tr>'+ "\n";
+     '<td class="grey"></td></tr>'+ "\n";
   }
 string=string;
 }
@@ -77,13 +84,19 @@ table = all.snapshotItem(1);
   sur= '';
   spich=e[2].innerHTML;
 
-     string += '<tr id="lis_'+i+'" class="nowrap row_'+a+'"><td style="display:none;">odleglosc</td><td style="display:none;">'+name+'</td><td style="display:none;">'+xy[0]+'|'+xy[1]+'</td>'+
+     string += '<tr id="lis_'+i+'" class="nowrap row_'+a+'">'+
+     '<td class="grey"">odleglosc</td>'+
+     '<td style="display:none;">'+name+'</td>'+
+     '<td style="display:none;">'+xy[0]+'|'+xy[1]+'</td>'+
+     '<td><a class="nowrap" href="javascript:onKES(\''+i+'\')">Usun</a></td>'+
+     '<td colspan="2">'+name+'<br>'+sur+' ('+spich+' pkt.)</td>'+
      '<th width="29"><a class="nowrap" href="javascript:export_xy_KES('+xy+','+i+')" title="Przepisanie kordow na plac"><img  src="http://www.bornkes.w.szu.pl/img/kordy.gif" /></a></th>'+
-     '<td colspan="2">'+name+'<br>'+sur+' ('+spich+' pkt.)</td><td><a class="nowrap" href="javascript:onKES(\''+i+'\')">Usun</a></td><td class="grey"></td></tr>'+ "\n";
+     '<td class="grey"></td>'+
+     '</tr>'+ "\n";
  }
 }
  else if(GET('screen')=='memo')
-{                                            //alert('memo');
+{  v='true';                                          //alert('memo');
    var td_id = gid_kes("content_value");      //   alert(i_nr);
       var i_nr = GET('nr');
    var tabl_ = gN(td_id, 'b')[i_nr].innerHTML.split("\n");  //  alert(tabl_);
@@ -92,6 +105,8 @@ table = all.snapshotItem(1);
                                     // alert(i_nr);
  for(var i=0;i<table.length;i++)
  {  if(table[i].lastIndexOf("|")== -1 )continue;
+    if(table[i].lastIndexOf("_self")> -1 )table[i] = table[i].replace("_self","_blank");
+
 
   if(a=='a'){a='b';}else{a='a';}  name =tabl_[i];
   var pola = table[i].split(" ");
@@ -104,11 +119,16 @@ table = all.snapshotItem(1);
 
      }
 
-     string += '<tr id="lis_'+i+'" class="nowrap row_'+a+'"><td style="display:none;">odleglosc</td><td style="display:none;">'+name+'</td><td style="display:none;">'+xy[0]+'|'+xy[1]+'</td>'+
+     string += '<tr id="lis_'+i+'" class="nowrap row_'+a+'">'+
+     '<td class="grey">odleglosc</td>'+
+     '<td style="display:none;">'+name+'</td>'+
+     '<td style="display:none;">'+xy[0]+'|'+xy[1]+'</td>'+
+     '<td><a class="nowrap" href="javascript:onKES(\''+i+'\')">Usun</a></td>'+
+     '<td colspan="2">'+name+'<div id="czas_'+i+'" /></td>'+
      '<th width="29"><a class="nowrap" href="javascript:export_xy_KES('+xy+','+i+')" title="Przepisanie kordow na plac"><img  src="http://www.bornkes.w.szu.pl/img/kordy.gif" /></a></th>'+
-     '<td colspan="2">'+name+'</td><td><a class="nowrap" href="javascript:onKES(\''+i+'\')">Usun</a></td><td class="grey"></td></tr>'+ "\n";
+     '<td class="grey"></td></tr>'+ "\n";
 }
-    alert(string);
+    //alert(string);
 
 }
 var all = document.getElementsByTagName("hr");
@@ -119,19 +139,29 @@ for (var i = 0; i < all.length ; i++)
 {
     all[i].innerHTML = '';
 }
+var all = document.getElementsByTagName("a");
+
      if(GET('t')){var t='&t='+GET('t');}else{var t='';}
 
  var sc=document.createElement('table');
  sc.width = '100%';
-sc.innerHTML =  '<tr><td><br /><br /><br /> .. </td></tr><tr><td><div><table><thead><tr><td><table class="vis" style="width:280px;"><thead><tr><td colspan="5"><h3>Przelicz dla nowej wioski '+
-  '<button onclick="odlicz();" style="font-size: 8pt;">policz</button></h3> '+
-  '</td></tr><tr><td><input type="checkbox" id="auto_del" title="Auto usuwanie przy kliknieciu" />'+
-  '<th onclick="sort(0,this);" style="cursor:pointer;">Odleglosc</th>'+
-  '<th onclick="sort(1,this);" style="cursor:pointer;">Nazwy wsi</th>'+
-  '<td colspan="2" >Pola</td></tr></thead>'+
-  '<tbody>'+string+'</tbody></table></div></td><td valign="top" width="100%" height="100%">'+
+sc.innerHTML =  '<tr><td valign="top"><br /><br /><br /> .. </td></tr>'+
+'<tr><td valign="top">'+
+'<div><table><thead><tr><td valign="top">'+
+'<table class="vis" style="width:280px;"><thead><tr><td colspan="5"><h3>Przelicz dla nowej wioski '+
+  '<button onclick="odlicz('+v+');" style="font-size: 8pt;">policz</button></h3> '+
+  '</td></tr>'+
+  '<tr>'+
+  '<th onclick="sort(0,this);" style="cursor:pointer;">Odleglosc</th><td />'+
+  '<th onclick="sort(1,this);" style="cursor:pointer;" colspan="2" >Nazwy wsi</th>'+
+  '<td><input type="checkbox" id="auto_del" title="Auto usuwanie przy kliknieciu" />'+
+//  '<td>Pola</td>'+
+  '</tr></thead>'+
+  '<tbody id="tabela_xy">'+string+'</tbody></table></div></td><td valign="top" width="100%" height="100%">'+
   '<iframe src="/game.php?village='+GET('village')+'&screen=place'+t+'" style="border: 1pt none ;" name="men2" id="men2"width="100%" height="700"></iframe>'+
-  '</td></tr></table></td></tr>';
+  '</td></tr></table><br /><br />'+
+  '<div><button style="font-size: 8pt;" onclick="opracuj_bb(gid_kes(\'div_edit\'));" >Opracuj</button>'+
+  '<div style="display:none;" id="div_edit">'+form.innerHTML+'</div><br /></div></td></tr>';
 document.getElementsByTagName('body')[0].appendChild(sc);
 
    var del = gid_kes("main_layout");

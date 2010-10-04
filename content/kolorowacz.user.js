@@ -39,10 +39,10 @@ var farben = new Array(
 
 try{
 	var css=document.styleSheets[2];
-	for(var zeilenNummer=0;zeilenNummer<css.cssRules.length;zeilenNummer++)
+	for(var i=0;i<css.cssRules.length;i++)
 	{
-		if(css.cssRules[zeilenNummer].selectorText=="table.vis td"){
-			css.cssRules[zeilenNummer].style.backgroundImage = 'none';
+		if(css.cssRules[i].selectorText=="table.vis td"){
+			css.cssRules[i].style.backgroundImage = 'none';
 		}
 	}
 } catch(evt){}
@@ -82,7 +82,7 @@ var PA=false;
  *		styleel.innerHTML = style;
  *		document.getElementsByTagName('head')[0].appendChild(styleel);
  *	}
- *}
+ *}                   i => i
  */
 
 function starten() {
@@ -92,14 +92,14 @@ function starten() {
 		catch(evt){}
 		var tabellen=doc.getElementsByTagName("table");
 		vistabellen=new Array();
-		for(var zeilenNummer=0;zeilenNummer<tabellen.length;zeilenNummer++){
-			if(tabellen[zeilenNummer].className=="vis"){vistabellen.push(tabellen[zeilenNummer]);}
+		for(var i=0;i<tabellen.length;i++){
+			if(tabellen[i].className=="vis"){vistabellen.push(tabellen[i]);}
 		}
 
     	if(doc.URL.match("screen=report")){	
 			tabellenNummer=2;
 			if(!PA){
-				var seitenAuswahlZeile=vistabellen[1].getElementsByTagName("td")[0].innerHTML;
+				var seitenAuswahlZeile=vistabellen[1].getElementsByTagName("td")[0].getElementsByTagName("a")[0].textContent;
 				if(seitenAuswahlZeile.search("&gt;[0-9]+&lt;")<0){
 					tabellenNummer=1;
 				}
@@ -109,88 +109,13 @@ function starten() {
 	    	offsetVonHinten=0;
 	    	laengeVonHinten=12;
 	    	hakenSetzenFunktion=true;
-	    } else if(doc.URL.match("screen=overview_villages")){
-			if(doc.URL.match("mode=commands")){
-				tabellenNummer=3;
-				datenOrt="a";
-				switch(GM_getValue("commandsort")) {
-					case 0: datenOrtStelle=0;offsetVonHinten=7;laengeVonHinten=12; break;
-					case 1: datenOrtStelle=2;offsetVonHinten=0;laengeVonHinten=12; break;
-					default : datenOrtStelle=0;GM_setValue("commandsort", 0); break;
-				}
-				var headers = doc.getElementsByTagName("th");
-				for(var zeilenNummer=0;zeilenNummer<headers.length;zeilenNummer++){
-					if(headers[zeilenNummer].innerHTML.match("Befehl")){
-						if(ersterDurchlauf){headers[zeilenNummer].addEventListener('click', function() {GM_setValue("commandsort", 0);neustarten();}, false);}
-						if(GM_getValue("commandsort")==0){headers[zeilenNummer].innerHTML="Befehl (markiert)";}
-						else{headers[zeilenNummer].innerHTML="Befehl";}
-					}
-					if(headers[zeilenNummer].innerHTML.match("Heimatdorf")){
-						if(ersterDurchlauf){headers[zeilenNummer].addEventListener('click', function() {GM_setValue("commandsort", 1);neustarten();}, false);}
-						if(GM_getValue("commandsort")==1){headers[zeilenNummer].innerHTML="Heimatdorf (markiert)";}
-						else{headers[zeilenNummer].innerHTML="Heimatdorf";}
-					}
-				}
-			} else if(doc.URL.match("mode=incomings")){
-				tabellenNummer=3;
-				var ignorierteAngriffeZeile=vistabellen[2].getElementsByTagName("td")[1].innerHTML;
-				if(ignorierteAngriffeZeile.match("Ignorierte")){
-					tabellenNummer=4;
-				}
-				datenOrt="a";
-				switch(GM_getValue("incomingsort")) {
-					case 0: datenOrtStelle=0;offsetVonHinten=7;laengeVonHinten=12; break;
-					case 1: datenOrtStelle=2;offsetVonHinten=0;laengeVonHinten=12; break;
-					case 2: datenOrtStelle=3;offsetVonHinten=0;laengeVonHinten=-1; break;
-					default : datenOrtStelle=2;offsetVonHinten=0;laengeVonHinten=12;GM_setValue("incomingsort", 1); break;
-				}
-				var headers = doc.getElementsByTagName("th");
-				for(var zeilenNummer=0;zeilenNummer<headers.length;zeilenNummer++){
-					if(headers[zeilenNummer].innerHTML.match("Befehl")){
-						if(ersterDurchlauf){headers[zeilenNummer].addEventListener('click', function() {GM_setValue("incomingsort", 0);neustarten();}, false);}
-						if(GM_getValue("incomingsort")==0){headers[zeilenNummer].innerHTML="Befehl (markiert)";}
-						else{headers[zeilenNummer].innerHTML="Befehl";}
-					}
-					if(headers[zeilenNummer].innerHTML.match("Ziel")){
-						if(ersterDurchlauf){headers[zeilenNummer].addEventListener('click', function() {GM_setValue("incomingsort", 1);neustarten();}, false);}
-						if(GM_getValue("incomingsort")==1){headers[zeilenNummer].innerHTML="Ziel (markiert)";}
-						else{headers[zeilenNummer].innerHTML="Ziel";}
-					}
-					if(headers[zeilenNummer].innerHTML.match("Herkunft")){
-						if(ersterDurchlauf){headers[zeilenNummer].addEventListener('click', function() {GM_setValue("incomingsort", 2);neustarten();}, false);}
-						if(GM_getValue("incomingsort")==2){headers[zeilenNummer].innerHTML="Herkunft (markiert)";}
-						else{headers[zeilenNummer].innerHTML="Herkunft";}
-					}
-				}
-			}
-		} else if(doc.URL.match("screen=mail")){
-			if(PA){
-				tabellenNummer=3;
-				var seitenAuswahlZeile=vistabellen[2].getElementsByTagName("td")[0].innerHTML;
-				if(seitenAuswahlZeile.search("&gt;[0-9]+&lt;")<0){
-					tabellenNummer=2;
-				}
-				
-			}
-			else{
-				tabellenNummer=2;
-				var seitenAuswahlZeile=vistabellen[1].getElementsByTagName("td")[0].innerHTML;
-				if(seitenAuswahlZeile.search("&gt;[0-9]+&lt;")<0){
-					tabellenNummer=1;
-				}
-			}
-	    	datenOrt="a";
-	    	datenOrtStelle=1;
-	    	offsetVonHinten=0;
-	    	laengeVonHinten=-1;
-	    	hakenSetzenFunktion=true;
-		}//Wybór strony
+	    }
 
 		var zeilen = vistabellen[tabellenNummer].getElementsByTagName("tr");
-    	for(var zeilenNummer=0;zeilenNummer<zeilen.length;zeilenNummer++){
-    		var daten = zeilen[zeilenNummer].getElementsByTagName(datenOrt);
+    	for(var i=0;i<zeilen.length;i++){
+    		var daten = zeilen[i].getElementsByTagName(datenOrt);
 			try{
-				var auswahlText=daten[datenOrtStelle].innerHTML;
+				var auswahlText=daten[datenOrtStelle].textContent;
 				var gruppenText="";
 				if(koordinatenSuchen&&pattern1.test(auswahlText)){
 					pattern1.lastIndex=0;
@@ -249,7 +174,7 @@ function starten() {
 				try{gruppenArray[gruppenNummer]=[gruppenNummer,gruppenText,gruppenArray[gruppenNummer][2],gruppenArray[gruppenNummer][3],gruppenArray[gruppenNummer][4]=gruppenArray[gruppenNummer][4]+1];}
 				catch(evt){gruppenArray[gruppenNummer]=[gruppenNummer,gruppenText,autoMarkierung,false,1];}
 														//gruppennummer,gruppentext,markierung,checkbox,haeufigkeit
-				if(ersterDurchlauf|neustart){zeilenArray[zeilenNummer]=[gruppenNummer,function(){}];}
+				if(ersterDurchlauf|neustart){zeilenArray[i]=[gruppenNummer,function(){}];}
 			}
 			catch(evt){}
     	}
@@ -258,31 +183,31 @@ function starten() {
 			gruppenArray.sort(function(p1,p2){return p2[4]-p1[4];});
 	   	}
 
-    	for(var zeilenNummer=0;zeilenNummer<zeilen.length;zeilenNummer++){
-    		var daten = zeilen[zeilenNummer].getElementsByTagName(datenOrt);
+    	for(var i=0;i<zeilen.length;i++){
+    		var daten = zeilen[i].getElementsByTagName(datenOrt);
 			try{
 				var platzNummer=0;
-				while(gruppenArray[platzNummer]!=null&&gruppenArray[platzNummer][0]!=zeilenArray[zeilenNummer][0]){
+				while(gruppenArray[platzNummer]!=null&&gruppenArray[platzNummer][0]!=zeilenArray[i][0]){
 					platzNummer++;
 				}
 
 				if(ersterDurchlauf|neustart){
 					if(gruppenArray[platzNummer][4]<mindestHaufigkeit) gruppenArray[platzNummer][2]=false;
 					
-					zeilenArray[zeilenNummer][1]=(function(e) {return function() {gruppenArray[e][2]=!gruppenArray[e][2];starten();}})(platzNummer);
-					zeilen[zeilenNummer].addEventListener('dblclick', zeilenArray[zeilenNummer][1], false);
+					zeilenArray[i][1]=(function(e) {return function() {gruppenArray[e][2]=!gruppenArray[e][2];starten();}})(platzNummer);
+					zeilen[i].addEventListener('dblclick', zeilenArray[i][1], false);
 					if(hakenSetzenFunktion){
-						zeilenArray[zeilenNummer][2]=(function(e) {return function() {gruppenArray[e][2]=!gruppenArray[e][2];gruppenArray[e][3]=!gruppenArray[e][3];starten();}})(platzNummer);
-						zeilen[zeilenNummer].getElementsByTagName("input")[0].addEventListener('dblclick',zeilenArray[zeilenNummer][2], false);
+						zeilenArray[i][2]=(function(e) {return function() {gruppenArray[e][2]=!gruppenArray[e][2];gruppenArray[e][3]=!gruppenArray[e][3];starten();}})(platzNummer);
+						zeilen[i].getElementsByTagName("input")[0].addEventListener('dblclick',zeilenArray[i][2], false);
 					}
 				}
 
-				var tabledata=zeilen[zeilenNummer].getElementsByTagName("td");
+				var tabledata=zeilen[i].getElementsByTagName("td");
 				for(var l=0;l<tabledata.length;l++){
 					if(gruppenArray[platzNummer][2]){tabledata[l].className="color"+platzNummer;}
 					else tabledata[l].className="";
 				}
-				if(hakenSetzenFunktion){zeilen[zeilenNummer].getElementsByTagName("input")[0].checked=gruppenArray[platzNummer][3];}
+				if(hakenSetzenFunktion){zeilen[i].getElementsByTagName("input")[0].checked=gruppenArray[platzNummer][3];}
 			}
 			catch(evt){}
     	}
@@ -296,9 +221,9 @@ function starten() {
 function neustarten(){
 	gruppenArray=new Array();
 	var zeilen = vistabellen[tabellenNummer].getElementsByTagName("tr");
-   	for(var zeilenNummer=0;zeilenNummer<zeilen.length;zeilenNummer++){
-   		try{zeilen[zeilenNummer].removeEventListener('dblclick', zeilenArray[zeilenNummer][1],false);}catch(evt){}
-   		try{zeilen[zeilenNummer].getElementsByTagName("input")[0].removeEventListener('dblclick',zeilenArray[zeilenNummer][2], false);}catch(evt){}
+   	for(var i=0;i<zeilen.length;i++){
+   		try{zeilen[i].removeEventListener('dblclick', zeilenArray[i][1],false);}catch(evt){}
+   		try{zeilen[i].getElementsByTagName("input")[0].removeEventListener('dblclick',zeilenArray[i][2], false);}catch(evt){}
    	}
    	zeilenArray=new Array();
     neustart=true;
@@ -308,9 +233,9 @@ function neustarten(){
 function getGameDoc(){
 	getdoc=window.document;
 	if(!getdoc.URL.match("game.php")){
-		for(zeilenNummer=0;zeilenNummer<window.frames.length;zeilenNummer++){
-			if(window.frames[zeilenNummer].document.URL.match("game.php")){
-				getdoc = window.frames[zeilenNummer].document;
+		for(i=0;i<window.frames.length;i++){
+			if(window.frames[i].document.URL.match("game.php")){
+				getdoc = window.frames[i].document;
 			}
 		}
 	}

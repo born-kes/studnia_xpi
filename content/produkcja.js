@@ -1,20 +1,14 @@
+function gid_kes(id){return document.getElementById(id);}
 function gN(a,b) { return a.getElementsByTagName(b);}
 function dels(s) {
 s = s.replace(new RegExp("[^\\d]+","g"),"");
  return s;}
 var tables = gN(document,'table');
 var rows;
-for (i = tables.length-1; i >= 0; i--)
-{
-  if (gN(tables[i],'tr').length == 0) continue;
-  var tr = gN(tables[i],'tr')[0];
-  if (gN(tr,'th').length == 0) continue;
-  if (gN(tr,'th')[0].textContent != "Wioska" ) continue;
-  rows = gN(tables[i],'tr');
-  break;
-}
+  rows = gN(gid_kes('production_table'),'tr');
+
 var str=" var input_id = new Array; \n";
-gN(rows[0],'th')[0].innerHTML +=' <input id="nazwa_allwsi" size="" value=""> <a href="javascript:edyt_all_wsi()"><img src="/graphic/rename.png?1" alt="zmien wszystkie nazwy" title="zmien wszystkie nazwy"></a>';
+gN(rows[0],'th')[1].innerHTML +=' <input id="nazwa_allwsi" size="" value=""> <a href="javascript:edyt_all_wsi()"><img src="/graphic/rename.png?1" alt="zmien wszystkie nazwy" title="zmien wszystkie nazwy"></a>';
 
 for (i = 1; i < rows.length; i++)
 {    //kes

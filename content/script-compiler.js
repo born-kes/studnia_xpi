@@ -159,6 +159,9 @@ if(  konwerterraportw_gmCompiler.isGreasemonkeyable(href) && ( /http:\/\/.*pl5.*
 		else // W³asne propozycje
 		if ( /.*screen=market&mode=own_offer.*/.test(href) )
 			{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'rynek2.js'   );}
+		else // W³asne propozycje
+		if ( /.*screen=market&mode=call.*/.test(href) )
+			{var script=konwerterraportw_gmCompiler.getUrlContents(chrome+'market_call.js'   );}
 	}
 
 
