@@ -98,7 +98,7 @@ var all_href = gN(table,'a');
  gid_kes('selectAllUnits').parentNode.colSpan = "4";
  gid_kes('selectAllUnits').textContent += ' (key w)'
  gid_kes('selectAllUnits').title += 'klawisz w'
- gid_kes('selectAllUnits').href = 'javascript:selectAllUnits(false)'
+ gid_kes('selectAllUnits').href = 'javascript:selectAllUnits(true)'
 }
 
 // xy_dom = dane(gN(document,'b')[0]);
