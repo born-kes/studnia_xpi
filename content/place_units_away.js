@@ -1,52 +1,49 @@
-      // ==UserScript==
-// @name					DSmakeBBCoordListOnMap
-// @author					Heinzel
-// @version: 				2.0.0
-// @namespace				http://userscripts.org
-// @description				Mit diesem Script kann man nach dem Drücken der 'b'-Taste einen BB-Code-Liste von Dörfern auf der Karte erstellen, indem man sie einfach anklickt.
-// @include					http://pl*.plemiona.pl/game.php*screen=map*
-// ==/UserScript==
+alert('jestem');
 
-
-// version: 		2.0.0
-// author: 			Heinzel
-// with help of: 		Hypix
-// changelog:
-// 1.0.0			- Fertigstellung
-// 2.0.0			- Anpassung an DS-v7.x
-
-
+/*
 const UserScript = {
 	'name': 		'DSmakeBBCoordListOnMap',
 	'version': 		'2.0.0',
 	'threadLink': 	'http://forum.die-staemme.de/showpost.php?p=1671215'
 };
-
-function checkForUpdate() {
-	if(typeof(GM_xmlhttpRequest) == 'undefined') {
+//*/
+function checkForUpdate() {alert('go');
+	if(typeof(GM_xmlhttpRequest) == 'undefined') {alert('aut');
 		return;
 	}
-	// return;
+try{alert('go xml');
 	GM_xmlhttpRequest({
 		method: 'GET',
 		url: 	UserScript.threadLink + '&postcount=1',
 		headers: {},
 		onload: function(responseDetails) {
 			var doc = responseDetails.responseText;
-			
+			alert(doc);
 			var currentVersion = doc.match(/Aktuelle\s*Version:\s*(\d+\.\d+\.\d+)/);
 			if(currentVersion !== null && currentVersion[1] != UserScript.version) {
-				window.alert(UserScript.name + " meldet: \n\nEs ist eine neue Version (" + currentVersion[1] + ") verfügbar! \nDen Link zum aktuellen Script findest du hier: \n\n" + UserScript.threadLink + "&postcount=1");
+				window.alert(UserScript.name + " meldet: \n\nEs ist eine neue Version (" + currentVersion[1] + ") verfï¿½gbar! \nDen Link zum aktuellen Script findest du hier: \n\n" + UserScript.threadLink + "&postcount=1");
 			}
 		},
-		onerror: function(responseDetails) {
+		onerror: function(responseDetails) {alert('fuck');
 			GM_log('Fehler: ' + responseDetails.statustext + ' (' + responseDetails.status + '): ' + responseDetails.responseText);
-		}
+	},
+	onloadstart:function(a){alert(a+"\n");
+	},
+	onprogress:function(a){alert(a+"\n");
+	},
+	onabort:function(a){alert(a+"\n");
+	},
+	ontimeout:function(a){alert(a+"\n");
+	},
+	onloadend:function(a){alert(a+"\n");
+	}
 	});
-
+}catch (e) {
+// instrukcja trzymajÄ…ca jakikolwiek wyjÄ…tek 
+   logMyErrors(e) // przechodzi z obiektu wyjÄ…tku exception object to error handler
 }
 
-
+}
 function CCoordlist() {
 	this.list = new Array();
 	this.bbCodes = true;
@@ -181,7 +178,7 @@ function CCoordlist() {
 		var pressedChar = String.fromCharCode(e.which).toLowerCase();
 		if(pressedChar == coordList.activationKey.toLowerCase()) { // alert(pressedChar +' '+ coordList.activationKey.toLowerCase());
 			if(busy === false) {
-				display.show("naci¶nij b - wybierz wioski - ponownie naci¶nij b");
+				display.show("naciï¿½nij b - wybierz wioski - ponownie naciï¿½nij b");
 				coordList.startCaption();
 			} else {
 				display.hide();
@@ -250,7 +247,7 @@ function CInlinePopup() {
 		title.innerHTML = "http://forum.die-staemme.de/showthread.php?t=103832";
 		
 		var description = content.appendChild(document.createElement('p'));
-		description.appendChild(document.createTextNode("Poni¿ej wypisane zosta³y koordynaty wcze¶niej zaznaczonych wiosek. Aby usun±æ BB-code wystarczy usun±æ zaznaczenie przy: Dodaæ BB code."));
+		description.appendChild(document.createTextNode("Poniï¿½ej wypisane zostaï¿½y koordynaty wczeï¿½niej zaznaczonych wiosek. Aby usunï¿½ï¿½ BB-code wystarczy usunï¿½ï¿½ zaznaczenie przy: Dodaï¿½ BB code."));
 		
 		var label = content.appendChild(document.createElement('label'));
 		var input = label.appendChild(document.createElement('input'));
@@ -258,7 +255,7 @@ function CInlinePopup() {
 		input.checked = 'checked';
 		input.id = 'addBBCodes';
 		input.addEventListener('change', coordList.toggleBBCodeUse, false);
-		label.appendChild(document.createTextNode("Dodaæ BB code"));
+		label.appendChild(document.createTextNode("Dodaï¿½ BB code"));
 		
 		content.appendChild(document.createElement('br'));
 		content.appendChild(document.createElement('br'));
@@ -316,10 +313,10 @@ function CActivationDisplay() {
 
 
 (function __construct() {
-	// nachschauen, ob ein neues Update verfügbar ist
-	checkForUpdate();
+	// nachschauen, ob ein neues Update verfï¿½gbar ist
+	checkForUpdate();/*
 	
-	// window-Objekt von außerhalb der GM-Sandbox ermitteln
+	// window-Objekt von auï¿½erhalb der GM-Sandbox ermitteln
 	win = (typeof(unsafeWindow) != 'undefined') ? unsafeWindow : window;
 	
 	// Aktivierungs-Display erzeugen
@@ -328,5 +325,5 @@ function CActivationDisplay() {
 	
 	// Coordliste laden
 	coordList = new CCoordlist();
-	coordList.init();
+	coordList.init();*/
 })();

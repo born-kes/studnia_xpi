@@ -35,7 +35,7 @@ konwerterraportw_xmlhttpRequester.prototype.contentStartRequest = function(detai
 		case "https":
 		case "ftp":
 			this.chromeWindow.setTimeout(
-				konwerterraportw_gmCompiler.hitch(this, "chromeStartRequest", url, details), 0);
+				jondro.hitch(this, "chromeStartRequest", url, details), 0);
 			break;
 		default:
 			throw new Error("Invalid url: " + url);

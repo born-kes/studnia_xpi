@@ -1,24 +1,16 @@
+if(typeof(unsafeWindow) != 'undefined'){
+		gameData = unsafeWindow.game_data; $= unsafeWindow.$;}
+else{ gameData = window.game_data; $= window.$; } var br="\n";
+
 /* Boczne menu dla Rynki
 // 1. pobranie listy
 // 2. przetworzenie
 // 3. wyswietlenie      */
 function gid_kes(id){return document.getElementById(id);}
 function gN(a,b) { return a.getElementsByTagName(b);}
-function dels(s) {
-s = s.replace(new RegExp("[^\\d|]+","g"),"");
-//s = s.replace(new RegExp(",","g"),"");
- return s;}
-function dane(s)
-{var s1,s2;     s = s.innerHTML;
-  if(s1= s.lastIndexOf('(')){}else if(s1= s.lastIndexOf('>')){}
-     s2= s.lastIndexOf(')');
-  if(s2>-1){s= s.substring(s1,s2);}else{s= s.substring(s1);}
-      s= dels(s);
-      return s;
-}
 function GET(s){   for (var i=0; i< get.length ; i++ ){if(s==get[i]){return get[i+1];} } }
-function Explode(str)
-{  var tablica = new Array(); var u=0;
+function Explode(str){
+	  var tablica = new Array(); var u=0;
  var url=str.split("?");
   url=url[1].split("&");
    for (var i=0; i< url.length ; i++ )
@@ -28,108 +20,57 @@ function Explode(str)
    } return tablica;
 }
 var get= Explode(window.location.search);
-
-var form = gN(document,'form')[GET('nr')].parentNode;
+      var i_nr = GET('nr');
+var form = gN(document,'form')[i_nr].parentNode;
 
 var all, table,d,e, name,xy,sur,spich,zagr;
 var string='';
 var a='a';
 var v='';
-/* ZEGAR * /
- function time(t){
-      if(t.lastIndexOf('.')>-1 && t.lastIndexOf(' ')>-1 && t.lastIndexOf(':')>-1){
-       var t0=t.split(" ");
-       var t1=t0[0].split(".");
-       var t2=t0[1].split(":");
-       var time = new Date(t1[2], t1[1]-1, t1[0], t2[0], t2[1], t2[2]).getTime();
-       var zm= new Date().getTime();
-       var zmienna= new Date(time-zm);
-//if(Math.floor(zmienna.getDate())==Math.floor(zmD.getDate())) str+='';
-//else if(Math.floor(zmienna.getDate())+1 ==Math.floor(zmD.getDate())) str+='jutro o ';
-var w,t ='';
-if(zmienna>0){
-if(zmienna.getDate()>0)
-t +=( zmienna.getDate()-1)+ ' ';
 
-t +=  zmienna.getHours() + ':';
- if(Math.floor(zmienna.getMinutes())<10)
-t  +='0';
-t +=    zmienna.getMinutes()+ ':';
- if(Math.floor(zmienna.getSeconds())<10)
-t  +='0';t +=    zmienna.getSeconds();
-w=true;
-}else{t='skonczone';w=false;}
-      }else{w=true;}
-
-   return [t,w];
-}
-
-   var tim;
-   var s = gN(td_id, 'span');
-         for (var i=0; i< s.length ; i++ )
-if(s[i].style.fontSize=='0pt'){
-        s[i].style.fontSize='9pt';
-        tim = time(s[i].textContent);
-        if (tim[1])  s[i].className='timer red'; else   s[i].className='red';
-         s[i].textContent = tim[0];
-
-        }
-/* Koniec ZEGARA */
-
-if(GET('screen')=='memo')
-{  v='true';                                          //alert('memo');
-   var td_id = gid_kes("content_value");      //   alert(i_nr);
-      var i_nr = GET('nr');
-   var tabl_ = gN(td_id, 'b')[i_nr].innerHTML.split("\n");  //  alert(tabl_);   pobrane z INNER HTML  textContent
-   var table = tabl_ ; //gN(td_id, 'b')[i_nr].textContent.split("\n");  alert(table);
+  v='true';
+  
+   var tabl_ = $("#content_value b:eq("+i_nr+")").html().split("\n");// alert(tabl_);     pobrane z INNER HTML  textContent
+   var table = tabl_ 
     //*
  var explo,ek=0;                                   // alert(i_nr);
  for(var i=0;i<table.length;i++)
- {  if(table[i].lastIndexOf("|")== -1 )continue;
-    if(table[i].lastIndexOf("_blank")> -1 )table[i] = table[i].replace("_blank","men2");
-    if(table[i].lastIndexOf("_self")> -1 )table[i] = table[i].replace("_self","_blank");
+ { // if(table[i].lastIndexOf("|")== -1 )continue;
+   // if(table[i].lastIndexOf("_blank")> -1 )table[i] = table[i].replace("_blank","men2");
+  //  if(table[i].lastIndexOf("_self")> -1 )table[i] = table[i].replace("_self","_blank");
 
 
   if(a=='a'){a='b';}else{a='a';}  name =tabl_[i];
   var pola = table[i].split(" ");
    for(var j=0;j<pola.length;j++)
-   {  if(pola[j].lastIndexOf("|")== -1 )
+   {  if(!/(:?\d{1,3})\|(:?\d{1,3})/.test(pola[j]) ) 							//sprawdza czy istnieje xxx|yyy
         continue;
       else
-      xy = dels(pola[j]).split("|");
-      /** /
-       if(xy[2]!=null)  xy[2]= pola[j].split("|")[2];
-
-
-      // break;
+      xy = G_xy(pola[j]);
+       explo = 'javascript:export_xy_KES('+xy[1]+','+xy[2]+','+ek+')';
      
-     //* alert(test dla ponownego ataku, niestety w linku jest te¿ potrzebne village);* /
-
-     if(xy[2]=='all' || xy[2]=='same') explo = 'http://pl5.plemiona.pl/game.php?village='+xy[1]+'&screen=place&try=confirm&type='+xy[0]+'&report_id='+xy[2]+'" target="men2';
-     else/**/ explo = 'javascript:export_xy_KES('+xy+','+ek+')';
-     
-     string += '<tr id="lis_'+ek+'" class="nowrap row_'+a+'">'+
-     '<td class="grey">odleglosc</td>'+
-     '<td style="display:none;">'+name+'</td>'+
-     '<td style="display:none;">'+xy[0]+'|'+xy[1]+'</td>'+
-     '<td><a class="nowrap" href="javascript:onKES(\''+ek+'\')">Usun</a></td>'+
-     '<td colspan="2">'+name+'<div id="czas_'+ek+'" /></td>'+
-     '<th width="29"><a class="nowrap" href="'+explo+'" title="Przepisanie kordow na plac"><img  src="http://www.bornkes.w.szu.pl/img/kordy.gif" /></a></th>'+
-     '<td  class="grey"><span id="ilcz_'+ek+'">0</span> <button onclick="gid_kes(\'ilcz_'+ek+'\').textContent = Math.floor(gid_kes(\'ilcz_'+ek+'\').textContent)-1;" style="font-size: 8pt;">-</button></td></tr>'+ "\n";
+     string += ''+
+br+     '<tr id="s_'+ek+'" class="nowrap row_'+a+'">'+
+br+     '<td class="grey" style="display:none;">odleglosc</td>'+
+//br+     '<td style="display:none;">'+xy[1]+'|'+xy[2]+'</td>'+
+br+     '<td>'+
+br+     ' <div class="palec rigg grey" onclick="$(\'#s_'+ek+'\').html(\'\')" >usun</div>'+  
+br+     ' <div class="marg">'+name+'</div>'+
+br+     ' <div class="leff margo" >droga: <span id="dys_'+ek+'"></span></div>'+
+br+     ' <div id="czas_'+ek+'" class="rigg marg" ></div>'+
+br+     '</td>'+
+br+     '<td class="grey">'+
+br+     '	<button id="ilcz_'+ek+'" onclick="'+explo+'" title="Przepisanie kordow na plac" style="font-size: 8pt;">0</button>'+
+br+     '	<button onclick="$(\'#ilcz_'+ek+'\').text(function(a,b){return b-1;})" style="font-size: 6pt;" title="zliczanie minus 1">-</button>'+
+     '</td></tr>'+ br;																				
 ek++;                                                                        //$(this).find('img');
 
 }
-    //alert(string);
+
 
 }
-var all = document.getElementsByTagName("hr");
-  all[0].style.width = '280' + 'px';
-/*
-var all = document.getElementsByTagName("table");
-for (var i = 0; i < all.length ; i++)
-{
-    all[i].innerHTML = '';
-} */  }
+//var all = document.getElementsByTagName("hr");
+ // all[0].style.width = '280' + 'px';
 
 var all = document.getElementsByTagName("a");
 
@@ -139,36 +80,110 @@ var all = document.getElementsByTagName("a");
  sc.style.width = '100%';
  sc.style.display = 'none';
  sc.id = 'kesMenuBoczne';
-sc.innerHTML =  '<tr><td valign="top"><br /><br /><br /> .. </td></tr>'+
-'<tr><td valign="top">'+
-'<div><table><thead><tr><td valign="top">'+
-'<table class="vis" style="width:280px;" id="menvis"><thead><tr><td colspan="5">'+
-'<h3>Przelicz dla nowej wioski '+
-  '<button onclick="odlicz('+v+');" style="font-size: 8pt;">policz</button></h3> '+
-  '</td></tr>'+
-  '<tr>'+
-  '<th onclick="sort(0,this);" style="cursor:pointer;" id="menvisSort">Odleglosc</th><td />'+
-  '<th onclick="sort(1,this);" style="cursor:pointer;" colspan="2" >Nazwy wsi</th>'+
-  '<td><input type="checkbox" id="auto_del" title="Auto usuwanie przy kliknieciu" />'+
-//  '<td>Pola</td>'+
-  '</tr></thead>'+
-  '<tbody id="tabela_xy">'+string+'</tbody></table></div></td><td valign="top" width="100%" height="100%">'+
-  '<iframe src="/game.php?village='+GET('village')+'&screen=place'+t+'" style="border: 1pt none ;" name="men2" id="men2"width="100%" height="700"></iframe>'+
-  '</td></tr></table><br /><br />'+
-  '<div><button style="font-size: 8pt;" onclick="opracuj_bb(gid_kes(\'div_edit\'));" >Opracuj</button>'+
-  '<div style="display:none;" id="div_edit">'+form.innerHTML+'</div><br /></div></td></tr>';
+sc.innerHTML =  '<tr><td valign="top"><br /><br /><br /> .. </td></tr>'+ 											//wyrownanie
+'<tr>'+
+' <td valign="top">'+
+'  <div>'+
+'	 <table><thead>'+
+'		<tr>'+
+'			<td valign="top">'+
+'				<table class="vis" style="width:280px;" id="menvis">'+
+'				<thead>'+
+'					<tr><td colspan="3">'+
+'						<h3>Przelicz dla nowej wioski '+
+'						<button onclick="odlicz('+v+');" style="font-size: 8pt;" class="palec">policz</button>'+
+'						</h3> '+
+'					</td></tr>'+
+'					<tr>'+
+'						<th onclick="d.o=d.o>0?-1:1;sort();" class="palec" style="display:none;">Odleglosc</th>'+
+'						<th><a href="javascript:sort();">Nazwy wsi</a></th>'+
+'						<td>Auto<input type="checkbox" id="auto_del" title="Automatyczne usuwanie przy kliknieciu po przepisaniu kordow do wioski" />'+
+'					</tr>'+
+'				</thead>'+
+'				<tbody id="tabela_xy">'+string+'</tbody>'+
+'				</table>'+
+'			</td>'+
+'		</tr>'+
+'	</table>'+
+'	</div>'+
+'	</td>'+
+'	<td valign="top" width="100%" height="100%">'+
+'		<iframe src="/game.php?village='+GET('village')+'&screen=place'+t+'" style="border: 1pt none ;" name="men2" id="men2"width="100%" height="700"></iframe>'+
+'	</td>'+
+'</tr>'+
+'</table>'+
+'<br /><br />'+
+'<div style="display:none;" id="div_edit">'+form.innerHTML+'</div><br />'+
+'<div><button style="font-size: 8pt;" onclick="opracuj_bb($(\'div_edit\'));" >Opracuj</button>'+
+'</td></tr>';
 document.getElementsByTagName('body')[0].appendChild(sc);
+$(document).ready(function(){
+		$('#men2').attr('src','game.php?village='+GET('village')+'&screen=place'+t);
+});
+if (window.opera) {
+	unsafeWindow = window;
+}
+var dy=-1;
+var men2xy_dom;
+//unsafeWindow.d = d;
+function sort(){ 	
+	var tbody=gid_kes('tabela_xy');
+	for(var i=0, c=[], tr, trs=tbody.getElementsByTagName('tr'); tr=trs[i]; i++){c[i]=tr} // just make an array from trs
+	c.sort(function(a,b){return (Math.floor(a.getElementsByTagName('td')[0].innerHTML)>Math.floor(b.getElementsByTagName('td')[0].innerHTML))?dy:-dy});
+	for(var i=0; i<c.length; i++){
+		tbody.appendChild(c[i]);
+	}
+}
 
- var sc=document.createElement('script');
-sc.innerHTML += "$('#men2').attr('src','/game.php?village="+GET('village')+"&screen=place"+t+"'); "+
-"$('#main_layout').hide(3000,function(){$('#kesMenuBoczne').show(2000,function(){setInterval('zmianaAttr()',1000 );} )} ); \n "+
-"var men2xy_dom = top.xy_dom;    \n "+
-"function zmianaAttr(){                    \n "+
-"    if(men2xy_dom!=top.xy_dom && top.czas){ \n "+
-//                                           "alert('jestem');"+
-"      men2xy_dom = top.xy_dom;    \n "+
-"     odlicz(true); sort(0,gid_kes('menvisSort'));                       \n "+
-"    }                                     \n "+
-"} "+ "startTimer();";
+unsafeWindow.zmianaAttr = function zmianaAttr(){
+	if(men2xy_dom != unsafeWindow.menxyDrop()
+	&& unsafeWindow.menCzasDrop()!='undefined'){
+      men2xy_dom = unsafeWindow.menxyDrop();
+     odliczanie(true); sort();
+    }
+};
+//unsafeWindow.menxyDrop = function menxyDrop(){return top.xy_dom;}
+function odliczanie(){
 
+if(unsafeWindow.menxyDrop() == "undefined" && unsafeWindow.menCzasDrop() == "undefined"){return;}
+ var xy_dom = unsafeWindow.menxyDrop().split("|");
+ var marsz= (G_TempoMarszu(unsafeWindow.menCzasDrop())*60);
+alert(marsz);
+    $('#tabela_xy tr').each(function(){
+    	var a = $(this).attr('id');
+    	var xy_b = G_xy($('td:eq(1)',this).text());
+    	var odleglosc = Math.sqrt(G_kwadrat(xy_dom[0]-xy_b[1])+G_kwadrat(xy_dom[1]-xy_b[2]));
+    	
+     		$('td:eq(0),#dy'+a,this).text( Math.floor( odleglosc *100 )/100 );
+     		$('#cza'+a).html( G_timeDropNoc(Math.floor(odleglosc*marsz)) );
+   	});   
+};
+ var sc=document.createElement('script'); //////////// htm-> php
+sc.innerHTML += br+
+	'$(\'#main_layout\').hide(3,function(){'+
+	'$(\'#kesMenuBoczne\').show(2,function(){setInterval(\'zmianaAttr()\',3000 );}) } '+
+	');'+
+br+'function menxyDrop(){return top.xy_dom;}'+
+br+'function menCzasDrop(){return top.czas;}'+
+br+'startTimer();';
 document.getElementsByTagName('head')[0].appendChild(sc);
+
+$(document).ready(function(){
+//function odlicz(v){
+//if(v!=true)v=false;
+
+//if(top.xy_dom == "undefined" && top.czas == "undefined"){return;}
+// var xy_dom = top.xy_dom.split("|");
+// var marsz= (top.czas*60);
+		 
+		$('#tabela_xy tr').each(function(){
+			var c =	$(this).attr('id').split("_")[1];
+			$('td:eq(1)',this).text(function(a,b){
+      	
+   	         var xy_b = G_xy(b).split("|");
+				alert(a+"\n\n"+b+"\n\n"+c+"\n\n"+xy_b);
+   	         
+ 
+			});
+   	});
+});

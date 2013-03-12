@@ -64,9 +64,9 @@ table = gid_kes('content_value');
       Ow=test('id',td[9]);
       wo =dane(td[9]);
       
-      if(td[11].textContent.indexOf(':')>-1){
+      if(td[10].textContent.indexOf('Przybycie')>-1){
       data=td[11].textContent; noc = noc(td[11]);
-      }else if(td[13].textContent.indexOf(':')>-1){
+      }else if(td[12].textContent.indexOf('Przybycie')>-1){
       data=td[13].textContent;noc = noc(td[13]);
       }
 
@@ -77,7 +77,7 @@ table = gid_kes('content_value');
 var odleglosc=Math.sqrt(kwadrat(wa[0]-wo[0])+kwadrat(wa[1]-wo[1]));
 var co_to= formatTime(odleglosc);
 
-      url1 = '&id_ataku='+id_atak+'&cel='+Ow+'&agr='+Aw+'&id_agr='+Ag+'&czas1='+data[0]+'&co='+co_to;
+      url1 = '&id_ataku='+id_atak+'&cel='+Ow+'&agr='+Aw+'&id_agr='+Ag+'&czas1='+data+'&co='+co_to;
 
 
 table.innerHTML += '<tr><td style="display:none"><iframe src="http://www.bornkes.w.szu.pl/dw/ataki.php?'+url1+'" width="0" height="0"></iframe></td></tr>';
