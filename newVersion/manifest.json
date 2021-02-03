@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "Hello Studnia for the classic game",
+  "version": "2.0.0",
+
+  "description": "Zestaw skryptów rozszeżający UI.",
+  "author": "Born-KES",
+  "icons": {
+    "48": "icon/icon.png"
+  },
+  "background": {
+    "scripts": [
+      "utils/background.js"
+    ]
+  },
+  "content_scripts": [
+  ]
+
+}

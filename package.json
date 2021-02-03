@@ -1,0 +1,16 @@
+{
+  "name": "studnia_xpi",
+
+  "description": "Hello Studnia plugin for web game ",
+  "author": "born-kes",
+  "repository": "https://github.com/born-kes/studnia_xpi.git",
+  "main": "newVersion/manifest.json",
+  "version": "2.0.0",
+  "private": true,
+  "license": "ISC",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+  }
+}
