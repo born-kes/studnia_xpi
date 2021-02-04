@@ -14,6 +14,15 @@
     ]
   },
   "content_scripts": [
+    {
+    "matches": ["https://plc1.plemiona.pl/game.php?*screen=report*view=*"],
+    "js": [
+      "utils/jquery-3.1.0.min.js",
+      "utils/config.plc1.js",
+      "utils/lib.js",
+      "app/converterReport.js"
+    ]
+  }
   ]
 
 }
