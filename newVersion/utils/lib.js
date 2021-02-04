@@ -17,7 +17,7 @@ lib.getSecondsTimeFromFullDateString = (fullDate) => {
         Math.floor( groups.hour ),
         Math.floor( groups.minute ),
         Math.floor( groups.second ),
-    ).getTime()/10000;
+    ).getTime()/1000;
 };
 
 lib.getObjectDateFromDateString = (fullDate) => {
@@ -124,6 +124,8 @@ try{
 }catch (e) {
     console.error(e);
 }
+if (!!module)
+module.exports = lib;
 
 
 // ---------
